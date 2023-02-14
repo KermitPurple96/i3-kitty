@@ -219,26 +219,26 @@ source /home/kermit/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 # Jobs: suggest files / foldername / histsory bellow the prompt
 # Requires: zsh-autosuggestions (packaging by Debian Team)
 # Jobs: Fish-like suggestion for command history
-if [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-  source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-fi
+#if [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+#  source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+#fi
  
 ##################################################
 # Fish like syntax highlighting
 # Requires "zsh-syntax-highlighting" from apt
-if [ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-  source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
+#if [ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+#  source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#fi
  
-if [ -f /usr/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh ]; then
-  source /usr/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+#if [ -f /usr/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh ]; then
+#  source /usr/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
   # Select all suggestion instead of top on result only
   zstyle ':autocomplete:tab:*' insert-unambiguous yes
   zstyle ':autocomplete:tab:*' widget-style menu-select
   zstyle ':autocomplete:*' min-input 2
   bindkey $key[Up] up-line-or-history
   bindkey $key[Down] down-line-or-history
-fi
+#fi
  
  
 #Colors
