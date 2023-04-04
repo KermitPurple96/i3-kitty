@@ -15,7 +15,7 @@ export PATH=/home/kermit/.local/bin:/usr/share/responder:/usr/share/ghidra:/usr/
 # Add as ~/.zshrc
 export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
 export name=$(/usr/bin/cat /home/kermit/.config/bin/name.txt)
- 
+export _JAVA_AWT_WM_NONREPARENTING=1
  
 function ipt()
 {
