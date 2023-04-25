@@ -33,7 +33,9 @@ export PATH=/home/kermit/.local/bin:/usr/share/responder:/usr/share/ghidra:/usr/
 # Add as ~/.zshrc
 export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
 export name=$(/usr/bin/cat /home/kermit/.config/bin/name.txt)
-export _JAVA_AWT_WM_NONREPARENTING=1 
+export _JAVA_AWT_WM_NONREPARENTING=1
+export http_proxy=127.0.0.1:8080
+export https_proxy=127.0.0.1:8080
  
 function ipt()
 {
@@ -72,16 +74,18 @@ function procnet()
   echo; for port in $(cat $1 | awk '{print $2}' | grep -v "local" | awk '{print $2}' FS=":" | sort -u); do echo "${yellow}[+]${endcolor} Port $port -> ${red} $((0x$port))\n" ${endcolor}; done | sort -n; echo
 }
 # alias
+alias burpro="java --illegal-access=permit -Dfile.encoding=utf-8 -javaagent:/home/kermit/Desktop/Burp-Suite/loader.jar -noverify -jar /home/kermit/Desktop/Burp-Suite/Burp_Suite_Pro.jar &"
+alias kitten="kitty +kitten icat"
 alias pins='jump pins'
 alias js='js-beautify'
 alias mach='cd /home/kermit/maquinas/$name'
 alias des='cd /home/kermit/Descargas/firefox'
-# alias dis='dirs -v'
+#alias dis='dirs -v'
 #alias pop='popd'
 #alias pus='pushd'
 # Alias's for multiple directory listing commands
-#alias la='lsd -Aalh' # show hidden files
-#alias ls='lsd -aFh --color=always' # add colors and file type extensions
+alias la='lsd -Aalh' # show hidden files
+alias ls='lsd -aFh --color=always' # add colors and file type extensions
 alias ls='lsd'
 alias lx='lsd -lXBh' # sort by extension
 alias lk='lsd -lSrh' # sort by size
@@ -206,14 +210,14 @@ cpp()
 }
  
 #Automatically do an ls after each cd
-#cd ()
-#{
-#  if [ -n "$1" ]; then
-#  	builtin cd "$@" && ls
-# 	else
-# 		builtin cd ~ && ls
-# 	fi
-#}
+cd ()
+{
+  if [ -n "$1" ]; then
+  	builtin cd "$@" && ls
+ 	else
+ 		builtin cd ~ && ls
+ 	fi
+}
  
 # IP address lookup
 alias whatismyip="whatsmyip"
