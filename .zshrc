@@ -34,8 +34,8 @@ export PATH=/home/kermit/.local/bin:/usr/share/responder:/usr/share/ghidra:/usr/
 export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
 export name=$(/usr/bin/cat /home/kermit/.config/bin/name.txt)
 export _JAVA_AWT_WM_NONREPARENTING=1
-export http_proxy=127.0.0.1:8080
-export https_proxy=127.0.0.1:8080
+#export http_proxy=127.0.0.1:8080
+#export https_proxy=127.0.0.1:8080
  
 function ipt()
 {
@@ -80,12 +80,12 @@ alias pins='jump pins'
 alias js='js-beautify'
 alias mach='cd /home/kermit/maquinas/$name'
 alias des='cd /home/kermit/Descargas/firefox'
-#alias dis='dirs -v'
+# alias dis='dirs -v'
 #alias pop='popd'
 #alias pus='pushd'
 # Alias's for multiple directory listing commands
-alias la='lsd -Aalh' # show hidden files
-alias ls='lsd -aFh --color=always' # add colors and file type extensions
+#alias la='lsd -Aalh' # show hidden files
+#alias ls='lsd -aFh --color=always' # add colors and file type extensions
 alias ls='lsd'
 alias lx='lsd -lXBh' # sort by extension
 alias lk='lsd -lSrh' # sort by size
@@ -210,14 +210,14 @@ cpp()
 }
  
 #Automatically do an ls after each cd
-cd ()
-{
-  if [ -n "$1" ]; then
-  	builtin cd "$@" && ls
- 	else
- 		builtin cd ~ && ls
- 	fi
-}
+#cd ()
+#{
+#  if [ -n "$1" ]; then
+#  	builtin cd "$@" && ls
+# 	else
+# 		builtin cd ~ && ls
+# 	fi
+#}
  
 # IP address lookup
 alias whatismyip="whatsmyip"
@@ -433,8 +433,8 @@ tput cnorm
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
-setopt appendhistory
- 
+#setopt appendhistory
+setopt histignorealldups sharehistory 
 # Useful alias for benchmarking programs
 # require install package "time" sudo apt install time
 # alias time="/usr/bin/time -f '\t%E real,\t%U user,\t%S sys,\t%K amem,\t%M mmem'"
