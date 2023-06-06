@@ -80,12 +80,16 @@ alias pins='jump pins'
 alias js='js-beautify'
 alias mach='cd /home/kermit/maquinas/$name'
 alias des='cd /home/kermit/Descargas/firefox'
+alias arse='/home/kermit/arsenal/run'
+alias red='/home/kermit/red-tldr/red'
+
+
 # alias dis='dirs -v'
 #alias pop='popd'
 #alias pus='pushd'
 # Alias's for multiple directory listing commands
-#alias la='lsd -Aalh' # show hidden files
-#alias ls='lsd -aFh --color=always' # add colors and file type extensions
+alias la='lsd -Aalh' # show hidden files
+alias ls='lsd -aFh --color=always' # add colors and file type extensions
 alias ls='lsd'
 alias lx='lsd -lXBh' # sort by extension
 alias lk='lsd -lSrh' # sort by size
@@ -210,14 +214,14 @@ cpp()
 }
  
 #Automatically do an ls after each cd
-#cd ()
-#{
-#  if [ -n "$1" ]; then
-#  	builtin cd "$@" && ls
-# 	else
-# 		builtin cd ~ && ls
-# 	fi
-#}
+cd ()
+{
+  if [ -n "$1" ]; then
+  	builtin cd "$@" && lsd -lah
+ 	else
+ 		builtin cd ~ && ls
+ 	fi
+}
  
 # IP address lookup
 alias whatismyip="whatsmyip"
@@ -470,3 +474,5 @@ chpwd_functions+=__jump_chpwd
 
 compctl -U -K jump_completion j
 #
+
+  export PATH="${PATH}:/root/.cargo/bin"
