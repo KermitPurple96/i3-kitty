@@ -36,10 +36,10 @@ cd /usr/local/share/fonts && sudo wget https://github.com/ryanoasis/nerd-fonts/r
 cd /usr/bin
 
 # Red
-sudo wget https://github.com/Rvn0xsy/red-tldr/releases/download/v0.4.3/red-tldr_0.4.3_linux_amd64.tar.gz && sudo tar -zxvf red-tldr*.gz && ./red-tldr update && ./red-tldr upgrade && mv red-tldr red && sudo rm red-tldr_0.4.3_linux_amd64.tar.gz
+sudo wget https://github.com/Rvn0xsy/red-tldr/releases/download/v0.4.3/red-tldr_0.4.3_linux_amd64.tar.gz && sudo tar -zxvf red-tldr*.gz && ./red-tldr update && ./red-tldr upgrade && sudo mv red-tldr red && sudo rm red-tldr_0.4.3_linux_amd64.tar.gz
 
 # Arsenal
-git clone https://github.com/Orange-Cyberdefense/arsenal.git && cd arsenal && python3 -m pip install -r requirements.txt && mv run ars && wget https://github.com/KermitPurple96/i3-kitty/blob/main/my_cheats.md -O /usr/bin/arsenal/my_cheats/my_cheats.md
+sudo git clone https://github.com/Orange-Cyberdefense/arsenal.git && cd arsenal && sudo python3 -m pip install -r requirements.txt && sudo mv run ars && sudo wget https://github.com/KermitPurple96/i3-kitty/blob/main/my_cheats.md -O /usr/bin/arsenal/my_cheats/my_cheats.md
 
 # Ropper
 cd /usr/bin
@@ -67,7 +67,7 @@ sudo git clone https://github.com/mzfr/gtfo && cd gtfo && sudo chmod +x gtfo
 
 # GO
 cd /usr/bin
-wget https://go.dev/dl/go1.20.5.linux-amd64.tar.gz && sudo tar -zxvf go1*.gz && go install github.com/OJ/gobuster/v3@latest
+sudo wget https://go.dev/dl/go1.20.5.linux-amd64.tar.gz && sudo tar -zxvf go1*.gz && sudo go install github.com/OJ/gobuster/v3@latest
 
 # Sublime
 cd /usr/bin
