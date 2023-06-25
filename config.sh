@@ -76,3 +76,4 @@ sudo wget https://download.sublimetext.com/sublime-text_build-3211_amd64.deb && 
 # fzf
 cd /usr/bin
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
+sudo mv /home/kermit/.fzf/bin/fzf /usr/local/bin
