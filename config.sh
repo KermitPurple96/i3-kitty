@@ -62,6 +62,7 @@ git clone https://github.com/Orange-Cyberdefense/arsenal.git
 cd arsenal
 python3 -m pip install -r requirements.txt
 mv run ars
+wget https://github.com/KermitPurple96/i3-kitty/blob/main/my_cheats.md -O /usr/bin/arsenal/my_cheats/my_cheats.md
 # Ropper
 sudo git clone https://github.com/sashs/ropper.git
 sudo pip install capstone
