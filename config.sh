@@ -35,7 +35,7 @@ sudo apt-get -y install kitty
 sudo wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/kitty/color.ini
 sudo wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/kitty/kitty.conf
 cd ~/.config/i3
-sudo rm config
+sudo rm -rf ~/.config/i3/*
 sudo wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/i3/i3blocks.conf
 sudo wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/i3/config
 sudo wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/i3/clipboard_fix.sh
@@ -74,5 +74,18 @@ sudo wget https://github.com/gsamokovarov/jump/releases/download/v0.51.0/jump_li
 sudo chmod +x jump
 apt-get install locate
 sudo updatedb
+# Dirsearch
+apt install dirsearch
+# GTFO
+git clone https://github.com/mzfr/gtfo
+cd gtfo
+chmod +x gtfo
+# GO
+wget https://go.dev/dl/go1.20.5.linux-amd64.tar.gz
+sudo tar -zxvf go1*.gz
+go install github.com/OJ/gobuster/v3@latest
+# Sublime
+sudo wget https://download.sublimetext.com/sublime-text_build-3211_amd64.deb
+dpkg -i sublime-text_build-3211_amd64.deb
 
 
