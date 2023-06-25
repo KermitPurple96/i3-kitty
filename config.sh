@@ -13,6 +13,7 @@ git clone https://github.com/zsh-users/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git
 cd ~
+wget https://github.com/KermitPurple96/i3-kitty/blob/main/fondo.jpg -O /home/kermit/.wallpaper/fondo.jpg
 rm ~/.zshrc
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/.zshrc
 sudo ln -s -f ~/.zshrc /root/.zshrc
