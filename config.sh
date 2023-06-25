@@ -91,7 +91,7 @@ go install github.com/OJ/gobuster/v3@latest
 # Sublime
 sudo wget https://download.sublimetext.com/sublime-text_build-3211_amd64.deb
 dpkg -i sublime-text_build-3211_amd64.deb
-
+# fzf
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
 
