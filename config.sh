@@ -1,14 +1,14 @@
-apt-get update
-apt-get upgrade
+sudo apt-get update
+sudo apt-get upgrade
 git clone https://github.com/KermitPurple96/kali-clean
 cd kali-clean
 chmod +x install.sh
 ./install.sh
 cd ~
 wget https://github.com/lsd-rs/lsd/releases/download/0.23.1/lsd-musl_0.23.1_amd64.deb
-dpkg -i lsd-musl_0.23.1_amd64.deb 
+sudo dpkg -i lsd-musl_0.23.1_amd64.deb 
 wget https://github.com/sharkdp/bat/releases/download/v0.23.0/bat_0.23.0_amd64.deb
-dpkg -i bat_0.23.0_amd64.deb
+sudo dpkg -i bat_0.23.0_amd64.deb
 mkdir ~/Descargas/firefox
 mkdir ~/.zsh
 cd ~/.zsh
