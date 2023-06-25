@@ -4,6 +4,7 @@ git clone https://github.com/KermitPurple96/kali-clean
 cd kali-clean
 chmod +x install.sh
 ./install.sh
+cd ~
 wget https://github.com/lsd-rs/lsd/releases/download/0.23.1/lsd-musl_0.23.1_amd64.deb
 dpkg -i lsd-musl_0.23.1_amd64.deb 
 wget https://github.com/sharkdp/bat/releases/download/v0.23.0/bat_0.23.0_amd64.deb
@@ -17,6 +18,7 @@ git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git
 cd ~
 rm ~/.fehbg
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/.fehbg -O ~/fehbg
+mkdir ~/.wallpaper
 wget https://github.com/KermitPurple96/i3-kitty/blob/main/fondo.jpg -O /home/kermit/.wallpaper/fondo.jpg
 rm ~/.zshrc
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/.zshrc
@@ -57,9 +59,10 @@ sudo rm Hack.zip
 cd /usr/bin
 # Red
 sudo wget https://github.com/Rvn0xsy/red-tldr/releases/download/v0.4.3/red-tldr_0.4.3_linux_amd64.tar.gz
-sudo tar -zxvf red-tldr*.gz -C red
+sudo tar -zxvf red-tldr*.gz
 ./red-tldr update
 ./red-tldr upgrade
+mv red-tldr red
 sudo rm red-tldr_0.4.3_linux_amd64.tar.gz
 # Arsenal
 git clone https://github.com/Orange-Cyberdefense/arsenal.git
@@ -68,32 +71,41 @@ python3 -m pip install -r requirements.txt
 mv run ars
 wget https://github.com/KermitPurple96/i3-kitty/blob/main/my_cheats.md -O /usr/bin/arsenal/my_cheats/my_cheats.md
 # Ropper
+cd /usr/bin
 sudo git clone https://github.com/sashs/ropper.git
 sudo pip install capstone
-sudo cd ropper
+cd ropper
 sudo git submodule init
 sudo git submodule update
 # rlwrap
 sudo apt-get install rlwrap
 # jump
+cd /usr/bin
 sudo wget https://github.com/gsamokovarov/jump/releases/download/v0.51.0/jump_linux_amd64_binary -O jump
 sudo chmod +x jump
+# locate
+cd /usr/bin
 apt-get install locate
 sudo updatedb
 # Dirsearch
-apt install dirsearch
+cd /usr/bin
+sudo apt install dirsearch
 # GTFO
-git clone https://github.com/mzfr/gtfo
+cd /usr/bin
+sudo git clone https://github.com/mzfr/gtfo
 cd gtfo
-chmod +x gtfo
+sudo chmod +x gtfo
 # GO
+cd /usr/bin
 wget https://go.dev/dl/go1.20.5.linux-amd64.tar.gz
 sudo tar -zxvf go1*.gz
 go install github.com/OJ/gobuster/v3@latest
 # Sublime
+cd /usr/bin
 sudo wget https://download.sublimetext.com/sublime-text_build-3211_amd64.deb
-dpkg -i sublime-text_build-3211_amd64.deb
+sudo dpkg -i sublime-text_build-3211_amd64.deb
 # fzf
+cd /usr/bin
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
 
