@@ -1,4 +1,4 @@
 # i3-alacrity
 
-![klean2](https://user-images.githubusercontent.com/103221169/215349105-cefbc3ee-79b3-4f57-86df-7aa125d09a66.png)
-![klean](https://user-images.githubusercontent.com/103221169/215349104-de5aa3a4-b0be-4d53-9051-44641b78e68d.png)
+
+![parrot1](https://github.com/KermitPurple96/i3-kitty/assets/103221169/eb5d2c26-cd37-4536-accd-3531cc006e4e)
