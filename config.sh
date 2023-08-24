@@ -6,7 +6,7 @@ apt install neo4j bloodhound && \
 sudo apt-get install powershell-empire starkiller -y && \
 apt install krb5-user
 
-git clone https://github.com/KermitPurple96/kali-clean
+git clone https://github.com/xct/kali-clean
 chmod +x /home/$SUDO_USER/kali-clean/install.sh
 /home/$SUDO_USER/kali-clean/install.sh -y
 
