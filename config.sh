@@ -6,7 +6,7 @@ apt install neo4j bloodhound && \
 sudo apt-get install powershell-empire starkiller -y && \
 apt install krb5-user
 
-git clone https://github.com/KermitPurple96/kali-clean -y && \
+git clone https://github.com/KermitPurple96/kali-clean && \
 chmod +x ./kali-clean/install.sh -y && \
 ./kali-clean/install.sh -y && \
 
@@ -18,9 +18,9 @@ sudo dpkg -i bat_0.23.0_amd64.deb -y && \
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 mkdir /home/$SUDO_USER/Descargas/firefox && \
 mkdir /home/$SUDO_USER/.zsh && \
-git clone https://github.com/zsh-users/zsh-autosuggestions /home/$SUDO_USER/.zsh/zsh-autosuggestions -y && \
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/$SUDO_USER/.zsh/zsh-syntax-highlighting -y && \
-git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git /home/$SUDO_USER/.zsh/zsh-autocomplete -y && \
+git clone https://github.com/zsh-users/zsh-autosuggestions /home/$SUDO_USER/.zsh/zsh-autosuggestions && \
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/$SUDO_USER/.zsh/zsh-syntax-highlighting && \
+git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git /home/$SUDO_USER/.zsh/zsh-autocomplete && \
 
 rm /home/$SUDO_USER/.fehbg && \
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/.fehbg -O /home/$SUDO_USER/.fehbg \
@@ -99,10 +99,10 @@ apt install ruby-dev -y && \
 gem install wpscan && \
 
 # GTFO
-sudo git clone https://github.com/mzfr/gtfo -O /usr/bin/gtfo && \
+sudo git clone https://github.com/mzfr/gtfo /usr/bin/gtfo && \
 chmod +x /usr/bin/gtfo && \
 
 # fzf
 git clone --depth 1 https://github.com/junegunn/fzf.git /home/$SUDO_USER/.fzf && \
-/home/$SUDO_USER/.fzf/install && \
+/home/$SUDO_USER/.fzf/install -y && \
 sudo mv /home/$SUDO_USER/.fzf/bin/fzf /usr/local/bin && \
