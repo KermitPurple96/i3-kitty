@@ -63,7 +63,7 @@ rm /usr/local/share/fonts/Hack.zip
 
 # Red
 sudo wget https://github.com/Rvn0xsy/red-tldr/releases/download/v0.4.3/red-tldr_0.4.3_linux_amd64.tar.gz -O /usr/bin/red-tldr_0.4.3_linux_amd64.tar.gz
-sudo tar -zxvf /usr/bin/red-tldr*.gz
+sudo tar -zxvf /usr/bin/red-tldr*.gz -C /usr/bin/
 /usr/bin/red-tldr update
 /usr/bin/red-tldr upgrade
 sudo mv /usr/bin/red-tldr /usr/bin/red
