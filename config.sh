@@ -21,7 +21,8 @@ git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git /ho
 rm /home/$SUDO_USER/.fehbg
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/.fehbg -O /home/$SUDO_USER/.fehbg
 mkdir /home/$SUDO_USER/.wallpaper
-wget https://github.com/KermitPurple96/i3-kitty/blob/main/fondo.jpg -O /home/$SUDO_USER/.wallpaper/fondo.jpg
+wget https://github.com/KermitPurple96/i3-kitty/blob/main/fondo.jpg\?raw=true -O /home/$SUDO_USER/.wallpaper/fondo.jpg
+
 rm /home/$SUDO_USER/.zshrc
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/.zshrc
 ln -s -f /home/$SUDO_USER/.zshrc /root/.zshrc
@@ -103,5 +104,14 @@ chmod +x /usr/bin/gtfo
 
 # fzf
 git clone --depth 1 https://github.com/junegunn/fzf.git /home/$SUDO_USER/.fzf
-/home/$SUDO_USER/.fzf/install -y
+/home/$SUDO_USER/.fzf/install
 sudo mv /home/$SUDO_USER/.fzf/bin/fzf /usr/local/bin
+
+rm /home/$SUDO_USER/alacritty*
+rm /home/$SUDO_USER/lsd*
+rm /home/$SUDO_USER/bat*
+rm /home/$SUDO_USER/config.sh
+rm /home/$SUDO_USER/Iosevka.zip
+rm /home/$SUDO_USER/Roboto*
+rm /home/$SUDO_USER/readme.md
+rm /home/$SUDO_USER/LICENSE.md
