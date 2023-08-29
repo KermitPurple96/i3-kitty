@@ -48,13 +48,14 @@ wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/kitty/kitty.
 
 rm -rf /home/$SUDO_USER/.config/i3/*
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/i3/i3blocks.conf -O /home/$SUDO_USER/.config/i3/i3blocks.conf
-wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/i3/config && -O /home/$SUDO_USER/.config/i3/config
+wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/i3/config -O /home/$SUDO_USER/.config/i3/config
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/i3/clipboard_fix.sh -O /home/$SUDO_USER/.config/i3/clipboard_fix.sh
 
 chown -R root:root /home/$SUDO_USER/.zsh
 chown $SUDO_USER:$SUDO_USER /etc/hosts
 sudo chmod -R 755 /home/$SUDO_USER/.zsh
-sudo usermod --shell /usr/bin/zsh $SUDO_USER && sudo usermod --shell /usr/bin/zsh root
+sudo usermod --shell /usr/bin/zsh $SUDO_USER
+sudo usermod --shell /usr/bin/zsh root
 cp /home/$SUDO_USER/.config/kitty/* /root/.config/kitty/
 
 wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/Hack.zip -O /usr/local/share/fonts/Hack.zip
