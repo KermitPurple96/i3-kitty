@@ -91,7 +91,7 @@ pipx ensurepath
 pipx install crackmapexec
 
 #kerbrute
-pip3 install kerbrute -y
+pip3 install kerbrute
 
 #wpscan fix
 apt remove wpscan -y
