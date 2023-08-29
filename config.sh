@@ -5,10 +5,6 @@ gem install evil-winrm
 apt install neo4j bloodhound
 sudo apt-get install powershell-empire starkiller -y
 
-git clone https://github.com/xct/kali-clean
-chmod +x /home/$SUDO_USER/kali-clean/install.sh
-/home/$SUDO_USER/kali-clean/install.sh -y
-
 wget https://github.com/lsd-rs/lsd/releases/download/0.23.1/lsd-musl_0.23.1_amd64.deb
 sudo dpkg -i lsd-musl_0.23.1_amd64.deb
 wget https://github.com/sharkdp/bat/releases/download/v0.23.0/bat_0.23.0_amd64.deb
