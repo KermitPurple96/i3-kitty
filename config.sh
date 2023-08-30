@@ -1,17 +1,17 @@
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get -y install kitty zsh keepass2 moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp enum4linux dirsearch docker.io scrub jq apache2 ncat ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit
-gem install evil-winrm
-apt install neo4j bloodhound
-sudo apt-get install powershell-empire starkiller -y
 
 wget https://github.com/lsd-rs/lsd/releases/download/0.23.1/lsd-musl_0.23.1_amd64.deb
 sudo dpkg -i lsd-musl_0.23.1_amd64.deb
 wget https://github.com/sharkdp/bat/releases/download/v0.23.0/bat_0.23.0_amd64.deb
 sudo dpkg -i bat_0.23.0_amd64.deb
 
+####Done in xct environment####
 sudo apt-get install zsh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+###############################
+
 mkdir /home/$SUDO_USER/Descargas/firefox
 mkdir /home/$SUDO_USER/.zsh
 git clone https://github.com/zsh-users/zsh-autosuggestions /home/$SUDO_USER/.zsh/zsh-autosuggestions
@@ -58,6 +58,13 @@ cp /home/$SUDO_USER/.config/kitty/* /root/.config/kitty/
 wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/Hack.zip -O /usr/local/share/fonts/Hack.zip
 unzip /usr/local/share/fonts/Hack.zip
 rm /usr/local/share/fonts/Hack.zip
+
+#evil-winrm
+gem install evil-winrm
+#neo4j bloodhound
+apt install neo4j bloodhound
+#empire
+sudo apt-get install powershell-empire starkiller -y
 
 # Red
 sudo wget https://github.com/Rvn0xsy/red-tldr/releases/download/v0.4.3/red-tldr_0.4.3_linux_amd64.tar.gz -O /usr/bin/red-tldr_0.4.3_linux_amd64.tar.gz
