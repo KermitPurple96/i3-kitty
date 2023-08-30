@@ -34,7 +34,6 @@ export PATH=./:/home/kermit/.local/bin:/usr/bin/:/usr/share/responder:/usr/share
 export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
 export name=$(/usr/bin/cat /home/kermit/.config/bin/name.txt)
 export _JAVA_AWT_WM_NONREPARENTING=1
-export wpscan="3Iu1JsIszEyHy2ZJZwVvulOzdiysm0uhVYNpi4oqakc"
 #export http_proxy=127.0.0.1:8080
 #export https_proxy=127.0.0.1:8080
 
