@@ -87,10 +87,6 @@ alias burpro="java --illegal-access=permit -Dfile.encoding=utf-8 -javaagent:/hom
 alias kitten="kitty +kitten icat"
 alias pins='jump pins'
 alias js='js-beautify'
-alias mach='cd /home/kermit/maquinas/$name'
-alias des='cd /home/kermit/Descargas/firefox'
-alias arse='/home/kermit/arsenal/run'
-alias red='/home/kermit/red-tldr/red'
 
 
 # alias dis='dirs -v'
