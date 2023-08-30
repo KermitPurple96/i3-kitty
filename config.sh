@@ -56,7 +56,9 @@ sudo usermod --shell /usr/bin/zsh root
 cp /home/$SUDO_USER/.config/kitty/* /root/.config/kitty/
 
 wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/Hack.zip -O /usr/local/share/fonts/Hack.zip
+cd /usr/local/share/fonts
 unzip /usr/local/share/fonts/Hack.zip
+cd /home/$SUDO_USER
 rm /usr/local/share/fonts/Hack.zip
 
 #evil-winrm
@@ -84,6 +86,8 @@ wget https://github.com/KermitPurple96/i3-kitty/blob/main/my_cheats.md -O /usr/b
 wget https://github.com/neovim/neovim/releases/download/stable/nvim.appimage -O /usr/bin/nvim
 chmod +x /usr/bin/nvim
 git clone https://github.com/NvChad/NvChad /home/$SUDO_USER/.config/nvim --depth 1
+sudo chown $SUDO_USER:$SUDO_USER -R /home/$SUDO_USER/.config/nvim
+nvim
 
 # jump
 sudo wget https://github.com/gsamokovarov/jump/releases/download/v0.51.0/jump_linux_amd64_binary -O /usr/bin/jump
@@ -122,3 +126,5 @@ rm /home/$SUDO_USER/Iosevka.zip
 rm /home/$SUDO_USER/Roboto*
 rm /home/$SUDO_USER/readme.md
 rm /home/$SUDO_USER/LICENSE.md
+
+wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/ascii -O /home/$SUDO_USER/ascii
