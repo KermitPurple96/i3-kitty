@@ -32,7 +32,7 @@ export PATH=./:/home/kermit/.local/bin:/usr/bin/:/usr/share/responder:/usr/share
  
 # Add as ~/.zshrc
 export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
-export name=$(/usr/bin/cat /home/kermit/.config/bin/name.txt)
+export name=$(/usr/bin/cat /home/kermit/.config/bin/target_sys.txt)
 export _JAVA_AWT_WM_NONREPARENTING=1
 export wpscan=$(cat /home/kermit/wpscan_key)
 #export http_proxy=127.0.0.1:8080
@@ -47,7 +47,10 @@ function ipt()
 {
   echo $ip
 }
- 
+function ipn()
+{
+  echo $name
+}
 function xp()
 {
   xclip -sel clip
@@ -283,8 +286,9 @@ source /home/kermit/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 function funciones(){
   echo -e "\n\t${blue}[+]${endcolor} ${green}htbvpn${endcolor} Ejecuta la VPN descargada en ${red}/descargas/firefox${endcolor}"
   echo -e "\n\t${blue}[+]${endcolor} ${green}rmk${endcolor} Borra totalmente"
+  echo -e "\n\t${blue}[+]${endcolor} ${green}target${endcolor} Fija un tarjet"
   echo -e "\n\t${blue}[+]${endcolor} ${green}scope${endcolor} Crea un target y directorios de trabajo"
-  echo -e "\n\t${blue}[+]${endcolor} ${green}finish${endcolor} Mata la VPN, sesion TMUX y borra directorios de trabajo" 
+  #echo -e "\n\t${blue}[+]${endcolor} ${green}finish${endcolor} Mata la VPN, sesion TMUX y borra directorios de trabajo" 
   echo -e "\n\t${blue}[+]${endcolor} ${green}xp${endcolor} Copia en la clipboard, ${red}ctrl + shift + v${endcolor} para pegar" 
   echo -e "\n\t${blue}[+]${endcolor} ${green}ports${endcolor} Muestra los puertos descubiertos de un archivo -oG de NMAP" 
   echo -e "\n\t${blue}[+]${endcolor} ${green}rot13${endcolor} Rota todos los caracteres 13 posiciones"
@@ -347,7 +351,7 @@ function target(){
     echo -ne "$nombre_maquina" > /home/kermit/.config/bin/target_sys.txt
     echo -ne "$sistema" > /home/kermit/.config/bin/ttl.txt
     export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
-    export name=$(/usr/bin/cat /home/kermit/.config/bin/name.txt)
+    export name=$(/usr/bin/cat /home/kermit/.config/bin/target_sys.txt)
     echo -ne "\n\t${blue}[+]${endcolor} Name: ${red}$nombre_maquina${endcolor}\n" 
     echo -ne "\n\t${blue}[+]${endcolor} Ip: ${red}$ip_address${endcolor}\n"
     echo -ne "\n\t${blue}[+]${endcolor} System: ${red}$sistema${endcolor}\n"
