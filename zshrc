@@ -28,7 +28,7 @@ fi
  
  
 # Export PATH$
-export PATH=./:/home/kermit/.local/bin:/usr/bin/:/usr/share/responder:/usr/share/ghidra:/usr/share/hydra:/usr/share/libreoffice:/snap/bin:/usr/sandbox:/usr/local/bin:/usr/local/go/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/bin:/usr/local/games:/usr/games:/home/kermit/.fzf/bin:/opt/exploitdb:/root/.local/bin:/home/kermit/scripts/bash:/home/kermit/scripts/python:/usr/share/metasploit-framework/tools/exploit:/usr/bin/arsenal:/usr/bin/gtfo/:/home/kermit/.fzf/bin/:/usr/share/Wordpresscan/:/root/.local/pipx/shared/bin:/root/go/bin/:/home/kermit/go/bin:PATH
+export PATH=./:/home/kermit/.local/bin:/usr/bin/:/usr/share/responder:/usr/share/ghidra:/usr/share/hydra:/usr/share/libreoffice:/snap/bin:/usr/sandbox:/usr/local/bin:/usr/local/go/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/bin:/usr/local/games:/usr/games:/home/kermit/.fzf/bin:/opt/exploitdb:/root/.local/bin:/home/kermit/scripts/bash:/home/kermit/scripts/python:/usr/share/metasploit-framework/tools/exploit:/usr/bin/arsenal:/usr/bin/gtfo/:/home/kermit/.fzf/bin/:/usr/share/Wordpresscan/:/root/.local/pipx/shared/bin:/root/go/bin/:/home/kermit/go/bin:/usr/bin/pwsh/:PATH
  
 # Add as ~/.zshrc
 export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
@@ -81,6 +81,9 @@ function unpin()
 function procnet()
 {
   echo; for port in $(cat $1 | awk '{print $2}' | grep -v "local" | awk '{print $2}' FS=":" | sort -u); do echo -ne "\t${yellow}[+]${endcolor} Port $port -> ${red} $((0x$port))\n" ${endcolor}; done | sort -n; echo
+}
+function fibtrie(){
+  cat $1 | grep "LOCAL" -B 1 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u
 }
 
 alias neofetch='neofetch --source /home/kermit/ascii'
@@ -299,9 +302,31 @@ function funciones(){
   echo -e "\n\t${blue}[+]${endcolor} ${green}extract${endcolor} Extrae un archivo comprimido\n" 
 }
 
+function vpn(){
+  htbvpn 2>&1 &
+  check
+}
 #funciones
 function htbvpn(){
-sudo /usr/sbin/openvpn /home/kermit/Descargas/*.ovpn
+  sudo /usr/sbin/openvpn /home/kermit/Descargas/*.ovpn > /dev/null 2>&1
+}
+
+function check(){
+
+  gum spin --spinner globe --title "Opening VPN..." -- sleep 8
+
+  IFACE=$(/usr/sbin/ifconfig | grep tun0 | awk '{print $1}' | tr -d ':')
+  IFACE2=$(/usr/sbin/ifconfig | grep tap0 | awk '{print $1}' | tr -d ':')
+
+ 
+  if [ "$IFACE" = "tun0" ]; then
+    ip1=$(/usr/sbin/ifconfig | grep tun0 -A1 | grep inet | awk '{print $2}')
+    echo -e "\n\t${blue}[+]${endcolor} ${green}Success!${endcolor} your IP is: "
+    gum style --foreground "#FF0000" --border-foreground "#00FF00" --border "rounded" --align center --width 20 --margin "1 1 1 8" --padding "1 0" $ip1
+  else
+    echo "Error"
+  fi
+
 }
  
 function rmk(){
@@ -327,6 +352,7 @@ function helpTarget(){
 
 function helpMKT(){
   echo -ne "\n\t\t${blue}[+]${endcolor} Parametro ${red}-n${endcolor} especifica el nombre\n"
+  echo -ne "\n\t\t${blue}[+]${endcolor} Parametro ${red}-p${endcolor} pin de la maquina\n"
   tput cnorm; echo
  
 }
@@ -362,14 +388,15 @@ function target(){
 function mkt(){
   
   tput civis
-  declare -i counter=0; while getopts "n:h:" arg; do
+  declare -i counter=0; while getopts "n:p:h:" arg; do
     case $arg in
       n) nombre_maquina=$OPTARG; let counter+=1;;
+      p) pin=$OPTARG; let counter+=1;;
       h) helpMKT;;
     esac
   done
 
-  if [ $counter -ne 1 ]; then
+  if [ $counter -ne 2 ]; then
     helpMKT
   else
     echo -e "\n\t${blue}[+]${endcolor} Creando directorios de trabajo...\n"
@@ -380,9 +407,59 @@ function mkt(){
     touch /home/kermit/maquinas/$nombre_maquina/index.html
     chmod o+x /home/kermit/maquinas/$nombre_maquina/index.html
     cd /home/kermit/maquinas/$nombre_maquina
-    tput cnorm; echo -ne "\n"; echo
+    echo -e "\n\t${blue}[+]${endcolor} Pined ${blue}/home/kermit/maquinas/$nombre_maquina ${endcolor}as ${red}$pin${end}\n"
+    pin $pin
+    tput cnorm; echo
   fi
 }
+
+
+
+function mk(){
+
+  tput civis  
+  gum input --prompt="> " --placeholder "nombre de la maquina" > machine.txt
+  gum input --prompt="> " --placeholder "pin para el directorio" > pin.txt
+  export machine=$(/usr/bin/cat ./machine.txt)
+  export pin=$(/usr/bin/cat ./pin.txt)
+  echo -e "\n\t${blue}[+]${endcolor} Creando directorios de trabajo...\n"
+  mkdir /home/kermit/maquinas/$machine
+  mkdir /home/kermit/maquinas/$machine/exploits
+  mkdir /home/kermit/maquinas/$machine/content
+  touch /home/kermit/maquinas/$machine/creds.txt
+  touch /home/kermit/maquinas/$machine/index.html
+  chmod o+x /home/kermit/maquinas/$machine/index.html
+  cd /home/kermit/maquinas/$machine 
+  echo -e "\n\t${blue}[+]${endcolor} Pined ${blue}/home/kermit/maquinas/$machine ${endcolor}as ${red}$pin${end}\n"
+  pin $pin
+  tput cnorm; echo
+
+}
+
+function tgt(){
+ 
+  tput civis
+  gum input --prompt="> " --placeholder "ip de la maquina" > ip_address.txt
+  gum input --prompt="> " --placeholder "nombre de la maquina" > nombre.txt
+  gum choose "windows" "linux" > sistema.txt
+
+  export ip_address=$(/usr/bin/cat ./ip_address.txt)
+  export nombre=$(/usr/bin/cat ./nombre.txt)
+  export sistema=$(/usr/bin/cat ./sistema.txt)
+
+  echo -ne "$ip_address" > /home/kermit/.config/bin/target.txt
+  echo -ne "$machine" > /home/kermit/.config/bin/target_sys.txt
+  echo -ne "$sistema" > /home/kermit/.config/bin/ttl.txt
+  export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
+  export name=$(/usr/bin/cat /home/kermit/.config/bin/target_sys.txt)
+  echo -ne "\n\t${blue}[+]${endcolor} Name: ${red}$machine${endcolor}\n" 
+  echo -ne "\n\t${blue}[+]${endcolor} Ip: ${red}$ip_address${endcolor}\n"
+  echo -ne "\n\t${blue}[+]${endcolor} System: ${red}$sistema${endcolor}\n"
+  tput cnorm; echo
+
+}
+
+
 
 
 function scope(){
