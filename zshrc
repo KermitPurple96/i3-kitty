@@ -2,8 +2,7 @@
 # Prompt
 #Colors
  
-endcolor="\033[0m\e[0m"
- 
+endcolor="\033[0m\e[0m" 
 green="\e[0;32m\033[1m"
 red="\e[0;31m\033[1m"
 blue="\e[0;34m\033[1m"
@@ -35,8 +34,10 @@ export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
 export name=$(/usr/bin/cat /home/kermit/.config/bin/target_sys.txt)
 export _JAVA_AWT_WM_NONREPARENTING=1
 export wpscan=$(cat /home/kermit/wpscan_key)
+export wpscan=$(cat /home/kermit/shodan_key)
 #export http_proxy=127.0.0.1:8080
 #export https_proxy=127.0.0.1:8080
+source /home/kermit/scripts/bash/bashsimplecurses/simple_curses.sh
 
 
 function kroot()
@@ -528,16 +529,42 @@ function scope(){
     tput cnorm
   fi
 }
+
+main() {
+    window "Example" "blue" "50%"
+        append "$ports"
+        addsep
+        append "The date command"
+        append_command "date"
+    endwin
+  }
+
+update() {
+    # immediately exit the script
+  exit 0
+}
+
 # funcion iiixgxgstrackckcttt porrrtttsss
 function ports(){
-  ports="$(cat $1 | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs | tr ' ' ',')"
-  ip_address="$(cat $1 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u | head -n 1)"
-  echo -e "\n${red}[*]${endcolor} ${green}Extracting information...${endcolor}\n" > extractPorts.tmp
-  echo -e "\t${red}[*]${endcolor} ${green}IP Address:${endcolor} $ip_address"  >> extractPorts.tmp
-  echo -e "\t${red}[*]${endcolor} ${green}Open ports:${endcolor} $ports\n"  >> extractPorts.tmp
+  export ports="$(cat $1 | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs | tr ' ' ',')"
+  export ip_address="$(cat $1 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u | head -n 1)"
+  #echo -e "\n${red}[*]${endcolor} ${green}Extracting information...${endcolor}\n" > extractPorts.tmp
+  #echo -e "\t${red}[*]${endcolor} ${green}IP Address:${endcolor} $ip_address"  >> extractPorts.tmp
+  #echo -e "\t${red}[*]${endcolor} ${green}Open ports:${endcolor} $ports\n"  >> extractPorts.tmp
   echo $ports | tr -d '\n' | xclip -sel clip
-  echo -e "[*] Ports copied to clipboard\n"  >> extractPorts.tmp
-  /usr/bin/bat extractPorts.tmp; /usr/bin/rm extractPorts.tmp
+  /home/kermit/maquinas/Oouch/prueba.sh $ports $ip_address
+  #source /home/kermit/scripts/bash/bashsimplecurses/simple_curses.sh
+
+
+  
+  main_loop
+
+
+  #gum style --foreground "#FF0000" --border-foreground "#00FF00" --border "rounded" --align center --width 20 --margin "1 1 1 8" --padding "1 0" "IP: $ip_address"
+  #gum style --foreground "#FF0000" --border-foreground "#00FF00" --border "rounded" --align center --width 20 --margin "1 1 1 8" --padding "1 0" "Open ports:   $ports"
+
+  echo -ne "\t${red}[*]${endcolor} ${green}Ports copied to clipboard${endcolor}\n"; echo 
+  #/usr/bin/bat extractPorts.tmp; /usr/bin/rm extractPorts.tmp
 }
 #Funcion para cerrar sesion
 function finish(){
@@ -612,6 +639,4 @@ typeset -gaU chpwd_functions
 chpwd_functions+=__jump_chpwd
 
 compctl -U -K jump_completion j
-#
-
-  export PATH="${PATH}:/root/.cargo/bin"
+export PATH="${PATH}:/root/.cargo/bin"
