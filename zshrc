@@ -386,6 +386,32 @@ function target(){
   fi
 }
 
+
+function tg(){
+ 
+  tput civis
+  gum input --prompt="> " --placeholder "ip de la maquina" > ip_address.txt
+  gum input --prompt="> " --placeholder "nombre de la maquina" > nombre.txt
+  gum choose "windows" "linux" > sistema.txt
+
+  ip_address=$(/usr/bin/cat ./ip_address.txt)
+  nombre=$(/usr/bin/cat ./nombre.txt)
+  sistema=$(/usr/bin/cat ./sistema.txt)
+
+  echo -ne "$ip_address" > /home/kermit/.config/bin/target.txt
+  echo -ne "$nombre" > /home/kermit/.config/bin/target_sys.txt
+  echo -ne "$sistema" > /home/kermit/.config/bin/ttl.txt
+  export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
+  export name=$(/usr/bin/cat /home/kermit/.config/bin/target_sys.txt)
+  echo -ne "\n\t${blue}[+]${endcolor} Name: ${red}$nombre${endcolor}\n" 
+  echo -ne "\n\t${blue}[+]${endcolor} Ip: ${red}$ip_address${endcolor}\n"
+  echo -ne "\n\t${blue}[+]${endcolor} System: ${red}$sistema${endcolor}\n"
+  tput cnorm; echo
+
+}
+
+
+
 function mkt(){
   
   tput civis
@@ -437,28 +463,6 @@ function mk(){
 
 }
 
-function tgt(){
- 
-  tput civis
-  gum input --prompt="> " --placeholder "ip de la maquina" > ip_address.txt
-  gum input --prompt="> " --placeholder "nombre de la maquina" > nombre.txt
-  gum choose "windows" "linux" > sistema.txt
-
-  export ip_address=$(/usr/bin/cat ./ip_address.txt)
-  export nombre=$(/usr/bin/cat ./nombre.txt)
-  export sistema=$(/usr/bin/cat ./sistema.txt)
-
-  echo -ne "$ip_address" > /home/kermit/.config/bin/target.txt
-  echo -ne "$machine" > /home/kermit/.config/bin/target_sys.txt
-  echo -ne "$sistema" > /home/kermit/.config/bin/ttl.txt
-  export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
-  export name=$(/usr/bin/cat /home/kermit/.config/bin/target_sys.txt)
-  echo -ne "\n\t${blue}[+]${endcolor} Name: ${red}$machine${endcolor}\n" 
-  echo -ne "\n\t${blue}[+]${endcolor} Ip: ${red}$ip_address${endcolor}\n"
-  echo -ne "\n\t${blue}[+]${endcolor} System: ${red}$sistema${endcolor}\n"
-  tput cnorm; echo
-
-}
 
 
 
@@ -530,19 +534,6 @@ function scope(){
   fi
 }
 
-main() {
-    window "Example" "blue" "50%"
-        append "$ports"
-        addsep
-        append "The date command"
-        append_command "date"
-    endwin
-  }
-
-update() {
-    # immediately exit the script
-  exit 0
-}
 
 # funcion iiixgxgstrackckcttt porrrtttsss
 function ports(){
@@ -550,21 +541,15 @@ function ports(){
   export ip_address="$(cat $1 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u | head -n 1)"
   #echo -e "\n${red}[*]${endcolor} ${green}Extracting information...${endcolor}\n" > extractPorts.tmp
   #echo -e "\t${red}[*]${endcolor} ${green}IP Address:${endcolor} $ip_address"  >> extractPorts.tmp
-  #echo -e "\t${red}[*]${endcolor} ${green}Open ports:${endcolor} $ports\n"  >> extractPorts.tmp
   echo $ports | tr -d '\n' | xclip -sel clip
-  /home/kermit/maquinas/Oouch/prueba.sh $ports $ip_address
+  #/home/kermit/maquinas/Oouch/prueba.sh $ports $ip_address
   #source /home/kermit/scripts/bash/bashsimplecurses/simple_curses.sh
-
-
-  
-  main_loop
-
-
-  #gum style --foreground "#FF0000" --border-foreground "#00FF00" --border "rounded" --align center --width 20 --margin "1 1 1 8" --padding "1 0" "IP: $ip_address"
-  #gum style --foreground "#FF0000" --border-foreground "#00FF00" --border "rounded" --align center --width 20 --margin "1 1 1 8" --padding "1 0" "Open ports:   $ports"
-
-  echo -ne "\t${red}[*]${endcolor} ${green}Ports copied to clipboard${endcolor}\n"; echo 
-  #/usr/bin/bat extractPorts.tmp; /usr/bin/rm extractPorts.tmp
+  #
+  gum style --foreground "#FF0000" --border-foreground "#00FF00" --border "rounded" --align center --width 20 --margin "1 1 1 8" --padding "1 0" "IP: $ip_address"
+  echo -e "\t${red}[*]${endcolor} Open ports: ${green}$ports${endcolor} \n"  >> extractPorts.tmp
+  /usr/bin/cat extractPorts.tmp; /usr/bin/rm extractPorts.tmp
+  echo -ne "\t${red}[*]${endcolor} Ports copied to clipboard\n"; echo 
+  #/usr/bin/cat extractPorts.tmp; /usr/bin/rm extractPorts.tmp
 }
 #Funcion para cerrar sesion
 function finish(){
