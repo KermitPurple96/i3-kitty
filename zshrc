@@ -378,6 +378,8 @@ function ws(){
 }
 
 function target(){
+
+
   tput civis
   declare -i counter=0; while getopts "i:n:s:h:" arg; do
     case $arg in
@@ -403,6 +405,7 @@ function target(){
   fi
 }
 
+
 function tg(){
  
   tput civis
@@ -422,9 +425,12 @@ function tg(){
   echo -ne "\n\t${blue}[+]${endcolor} Name: ${red}$nombre${endcolor}\n" 
   echo -ne "\n\t${blue}[+]${endcolor} Ip: ${red}$ip_address${endcolor}\n"
   echo -ne "\n\t${blue}[+]${endcolor} System: ${red}$sistema${endcolor}\n"
+  rm -rf ./ip_address.txt ./nombre.txt ./sistema.txt
   tput cnorm; echo
 
 }
+
+
 
 function mkt(){
   
@@ -454,6 +460,8 @@ function mkt(){
   fi
 }
 
+
+
 function mk(){
 
   tput civis  
@@ -471,6 +479,7 @@ function mk(){
   cd /home/kermit/maquinas/$machine 
   echo -e "\n\t${blue}[+]${endcolor} Pined ${blue}/home/kermit/maquinas/$machine ${endcolor}as ${red}$pin${end}\n"
   pin $pin
+  rm -rf ./machine.txt ./pin.txt
   tput cnorm; echo
 
 }
