@@ -358,9 +358,26 @@ function helpMKT(){
  
 }
 
+function ws(){
+
+  gum input --prompt="> " --placeholder "ip de la maquina" > ip_ttl.txt
+  ip_ttl="$(/usr/bin/cat ./ip_ttl.txt)"
+  ttl="$(ping -c 1 $ip_ttl | grep ttl | tr '=' ' ' | awk '{print $8}')"
+    
+  if [[ $ttl -le 64 ]]; then
+    
+    gum style --foreground "#FF0000" --border-foreground "#00FF00" --border "rounded" --align center --width 20 --margin "1 1 1 8" --padding "1 0" "Linux "
+    #echo -e "\n\t${blue}[+]${endcolor} Sistema ${red}${endcolor}"
+  fi
+  if [[ $ttl -le 128 && $ttl -gt 64 ]]; then
+    gum style --foreground "#FF0000" --border-foreground "#00FF00" --border "rounded" --align center --width 20 --margin "1 1 1 8" --padding "1 0" "Windows "
+    #echo -e "\n\t${blue}[+]${end} Sistema ${red}Windows ${endcolor}"
+  fi
+  rm ./ip_ttl.txt
+
+}
+
 function target(){
-
-
   tput civis
   declare -i counter=0; while getopts "i:n:s:h:" arg; do
     case $arg in
@@ -386,7 +403,6 @@ function target(){
   fi
 }
 
-
 function tg(){
  
   tput civis
@@ -409,8 +425,6 @@ function tg(){
   tput cnorm; echo
 
 }
-
-
 
 function mkt(){
   
@@ -440,8 +454,6 @@ function mkt(){
   fi
 }
 
-
-
 function mk(){
 
   tput civis  
@@ -462,10 +474,6 @@ function mk(){
   tput cnorm; echo
 
 }
-
-
-
-
 
 function scope(){
  
