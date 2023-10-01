@@ -37,7 +37,7 @@ export wpscan=$(cat /home/kermit/wpscan_key)
 export wpscan=$(cat /home/kermit/shodan_key)
 #export http_proxy=127.0.0.1:8080
 #export https_proxy=127.0.0.1:8080
-source /home/kermit/scripts/bash/bashsimplecurses/simple_curses.sh
+#source /home/kermit/scripts/bash/bashsimplecurses/simple_curses.sh
 
 
 function kroot()
@@ -87,6 +87,8 @@ function fibtrie(){
   cat $1 | grep "LOCAL" -B 1 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u
 }
 
+alias screenkey='screenkey -s small -t 1 --no-whitespace --font-color lime --mods-mode tux --bak-mode baked --key-mode translated -p bottom --font ChakraPetch &> /dev/null & disown'
+alias obsidian='obsidian 2>/dev/null & disown'
 alias neofetch='neofetch --source /home/kermit/ascii'
 alias urlencode='python3 -c "import sys, urllib.parse as ul; print (ul.quote_plus(sys.argv[1]))"'
 alias urldecode='python3 -c "import sys, urllib.parse as ul; print(ul.unquote_plus(sys.argv[1]))"'
