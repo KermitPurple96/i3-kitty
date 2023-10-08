@@ -61,6 +61,15 @@ unzip /usr/local/share/fonts/Hack.zip
 cd /home/$SUDO_USER
 rm /usr/local/share/fonts/Hack.zip
 
+#rustscan
+wget https://github.com/RustScan/RustScan/archive/refs/tags/2.1.1.zip -o /home/$SUDO_USER/
+unzip /home/$SUDO_USER/2.1.1.zip
+cd /home/$SUDO_USER/RustScan-2.1.1
+cargo build --release
+rm /home/$SUDO_USER/2.1.1.zip
+mv /home/$SUDO_USER/RustScan-2.1.1/target/release/rustscan /usr/bin/rustscan
+cd /home/$SUDO_USER
+
 #evil-winrm
 gem install evil-winrm
 #neo4j bloodhound
