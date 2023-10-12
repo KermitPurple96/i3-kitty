@@ -20,9 +20,9 @@ fondogris="\e[0;47m\033[1m"
 
  
 if [[ $EUID -ne 0 ]]; then    
-    PROMPT="%F{#00FFFF}$USER%f%F{#FBFF00}@%f%F{red}parrot [%f%F{#00FF00}%d%f%F{red}]%(?..[%?])%f%F{#FFFF00}$ %f"
+    PROMPT="%F{#00FFFF}$USER%f%F{#FBFF00}@%f%F{red}parrot %f%F{magenta}[%f%F{#00FF00}%d%f%F{magenta}]%f%F{red}%(?..[%?])%f%F{#FFFF00}$> %f"
 else
-   PROMPT="%F{#0070FF}$USER%f%F{#FBFF00}@%f%F{red}parrot [%f%F{#00FF00}%d%f%F{red}]%(?..[%?])%f%F{#FFFF00}# %f"
+  PROMPT="%F{#0070FF}$USER%f%F{#FBFF00}@%f%F{red}parrot %f%F{magenta}[%f%F{#00FF00}%d%f%F{magenta}]%f%F{red}%(?..[%?])%f%F{#FFFF00}#> %f"
 fi
  
  
@@ -39,6 +39,14 @@ export wpscan=$(cat /home/kermit/shodan_key)
 #export https_proxy=127.0.0.1:8080
 #source /home/kermit/scripts/bash/bashsimplecurses/simple_curses.sh
 
+function hosts()
+{
+  if [ $# -eq 1 ]; then
+    grep -E -o "([0-9]{1,3}\.){3}[0-9]{1,3}" $1
+  else
+    echo -e "\n\t${blue}[+]${endcolor} hosts${green} file${endcolor} extrae las ips de un archivo"
+  fi
+}
 
 function kroot()
 {
