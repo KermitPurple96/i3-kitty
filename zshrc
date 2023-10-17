@@ -446,22 +446,23 @@ function target(){
 function tg(){
  
   tput civis
-  gum input --prompt="> " --placeholder "ip de la maquina" > /home/kermit/.config/bin/ip_address.txt
-  gum input --prompt="> " --placeholder "nombre de la maquina" > /home/kermit/.config/bin/nombre.txt
-  gum choose "windows" "linux" > /home/kermit/.config/bin/sistema.txt
+  gum input --prompt="> " --placeholder "ip de la maquina" > /home/kermit/.config/bin/target.txt
+  gum input --prompt="> " --placeholder "nombre de la maquina" > /home/kermit/.config/bin/target_sys.txt
+  gum choose "windows" "linux" > /home/kermit/.config/bin/ttl.txt
+  gum confirm "set domain?"
+  if [ $? -eq 0 ]; then
+    gum input --prompt="> " --placeholder "dominio" > /home/kermit/.config/bin/domain.txt
+    domain=$(/usr/bin/cat /home/kermit/.config/bin/domain.txt)
+  fi
 
-  ip_address=$(/usr/bin/cat /home/kermit/.config/bin/ip_address.txt)
-  nombre=$(/usr/bin/cat /home/kermit/.config/bin/nombre.txt)
-  sistema=$(/usr/bin/cat /home/kermit/.config/bin/sistema.txt)
-
-  echo -ne "$ip_address" > /home/kermit/.config/bin/target.txt
-  echo -ne "$nombre" > /home/kermit/.config/bin/target_sys.txt
-  echo -ne "$sistema" > /home/kermit/.config/bin/ttl.txt
+  export system=$(/usr/bin/cat /home/kermit/.config/bin/ttl.txt)
+  export domain=$(/usr/bin/cat /home/kermit/.config/bin/domain.txt)
   export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
   export name=$(/usr/bin/cat /home/kermit/.config/bin/target_sys.txt)
-  echo -ne "\n\t${blue}[+]${endcolor} Name: ${red}$nombre${endcolor}\n" 
-  echo -ne "\n\t${blue}[+]${endcolor} Ip: ${red}$ip_address${endcolor}\n"
-  echo -ne "\n\t${blue}[+]${endcolor} System: ${red}$sistema${endcolor}\n"
+  echo -ne "\n\t${blue}[+]${endcolor} Name: ${red}$name${endcolor}\n" 
+  echo -ne "\n\t${blue}[+]${endcolor} Ip: ${red}$ip${endcolor}\n"
+  echo -ne "\n\t${blue}[+]${endcolor} Domain: ${red}$domain${endcolor}\n"
+  echo -ne "\n\t${blue}[+]${endcolor} System: ${red}$system${endcolor}\n"
   tput cnorm; echo
 
 }
