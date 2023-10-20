@@ -110,6 +110,7 @@ pipx install crackmapexec
 
 #kerbrute
 pip3 install kerbrute
+git clone https://github.com/attackdebris/kerberos_enum_userlists /usr/share/kerberos_enum_userlists
 
 #wpscan fix
 apt remove wpscan -y
