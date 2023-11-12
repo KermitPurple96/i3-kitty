@@ -1,6 +1,9 @@
 sudo apt-get update
 sudo apt-get upgrade
-sudo apt-get -y install kitty zsh keepass2 moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp enum4linux dirsearch docker.io scrub jq apache2 ncat ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit
+sudo apt-get -y install zsh keepass2 moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp enum4linux dirsearch docker.io scrub jq apache2 ncat ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit
+
+curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin \
+    dest=/home/$SUDO_USER
 
 wget https://github.com/lsd-rs/lsd/releases/download/0.23.1/lsd-musl_0.23.1_amd64.deb
 sudo dpkg -i lsd-musl_0.23.1_amd64.deb
