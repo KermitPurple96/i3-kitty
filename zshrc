@@ -27,18 +27,24 @@ fi
  
  
 # Export PATH$
-export PATH=./:/home/kermit/.local/bin:/usr/bin/:/usr/share/responder:/usr/share/ghidra:/usr/share/hydra:/usr/share/libreoffice:/snap/bin:/usr/sandbox:/usr/local/bin:/usr/local/go/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/bin:/usr/local/games:/usr/games:/home/kermit/.fzf/bin:/opt/exploitdb:/root/.local/bin:/home/kermit/scripts/bash:/home/kermit/scripts/python:/usr/share/metasploit-framework/tools/exploit:/usr/bin/arsenal:/usr/bin/gtfo/:/home/kermit/.fzf/bin/:/usr/share/Wordpresscan/:/root/.local/pipx/shared/bin:/root/go/bin/:/home/kermit/go/bin:/usr/bin/pwsh/:PATH
+export PATH=:/home/kermit/kitty.app/bin:/home/kermit/.local/bin:/usr/bin/:/usr/share/responder:/usr/share/ghidra:/usr/share/hydra:/usr/share/libreoffice:/snap/bin:/usr/sandbox:/usr/local/bin:/usr/local/go/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/bin:/usr/local/games:/usr/games:/home/kermit/.fzf/bin:/opt/exploitdb:/root/.local/bin:/home/kermit/scripts/bash:/home/kermit/scripts/python:/usr/share/metasploit-framework/tools/exploit:/usr/bin/arsenal:/usr/bin/gtfo/:/home/kermit/.fzf/bin/:/usr/share/Wordpresscan/:/root/.local/pipx/shared/bin:/root/go/bin/:/home/kermit/go/bin:/usr/bin/pwsh/:/usr/bin/rustscan/RustScan/target/release:PATH
  
 # Add as ~/.zshrc
 export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
 export name=$(/usr/bin/cat /home/kermit/.config/bin/target_sys.txt)
 export _JAVA_AWT_WM_NONREPARENTING=1
 export wpscan=$(cat /home/kermit/wpscan_key)
-export wpscan=$(cat /home/kermit/shodan_key)
+export shodan=$(cat /home/kermit/shodan_key)
 #export http_proxy=127.0.0.1:8080
 #export https_proxy=127.0.0.1:8080
 #source /home/kermit/scripts/bash/bashsimplecurses/simple_curses.sh
 
+#VI MODE
+#bindkey -v
+#export KEYTIMEOUT=1
+function reach(){
+  tcpdump -i ens33 icmp -n -v
+}
 # funcion iiixgxgstrackckcttt porrrtttsss
 function ports(){
   export ports="$(cat $1 | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs | tr ' ' ',')"
@@ -133,6 +139,8 @@ alias kitten="kitty +kitten icat"
 alias pins='jump pins'
 alias js='js-beautify'
 
+alias tgt='impacket-GetNPUsers'
+alias tgs='impacket-GetUserSPNs'
 # Alias's for multiple directory listing commands
 alias la='lsd -Aalh' # show hidden files
 alias ls='lsd -aFh --color=always' # add colors and file type extensions
@@ -510,9 +518,10 @@ function mk(){
   mkdir /home/kermit/maquinas/$machine
   mkdir /home/kermit/maquinas/$machine/exploits
   mkdir /home/kermit/maquinas/$machine/content
-  touch /home/kermit/maquinas/$machine/creds.txt
-  touch /home/kermit/maquinas/$machine/index.html
-  chmod o+x /home/kermit/maquinas/$machine/index.html
+  touch /home/kermit/maquinas/$machine/passwords
+  touch /home/kermit/maquinas/$machine/users
+  touch /home/kermit/maquinas/$machine/credentials
+  touch /home/kermit/maquinas/$machine/notes
   cd /home/kermit/maquinas/$machine 
   echo -e "\n\t${blue}[+]${endcolor} Pined ${blue}/home/kermit/maquinas/$machine ${endcolor}as ${red}$pin${end}\n"
   pin $pin
