@@ -4,7 +4,7 @@ sudo apt-get upgrade
 # INSTALL XCT ENVIRONMENT
 # https://github.com/xct/kali-clean
 
-sudo apt-get -y install zsh keepass2 moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp enum4linux dirsearch docker.io scrub jq apache2 ncat ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit
+sudo apt-get -y install pipx zsh keepass2 moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp enum4linux dirsearch docker.io scrub jq apache2 ncat ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit
 
 curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin \
     dest=/home/$SUDO_USER
@@ -100,7 +100,7 @@ mv /usr/bin/arsenal/run /usr/bin/arsenal/ars
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/arsenal/mycheats.md -O /usr/bin/arsenal/my_cheats/my_cheats.md
 
 #neovim
-wget https://github.com/neovim/neovim/releases/download/stable/nvim.appimage -O /usr/bin/nvim
+wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -O /usr/bin/nvim
 chmod +x /usr/bin/nvim
 #nvchad
 git clone https://github.com/NvChad/NvChad /home/$SUDO_USER/.config/nvim --depth 1
