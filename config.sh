@@ -70,7 +70,7 @@ cd /home/$SUDO_USER
 rm /usr/local/share/fonts/Hack.zip
 
 #rustscan
-wget https://github.com/RustScan/RustScan/archive/refs/tags/2.1.1.zip -o /home/$SUDO_USER/
+wget wget https://github.com/RustScan/RustScan/archive/refs/tags/2.1.1.zip
 unzip /home/$SUDO_USER/2.1.1.zip
 cd /home/$SUDO_USER/RustScan-2.1.1
 cargo build --release
