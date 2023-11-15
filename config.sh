@@ -31,7 +31,8 @@ mkdir /home/$SUDO_USER/.wallpaper
 wget https://github.com/KermitPurple96/i3-kitty/blob/main/fondo.jpg\?raw=true -O /home/$SUDO_USER/.wallpaper/fondo.jpg
 
 rm /home/$SUDO_USER/.zshrc
-wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/.zshrc
+wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/zshrc
+mv /home/$SUDO_USER/zshrc /home/$SUDO_USER/.zshrc
 ln -s -f /home/$SUDO_USER/.zshrc /root/.zshrc
 
 mkdir /home/$SUDO_USER/maquinas
