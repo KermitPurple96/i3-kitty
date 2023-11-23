@@ -20,70 +20,29 @@ fondogris="\e[0;47m\033[1m"
 
  
 if [[ $EUID -ne 0 ]]; then    
-    PROMPT="%F{#00FFFF}$USER%f%F{#FBFF00}@%f%F{red}parrot %f%F{magenta}[%f%F{#00FF00}%d%f%F{magenta}]%f%F{red}%(?..[%?])%f%F{#FFFF00}$> %f"
+    PROMPT="%F{#00FFFF}$USER%f%F{#FBFF00}@%f%F{red}parrot [%f%F{#00FF00}%d%f%F{red}]%(?..[%?])%f%F{#FFFF00}$ %f"
 else
-  PROMPT="%F{#0070FF}$USER%f%F{#FBFF00}@%f%F{red}parrot %f%F{magenta}[%f%F{#00FF00}%d%f%F{magenta}]%f%F{red}%(?..[%?])%f%F{#FFFF00}#> %f"
+   PROMPT="%F{#0070FF}$USER%f%F{#FBFF00}@%f%F{red}parrot [%f%F{#00FF00}%d%f%F{red}]%(?..[%?])%f%F{#FFFF00}# %f"
 fi
  
  
 # Export PATH$
-export PATH=:/home/kermit/kitty.app/bin:/home/kermit/.local/bin:/usr/bin/:/usr/share/responder:/usr/share/ghidra:/usr/share/hydra:/usr/share/libreoffice:/snap/bin:/usr/sandbox:/usr/local/bin:/usr/local/go/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/bin:/usr/local/games:/usr/games:/home/kermit/.fzf/bin:/opt/exploitdb:/root/.local/bin:/home/kermit/scripts/bash:/home/kermit/scripts/python:/usr/share/metasploit-framework/tools/exploit:/usr/bin/arsenal:/usr/bin/gtfo/:/home/kermit/.fzf/bin/:/usr/share/Wordpresscan/:/root/.local/pipx/shared/bin:/root/go/bin/:/home/kermit/go/bin:/usr/bin/pwsh/:/usr/bin/rustscan/RustScan/target/release:PATH
+export PATH=./:/home/kermit/.local/bin:/usr/bin/:/usr/share/responder:/usr/share/ghidra:/usr/share/hydra:/usr/share/libreoffice:/snap/bin:/usr/sandbox:/usr/local/bin:/usr/local/go/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/bin:/usr/local/games:/usr/games:/home/kermit/.fzf/bin:/opt/exploitdb:/root/.local/bin:/home/kermit/scripts/bash:/home/kermit/scripts/python:/usr/share/metasploit-framework/tools/exploit:/usr/bin/arsenal:/usr/bin/gtfo/:/home/kermit/.fzf/bin/:/usr/share/Wordpresscan/:/root/.local/pipx/shared/bin:/root/go/bin/:/home/kermit/go/bin:/usr/bin/pwsh/:PATH
  
 # Add as ~/.zshrc
 export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
 export name=$(/usr/bin/cat /home/kermit/.config/bin/target_sys.txt)
 export _JAVA_AWT_WM_NONREPARENTING=1
 export wpscan=$(cat /home/kermit/wpscan_key)
-export shodan=$(cat /home/kermit/shodan_key)
+export wpscan=$(cat /home/kermit/shodan_key)
 #export http_proxy=127.0.0.1:8080
 #export https_proxy=127.0.0.1:8080
-#source /home/kermit/scripts/bash/bashsimplecurses/simple_curses.sh
+source /home/kermit/scripts/bash/bashsimplecurses/simple_curses.sh
 
-#VI MODE
-#bindkey -v
-#export KEYTIMEOUT=1
-function reach(){
-  tcpdump -i ens33 icmp -n -v
-}
-# funcion iiixgxgstrackckcttt porrrtttsss
-function ports(){
-  export ports="$(cat $1 | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs | tr ' ' ',')"
-  export ip_address="$(cat $1 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u | head -n 1)"
-  #echo -e "\n${red}[*]${endcolor} ${green}Extracting information...${endcolor}\n" > extractPorts.tmp
-  #echo -e "\t${red}[*]${endcolor} ${green}IP Address:${endcolor} $ip_address"  >> extractPorts.tmp
-  echo $ports | tr -d '\n' | xclip -sel clip
-  #/home/kermit/maquinas/Oouch/prueba.sh $ports $ip_address
-  #source /home/kermit/scripts/bash/bashsimplecurses/simple_curses.sh
-  #
-  gum style --foreground "#FF0000" --border-foreground "#00FF00" --border "rounded" --align center --width 20 --margin "1 1 1 8" --padding "1 0" "IP: $ip_address"
-  echo -e "\t${red}[*]${endcolor} Open ports: ${green}$ports${endcolor} \n"  >> extractPorts.tmp
-  /usr/bin/cat extractPorts.tmp; /usr/bin/rm extractPorts.tmp
-  echo -ne "\t${red}[*]${endcolor} Ports copied to clipboard\n"; echo 
-  #/usr/bin/cat extractPorts.tmp; /usr/bin/rm extractPorts.tmp
-}
 
-function hosts()
-{
-  if [ $# -eq 1 ]; then
-    grep -E -o "([0-9]{1,3}\.){3}[0-9]{1,3}" $1
-  else
-    echo -e "\n\t${blue}[+]${endcolor} hosts${green} file${endcolor} extrae las ips de un archivo"
-  fi
-}
-
-function cleandocker(){
-  docker rm $(docker ps -a -q) --force 2> /dev/null
-  docker rmi $(docker images -q) 2> /dev/null
-  docker network rm $(docker network ls -q) 2> /dev/null
-  docker volume rm $(docker volume ls -q) 2> /dev/null
-}
 function kroot()
 {
   /usr/bin/kitty &> /dev/null & disown
-}
-function me()
-{
-  hostname -I | awk '{print $1}'
 }
 function ipt()
 {
@@ -128,8 +87,6 @@ function fibtrie(){
   cat $1 | grep "LOCAL" -B 1 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u
 }
 
-alias screenkey='screenkey -s small -t 1 --no-whitespace --font-color lime --mods-mode tux --bak-mode baked --key-mode translated -p bottom --font ChakraPetch &> /dev/null & disown'
-alias obsidian='obsidian 2>/dev/null & disown'
 alias neofetch='neofetch --source /home/kermit/ascii'
 alias urlencode='python3 -c "import sys, urllib.parse as ul; print (ul.quote_plus(sys.argv[1]))"'
 alias urldecode='python3 -c "import sys, urllib.parse as ul; print(ul.unquote_plus(sys.argv[1]))"'
@@ -139,8 +96,6 @@ alias kitten="kitty +kitten icat"
 alias pins='jump pins'
 alias js='js-beautify'
 
-alias tgt='impacket-GetNPUsers'
-alias tgs='impacket-GetUserSPNs'
 # Alias's for multiple directory listing commands
 alias la='lsd -Aalh' # show hidden files
 alias ls='lsd -aFh --color=always' # add colors and file type extensions
@@ -403,25 +358,6 @@ function helpMKT(){
  
 }
 
-function ws(){
-
-  gum input --prompt="> " --placeholder "ip de la maquina" > ip_ttl.txt
-  ip_ttl="$(/usr/bin/cat ./ip_ttl.txt)"
-  ttl="$(ping -c 1 $ip_ttl | grep ttl | tr '=' ' ' | awk '{print $8}')"
-    
-  if [[ $ttl -le 64 ]]; then
-    
-    gum style --foreground "#FF0000" --border-foreground "#00FF00" --border "rounded" --align center --width 20 --margin "1 1 1 8" --padding "1 0" "Linux "
-    #echo -e "\n\t${blue}[+]${endcolor} Sistema ${red}${endcolor}"
-  fi
-  if [[ $ttl -le 128 && $ttl -gt 64 ]]; then
-    gum style --foreground "#FF0000" --border-foreground "#00FF00" --border "rounded" --align center --width 20 --margin "1 1 1 8" --padding "1 0" "Windows "
-    #echo -e "\n\t${blue}[+]${end} Sistema ${red}Windows ${endcolor}"
-  fi
-  rm ./ip_ttl.txt
-
-}
-
 function target(){
 
 
@@ -457,20 +393,19 @@ function tg(){
   gum input --prompt="> " --placeholder "ip de la maquina" > /home/kermit/.config/bin/target.txt
   gum input --prompt="> " --placeholder "nombre de la maquina" > /home/kermit/.config/bin/target_sys.txt
   gum choose "windows" "linux" > /home/kermit/.config/bin/ttl.txt
-  gum confirm "set domain?"
-  if [ $? -eq 0 ]; then
-    gum input --prompt="> " --placeholder "dominio" > /home/kermit/.config/bin/domain.txt
-    domain=$(/usr/bin/cat /home/kermit/.config/bin/domain.txt)
-  fi
 
-  export system=$(/usr/bin/cat /home/kermit/.config/bin/ttl.txt)
-  export domain=$(/usr/bin/cat /home/kermit/.config/bin/domain.txt)
+  ip_address=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
+  nombre=$(/usr/bin/cat /home/kermit/.config/bin/target_sys.txt)
+  sistema=$(/usr/bin/cat /home/kermit/.config/bin/ttl.txt)
+
+  #echo -ne "$ip_address" > /home/kermit/.config/bin/target.txt
+  #echo -ne "$nombre" > /home/kermit/.config/bin/target_sys.txt
+  #echo -ne "$sistema" > /home/kermit/.config/bin/ttl.txt
   export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
   export name=$(/usr/bin/cat /home/kermit/.config/bin/target_sys.txt)
-  echo -ne "\n\t${blue}[+]${endcolor} Name: ${red}$name${endcolor}\n" 
-  echo -ne "\n\t${blue}[+]${endcolor} Ip: ${red}$ip${endcolor}\n"
-  echo -ne "\n\t${blue}[+]${endcolor} Domain: ${red}$domain${endcolor}\n"
-  echo -ne "\n\t${blue}[+]${endcolor} System: ${red}$system${endcolor}\n"
+  echo -ne "\n\t${blue}[+]${endcolor} Name: ${red}$nombre${endcolor}\n" 
+  echo -ne "\n\t${blue}[+]${endcolor} Ip: ${red}$ip_address${endcolor}\n"
+  echo -ne "\n\t${blue}[+]${endcolor} System: ${red}$sistema${endcolor}\n"
   tput cnorm; echo
 
 }
@@ -510,24 +445,30 @@ function mkt(){
 function mk(){
 
   tput civis  
-  gum input --prompt="> " --placeholder "nombre de la maquina" > /home/kermit/.config/bin/machine.txt
-  gum input --prompt="> " --placeholder "pin para el directorio" > /home/kermit/.config/bin/pin.txt
-  export machine=$(/usr/bin/cat /home/kermit/.config/bin/machine.txt)
-  export pin=$(/usr/bin/cat /home/kermit/.config/bin/pin.txt)
+  gum input --prompt="> " --placeholder "nombre de la maquina" > machine.txt
+  gum input --prompt="> " --placeholder "pin para el directorio" > pin.txt
+  export machine=$(/usr/bin/cat ./machine.txt)
+  export pin=$(/usr/bin/cat ./pin.txt)
   echo -e "\n\t${blue}[+]${endcolor} Creando directorios de trabajo...\n"
   mkdir /home/kermit/maquinas/$machine
   mkdir /home/kermit/maquinas/$machine/exploits
   mkdir /home/kermit/maquinas/$machine/content
-  touch /home/kermit/maquinas/$machine/passwords
   touch /home/kermit/maquinas/$machine/users
-  touch /home/kermit/maquinas/$machine/credentials
-  touch /home/kermit/maquinas/$machine/notes
+  touch /home/kermit/maquinas/$machine/notes.txt
+  touch /home/kermit/maquinas/$machine/pass
+  touch /home/kermit/maquinas/$machine/creds
+  touch /home/kermit/maquinas/$machine/index.html
+  chmod o+x /home/kermit/maquinas/$machine/index.html
   cd /home/kermit/maquinas/$machine 
   echo -e "\n\t${blue}[+]${endcolor} Pined ${blue}/home/kermit/maquinas/$machine ${endcolor}as ${red}$pin${end}\n"
   pin $pin
   tput cnorm; echo
 
 }
+
+
+
+
 
 function scope(){
  
@@ -597,7 +538,22 @@ function scope(){
 }
 
 
-
+# funcion iiixgxgstrackckcttt porrrtttsss
+function ports(){
+  export ports="$(cat $1 | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs | tr ' ' ',')"
+  export ip_address="$(cat $1 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u | head -n 1)"
+  #echo -e "\n${red}[*]${endcolor} ${green}Extracting information...${endcolor}\n" > extractPorts.tmp
+  #echo -e "\t${red}[*]${endcolor} ${green}IP Address:${endcolor} $ip_address"  >> extractPorts.tmp
+  echo $ports | tr -d '\n' | xclip -sel clip
+  #/home/kermit/maquinas/Oouch/prueba.sh $ports $ip_address
+  #source /home/kermit/scripts/bash/bashsimplecurses/simple_curses.sh
+  #
+  gum style --foreground "#FF0000" --border-foreground "#00FF00" --border "rounded" --align center --width 20 --margin "1 1 1 8" --padding "1 0" "IP: $ip_address"
+  echo -e "\t${red}[*]${endcolor} Open ports: ${green}$ports${endcolor} \n"  >> extractPorts.tmp
+  /usr/bin/cat extractPorts.tmp; /usr/bin/rm extractPorts.tmp
+  echo -ne "\t${red}[*]${endcolor} Ports copied to clipboard\n"; echo 
+  #/usr/bin/cat extractPorts.tmp; /usr/bin/rm extractPorts.tmp
+}
 #Funcion para cerrar sesion
 function finish(){
  
