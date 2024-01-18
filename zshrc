@@ -44,6 +44,19 @@ function kroot()
 {
   /usr/bin/kitty &> /dev/null & disown
 }
+function getusers()
+{
+# Lee la primera línea del archivo y extrae la cadena antes del primer ":"
+users=$(cat $1 | cut -d ':' -f 1 | sort -u | uniq)
+echo $users
+}
+
+function gethashes()
+{
+# Lee la primera línea del archivo y extrae la cadena antes del primer ":"
+hashes=$(cat $1 | awk -F ':' '{print $NF}' | sort -u | uniq)
+echo $hashes
+}
 function ipt()
 {
   echo $ip
@@ -56,17 +69,14 @@ function xp()
 {
   xclip -sel clip
 }
- 
 function hexen()
 {
   echo "$@" | xxd -p
 }
- 
 function hexde()
 {
   echo "$@" | xxd -p -r
 }
- 
 function rot13()
 {
   echo "$@" | tr 'A-Za-z' 'N-ZA-Mn-za-m'
