@@ -103,9 +103,8 @@ wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/arsenal/mych
 wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -O /usr/bin/nvim
 chmod +x /usr/bin/nvim
 #nvchad
-git clone https://github.com/NvChad/NvChad /home/$SUDO_USER/.config/nvim --depth 1
+git clone https://github.com/NvChad/NvChad /home/$SUDO_USER/.config/nvim --depth 1 && nvim
 sudo chown $SUDO_USER:$SUDO_USER -R /home/$SUDO_USER/.config/nvim
-nvim
 
 # jump
 sudo wget https://github.com/gsamokovarov/jump/releases/download/v0.51.0/jump_linux_amd64_binary -O /usr/bin/jump
