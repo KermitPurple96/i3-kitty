@@ -115,6 +115,10 @@ python3 -m pip install pipx
 pipx ensurepath
 pipx install crackmapexec
 
+#nxc
+wget https://github.com/Pennyw0rth/NetExec/releases/download/v1.1.0/nxc -O /usr/bin/nxc
+chmod +x /usr/bin/nxc
+
 #kerbrute
 pip3 install kerbrute
 git clone https://github.com/attackdebris/kerberos_enum_userlists /usr/share/kerberos_enum_userlists
