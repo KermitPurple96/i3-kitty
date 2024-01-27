@@ -4,10 +4,14 @@ sudo apt-get upgrade
 # INSTALL XCT ENVIRONMENT
 # https://github.com/xct/kali-clean
 
-sudo apt-get -y install pipx zsh keepass2 moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp enum4linux dirsearch docker.io scrub jq apache2 ncat ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit
+sudo apt-get -y install feroxbuster pipx zsh keepass2 moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp enum4linux dirsearch docker.io scrub jq apache2 ncat ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit
 
 curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin \
     dest=/home/$SUDO_USER
+
+sudo apt-get update && sudo apt-get -y install golang-go 
+go install github.com/ffuf/ffuf/v2@latest
+go install github.com/OJ/gobuster/v3@latest
 
 wget https://github.com/lsd-rs/lsd/releases/download/0.23.1/lsd-musl_0.23.1_amd64.deb
 sudo dpkg -i lsd-musl_0.23.1_amd64.deb
@@ -115,6 +119,12 @@ python3 -m pip install pipx
 pipx ensurepath
 pipx install crackmapexec
 
+#impacket & cme
+python3 -m pip install --user pipx 
+python3 -m pipx ensurepath
+python3 -m pipx install impacket
+python3 -m pipx install cme
+
 #nxc
 wget https://github.com/Pennyw0rth/NetExec/releases/download/v1.1.0/nxc -O /usr/bin/nxc
 chmod +x /usr/bin/nxc
@@ -122,6 +132,12 @@ chmod +x /usr/bin/nxc
 #kerbrute
 pip3 install kerbrute
 git clone https://github.com/attackdebris/kerberos_enum_userlists /usr/share/kerberos_enum_userlists
+
+#gum
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg
+echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | sudo tee /etc/apt/sources.list.d/charm.list
+sudo apt update && sudo apt install gum
 
 #wpscan fix
 apt remove wpscan -y
