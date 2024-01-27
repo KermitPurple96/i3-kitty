@@ -68,10 +68,25 @@ sudo usermod --shell /usr/bin/zsh root
 cp /home/$SUDO_USER/.config/kitty/* /root/.config/kitty/
 
 wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/Hack.zip -O /usr/local/share/fonts/Hack.zip
+wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/Hack.zip -O /home/$SUDO_USER/.local/share/fonts/
+
 cd /usr/local/share/fonts
 unzip /usr/local/share/fonts/Hack.zip
+cd /home/$SUDO_USER/.local/share/fonts/
+unzip /home/$SUDO_USER/.local/share/fonts/Hack.zip
+
 cd /home/$SUDO_USER
 rm /usr/local/share/fonts/Hack.zip
+rm /usr/local/share/fonts/Hack.zip
+
+fc-cache -fv
+
+#make sure these files are the same in /home/$SUDO_USER and /root
+# ~/.config/i3/config
+# ~/.config/alacritty/alacritty.yml
+# ~/.config/i3/i3blocks.conf
+# ~/.config/compton/compton.conf
+# ~/.config/rofi/config
 
 #rustscan
 wget wget https://github.com/RustScan/RustScan/archive/refs/tags/2.1.1.zip
@@ -109,6 +124,9 @@ chmod +x /usr/bin/nvim
 #nvchad
 git clone https://github.com/NvChad/NvChad /home/$SUDO_USER/.config/nvim --depth 1 && nvim
 sudo chown $SUDO_USER:$SUDO_USER -R /home/$SUDO_USER/.config/nvim
+
+#scrollback
+git clone https://github.com/mikesmithgh/kitty-scrollback.nvim /home/$SUDO_USER/kitty.app/kitty-scrollback.nvim
 
 # jump
 sudo wget https://github.com/gsamokovarov/jump/releases/download/v0.51.0/jump_linux_amd64_binary -O /usr/bin/jump
