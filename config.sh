@@ -157,6 +157,10 @@ curl -fsSL https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/ke
 echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | sudo tee /etc/apt/sources.list.d/charm.list
 sudo apt update && sudo apt install gum
 
+#bashsimplecurses
+mkdir -p scripts/{bash,python}
+git clone https://github.com/metal3d/bashsimplecurses /home/kermit/scripts/bash/bashsimplecurses
+
 #wpscan fix
 apt remove wpscan -y
 apt-get autoremove -y
