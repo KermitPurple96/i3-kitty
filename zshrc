@@ -106,9 +106,14 @@ alias kitten="kitty +kitten icat"
 alias pins='jump pins'
 alias js='js-beautify'
 
+#zoxide --help
 eval "$(zoxide init zsh)"
-alias x='zoxide'
-
+alias x='z' 
+alias xi='zi'
+alias xr='zoxide remove'
+alias xq='zoxide query'
+alias xe='zoxide edit'
+alias xa='zoxide add'
 
 # Alias's for multiple directory listing commands
 alias la='lsd -Aalh' # show hidden files
