@@ -106,6 +106,10 @@ alias kitten="kitty +kitten icat"
 alias pins='jump pins'
 alias js='js-beautify'
 
+eval "$(zoxide init zsh)"
+alias x='zoxide'
+
+
 # Alias's for multiple directory listing commands
 alias la='lsd -Aalh' # show hidden files
 alias ls='lsd -aFh --color=always' # add colors and file type extensions
