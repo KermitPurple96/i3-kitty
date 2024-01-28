@@ -24,7 +24,13 @@ if [[ $EUID -ne 0 ]]; then
 else
    PROMPT="%F{#0070FF}$USER%f%F{#FBFF00}@%f%F{red}parrot [%f%F{#00FF00}%d%f%F{red}]%(?..[%?])%f%F{#FFFF00}# %f"
 fi
- 
+
+echo "\t   __                    __                   __            
+\t _/ /________  __       / /__________________/ /_________
+\t/  __/ ___/ / / /      / __  / __  / ___/ __  / _  / ___/
+\t/ /_/ /  / /_/ /      / / / / /_/ / /  / /_/ /  __/ /
+\t\__/_/  _\__  /      /_/ /_/\__,_/_/  /_____/\___/_/   
+\t       /_____/ \n" | lolcat                                              
  
 # Export PATH$
 export PATH=./:/home/kermit/.local/bin:/usr/bin/:/usr/share/responder:/usr/share/ghidra:/usr/share/hydra:/usr/share/libreoffice:/snap/bin:/usr/sandbox:/usr/local/bin:/usr/local/go/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/bin:/usr/local/games:/usr/games:/home/kermit/.fzf/bin:/opt/exploitdb:/root/.local/bin:/home/kermit/scripts/bash:/home/kermit/scripts/python:/usr/share/metasploit-framework/tools/exploit:/usr/bin/arsenal:/usr/bin/gtfo/:/home/kermit/.fzf/bin/:/usr/share/Wordpresscan/:/root/.local/pipx/shared/bin:/root/go/bin/:/home/kermit/go/bin:/usr/bin/pwsh/:PATH
@@ -97,7 +103,7 @@ function fibtrie(){
   cat $1 | grep "LOCAL" -B 1 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u
 }
 
-alias neofetch='neofetch --source /home/kermit/ascii'
+alias neofetch='neofetch --source /home/kermit/ascii | lolcat'
 alias urlencode='python3 -c "import sys, urllib.parse as ul; print (ul.quote_plus(sys.argv[1]))"'
 alias urldecode='python3 -c "import sys, urllib.parse as ul; print(ul.unquote_plus(sys.argv[1]))"'
 # alias
