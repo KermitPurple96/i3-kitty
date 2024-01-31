@@ -4,45 +4,32 @@ sudo apt-get upgrade
 # INSTALL XCT ENVIRONMENT
 # https://github.com/xct/kali-clean
 
+#packages
 sudo apt-get -y install powercat lolcat neofetch build-essential gcc feroxbuster pipx zsh keepass2 moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp enum4linux dirsearch docker.io scrub jq apache2 ncat ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit
-
-curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin \
-    dest=/home/$SUDO_USER
-
 sudo apt-get update && sudo apt-get -y install golang-go 
 go install github.com/ffuf/ffuf/v2@latest
 go install github.com/OJ/gobuster/v3@latest
 
+mkdir /home/$SUDO_USER/Descargas/firefox
+mkdir /home/$SUDO_USER/maquinas
+mkdir /home/$SUDO_USER/.config/bin
+touch /home/$SUDO_USER/.config/bin/{name.txt,target.txt,ttl.txt,target_sys.txt}
+
+#lsd
 wget https://github.com/lsd-rs/lsd/releases/download/0.23.1/lsd-musl_0.23.1_amd64.deb
 sudo dpkg -i lsd-musl_0.23.1_amd64.deb
+
+#bat
 wget https://github.com/sharkdp/bat/releases/download/v0.23.0/bat_0.23.0_amd64.deb
 sudo dpkg -i bat_0.23.0_amd64.deb
 
-####Done in xct environment####
-sudo apt-get install zsh
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-###############################
-
-mkdir /home/$SUDO_USER/Descargas/firefox
-mkdir /home/$SUDO_USER/.zsh
-git clone https://github.com/zsh-users/zsh-autosuggestions /home/$SUDO_USER/.zsh/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/$SUDO_USER/.zsh/zsh-syntax-highlighting
-git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git /home/$SUDO_USER/.zsh/zsh-autocomplete
-
+# wallpaper
 rm /home/$SUDO_USER/.fehbg
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/.fehbg -O /home/$SUDO_USER/.fehbg
 mkdir /home/$SUDO_USER/.wallpaper
 wget https://github.com/KermitPurple96/i3-kitty/blob/main/fondo.jpg\?raw=true -O /home/$SUDO_USER/.wallpaper/fondo.jpg
 
-rm /home/$SUDO_USER/.zshrc
-wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/zshrc
-mv /home/$SUDO_USER/zshrc /home/$SUDO_USER/.zshrc
-ln -s -f /home/$SUDO_USER/.zshrc /root/.zshrc
-
-mkdir /home/$SUDO_USER/maquinas
-mkdir /home/$SUDO_USER/.config/bin
-touch /home/$SUDO_USER/.config/bin/{name.txt,target.txt,ttl.txt,target_sys.txt}
-
+# i3
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/usr/share/i3blocks/target_sys.sh -O /usr/share/i3blocks/target_sys.sh
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/usr/share/i3blocks/target.sh -O /usr/share/i3blocks/target.sh
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/usr/share/i3blocks/hackthebox_status.sh -O /usr/share/i3blocks/hackthebox_status.sh
@@ -50,23 +37,35 @@ wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/usr/share/i3
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/usr/share/i3blocks/access_point.sh -O /usr/share/i3blocks/access_point.sh
 sudo chmod +x /usr/share/i3blocks/*
 
-mkdir /home/$SUDO_USER/.config/kitty
-mkdir /root/.config/kitty
-wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/kitty/color.ini -O /home/$SUDO_USER/.config/kitty/color.ini
-wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/kitty/kitty.conf -O /home/$SUDO_USER/.config/kitty/kitty.conf
-
 rm -rf /home/$SUDO_USER/.config/i3/*
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/i3/i3blocks.conf -O /home/$SUDO_USER/.config/i3/i3blocks.conf
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/i3/config -O /home/$SUDO_USER/.config/i3/config
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/i3/clipboard_fix.sh -O /home/$SUDO_USER/.config/i3/clipboard_fix.sh
+
+#zsh
+####Done in xct environment####
+sudo apt-get install zsh
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+###############################
+
+#zsh pluggins
+mkdir /home/$SUDO_USER/.zsh
+git clone https://github.com/zsh-users/zsh-autosuggestions /home/$SUDO_USER/.zsh/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/$SUDO_USER/.zsh/zsh-syntax-highlighting
+git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git /home/$SUDO_USER/.zsh/zsh-autocomplete
+
+rm /home/$SUDO_USER/.zshrc
+wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/zshrc
+mv /home/$SUDO_USER/zshrc /home/$SUDO_USER/.zshrc
+ln -s -f /home/$SUDO_USER/.zshrc /root/.zshrc
 
 chown -R root:root /home/$SUDO_USER/.zsh
 chown $SUDO_USER:$SUDO_USER /etc/hosts
 sudo chmod -R 755 /home/$SUDO_USER/.zsh
 sudo usermod --shell /usr/bin/zsh $SUDO_USER
 sudo usermod --shell /usr/bin/zsh root
-cp /home/$SUDO_USER/.config/kitty/* /root/.config/kitty/
 
+# fonts
 wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/Hack.zip -O /usr/local/share/fonts/Hack.zip
 wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/Hack.zip -O /home/$SUDO_USER/.local/share/fonts/
 
@@ -74,7 +73,6 @@ cd /usr/local/share/fonts
 unzip /usr/local/share/fonts/Hack.zip
 cd /home/$SUDO_USER/.local/share/fonts/
 unzip /home/$SUDO_USER/.local/share/fonts/Hack.zip
-
 cd /home/$SUDO_USER
 rm /usr/local/share/fonts/Hack.zip
 rm /usr/local/share/fonts/Hack.zip
@@ -99,8 +97,10 @@ cd /home/$SUDO_USER
 
 #evil-winrm
 gem install evil-winrm
+
 #neo4j bloodhound
 apt install neo4j bloodhound
+
 #empire
 sudo apt-get install powershell-empire starkiller -y
 
@@ -125,8 +125,18 @@ chmod +x /usr/bin/nvim
 git clone https://github.com/NvChad/NvChad /home/$SUDO_USER/.config/nvim --depth 1 && nvim
 sudo chown $SUDO_USER:$SUDO_USER -R /home/$SUDO_USER/.config/nvim
 
-#scrollback
+#kitty
+mkdir /home/$SUDO_USER/.config/kitty
+mkdir /root/.config/kitty
+wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/kitty/color.ini -O /home/$SUDO_USER/.config/kitty/color.ini
+wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/kitty/kitty.conf -O /home/$SUDO_USER/.config/kitty/kitty.conf
+
+curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin \
+    dest=/home/$SUDO_USER
+    
+#kitty scrollback
 git clone https://github.com/mikesmithgh/kitty-scrollback.nvim /home/$SUDO_USER/kitty.app/kitty-scrollback.nvim
+cp /home/$SUDO_USER/.config/kitty/* /root/.config/kitty/
 
 # jump
 sudo wget https://github.com/gsamokovarov/jump/releases/download/v0.51.0/jump_linux_amd64_binary -O /usr/bin/jump
