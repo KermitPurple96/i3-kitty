@@ -163,6 +163,9 @@ chmod +x /usr/bin/nxc
 #kerbrute
 pip3 install kerbrute
 git clone https://github.com/attackdebris/kerberos_enum_userlists /usr/share/kerberos_enum_userlists
+# kerbrute
+wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_linux_amd64 -O /usr/bin/kerbrute
+chmod +x /usr/bin/kerbrute
 
 #gum
 sudo mkdir -p /etc/apt/keyrings
