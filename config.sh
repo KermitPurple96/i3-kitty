@@ -67,7 +67,7 @@ sudo usermod --shell /usr/bin/zsh root
 
 # fonts
 wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/Hack.zip -O /usr/local/share/fonts/Hack.zip
-wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/Hack.zip -O /home/$SUDO_USER/.local/share/fonts/
+wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/Hack.zip -O /home/$SUDO_USER/.local/share/fonts/Hack.zip
 
 cd /usr/local/share/fonts
 unzip /usr/local/share/fonts/Hack.zip
