@@ -170,6 +170,9 @@ exec_always --no-startup-id compton -b --config ~/.config/compton/compton.conf
 # VM Clipboard Fix
 exec_always --no-startup-id ~/.config/i3/clipboard_fix.sh
 
+#vmware tools
+exec --no-startup-id vmware-user-suid-wrapper
+
 # Resize Bindings
 bindsym $mod+Ctrl+Shift+j resize shrink width 10 px or 10 ppt
 bindsym $mod+Ctrl+Shift+i resize grow height 10 px or 10 ppt
@@ -183,4 +186,4 @@ bindsym $mod+Ctrl+Shift+Right resize grow width 10 px or 10 ppt
 
 # screenshot
 bindsym $mod+P exec flameshot gui
-bindsym $mod+Shift+L exec ars
+#bindsym $mod+Shift+L exec ars
