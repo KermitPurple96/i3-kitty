@@ -75,7 +75,7 @@ cd /home/$SUDO_USER/.local/share/fonts/
 unzip /home/$SUDO_USER/.local/share/fonts/Hack.zip
 cd /home/$SUDO_USER
 rm /usr/local/share/fonts/Hack.zip
-rm /usr/local/share/fonts/Hack.zip
+rm /home/$SUDO_USER/.local/share/fonts/Hack.zip
 
 fc-cache -fv
 
