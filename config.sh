@@ -5,7 +5,7 @@ sudo apt-get upgrade
 # https://github.com/xct/kali-clean
 
 #packages
-sudo apt-get -y install powercat lolcat neofetch build-essential gcc feroxbuster pipx zsh keepass2 moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp enum4linux dirsearch docker.io scrub jq apache2 ncat ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit
+sudo apt-get -y install seclists powercat lolcat neofetch build-essential gcc feroxbuster pipx zsh keepass2 moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp enum4linux dirsearch docker.io scrub jq apache2 ncat ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit
 sudo apt-get update && sudo apt-get -y install golang-go 
 go install github.com/ffuf/ffuf/v2@latest
 go install github.com/OJ/gobuster/v3@latest
