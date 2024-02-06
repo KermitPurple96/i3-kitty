@@ -50,18 +50,34 @@ function kroot()
 {
   /usr/bin/kitty &> /dev/null & disown
 }
+function recon()
+{
+  locate .nse | grep "$1" | sed 's|/usr/share/nmap/scripts/||' >> /tmp/nmap.tmp
+  archivo="/tmp/nmap.tmp"
+  lineas=$(wc -l < "$archivo")
+  echo "\n\t${blue}[+]${endcolor} $lineas scripts found\n"
+  while IFS= read -r linea; do
+    echo "\t${green}[+] ${endcolor}$linea \n"
+  done < "$archivo"
+  scripts=$(locate .nse | grep "$1" | sed 's|/usr/share/nmap/scripts/||' | tr '\n' ',' | xargs)
+  scripts2=${scripts%?}
+  echo "$scripts2" | xp > /dev/null 2>&1
+  rm /tmp/nmap.tmp
+
+
+
+}
 function getusers()
 {
 # Lee la primera línea del archivo y extrae la cadena antes del primer ":"
-users=$(cat $1 | cut -d ':' -f 1 | sort -u | uniq)
-echo $users
+  users=$(cat $1 | cut -d ':' -f 1 | sort -u | uniq)
+  echo $users
 }
-
 function gethashes()
 {
 # Lee la primera línea del archivo y extrae la cadena antes del primer ":"
-hashes=$(cat $1 | awk -F ':' '{print $NF}' | sort -u | uniq)
-echo $hashes
+  hashes=$(cat $1 | awk -F ':' '{print $NF}' | sort -u | uniq)
+  echo $hashes
 }
 function ipt()
 {
@@ -460,7 +476,7 @@ function mkt(){
     chmod o+x /home/kermit/maquinas/$nombre_maquina/index.html
     cd /home/kermit/maquinas/$nombre_maquina
     echo -e "\n\t${blue}[+]${endcolor} Pined ${blue}/home/kermit/maquinas/$nombre_maquina ${endcolor}as ${red}$pin${end}\n"
-    pin $pin
+    xa /home/kermit/maquinas/$machine
     tput cnorm; echo
   fi
 }
@@ -486,7 +502,7 @@ function mk(){
   chmod o+x /home/kermit/maquinas/$machine/index.html
   cd /home/kermit/maquinas/$machine 
   echo -e "\n\t${blue}[+]${endcolor} Pined ${blue}/home/kermit/maquinas/$machine ${endcolor}as ${red}$pin${end}\n"
-  pin $pin
+  xa /home/kermit/maquinas/$machine
   tput cnorm; echo
 
 }
