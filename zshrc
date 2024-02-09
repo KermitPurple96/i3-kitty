@@ -487,19 +487,16 @@ function mk(){
 
   tput civis  
   gum input --prompt="> " --placeholder "nombre de la maquina" > machine.txt
-  gum input --prompt="> " --placeholder "pin para el directorio" > pin.txt
   export machine=$(/usr/bin/cat ./machine.txt)
-  export pin=$(/usr/bin/cat ./pin.txt)
   echo -e "\n\t${blue}[+]${endcolor} Creando directorios de trabajo...\n"
   mkdir /home/kermit/maquinas/$machine
   mkdir /home/kermit/maquinas/$machine/exploits
   mkdir /home/kermit/maquinas/$machine/content
   touch /home/kermit/maquinas/$machine/users
-  touch /home/kermit/maquinas/$machine/notes.txt
+  touch /home/kermit/maquinas/$machine/notes
   touch /home/kermit/maquinas/$machine/pass
+  touch /home/kermit/maquinas/$machine/hashes
   touch /home/kermit/maquinas/$machine/creds
-  touch /home/kermit/maquinas/$machine/index.html
-  chmod o+x /home/kermit/maquinas/$machine/index.html
   cd /home/kermit/maquinas/$machine 
   echo -e "\n\t${blue}[+]${endcolor} Pined ${blue}/home/kermit/maquinas/$machine ${endcolor}as ${red}$pin${end}\n"
   xa /home/kermit/maquinas/$machine
