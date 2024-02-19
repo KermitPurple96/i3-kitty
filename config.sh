@@ -190,6 +190,9 @@ hash -r
 apt install ruby-dev -y
 gem install wpscan
 
+#wfuzz fix
+apt --purge remove python3-pycurl && apt install libcurl4-openssl-dev libssl-dev && pip3 install pycurl wfuzz
+
 # GTFO
 sudo git clone https://github.com/mzfr/gtfo /usr/bin/gtfo
 chmod +x /usr/bin/gtfo
