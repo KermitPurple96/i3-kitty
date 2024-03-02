@@ -137,6 +137,8 @@ alias xq='zoxide query'
 alias xe='zoxide edit'
 alias xa='zoxide add'
 
+alias v='nvim'
+
 # Alias's for multiple directory listing commands
 alias la='lsd -Aalh' # show hidden files
 alias ls='lsd -aFh --color=always' # add colors and file type extensions
