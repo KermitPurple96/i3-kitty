@@ -162,8 +162,9 @@ python3 -m pipx install impacket
 python3 -m pipx install cme
 
 #nxc
-wget https://github.com/Pennyw0rth/NetExec/releases/download/v1.1.0/nxc -O /usr/bin/nxc
-chmod +x /usr/bin/nxc
+sudo apt install pipx git
+pipx ensurepath
+pipx install git+https://github.com/Pennyw0rth/NetExec
 
 #kerbrute
 pip3 install kerbrute
