@@ -19,11 +19,26 @@ fondopurple="\e[0;46m\033[1m"
 fondogris="\e[0;47m\033[1m"
 
  
-if [[ $EUID -ne 0 ]]; then    
-    PROMPT="%F{#00FFFF}$USER%f%F{#FBFF00}@%f%F{red}parrot [%f%F{#00FF00}%d%f%F{red}]%(?..[%?])%f%F{#FFFF00}$ %f"
-else
-   PROMPT="%F{#0070FF}$USER%f%F{#FBFF00}@%f%F{red}parrot [%f%F{#00FF00}%d%f%F{red}]%(?..[%?])%f%F{#FFFF00}# %f"
-fi
+#if [[ $EUID -ne 0 ]]; then    
+#    PROMPT="%F{#00FFFF}$USER%f%F{#FBFF00}@%f%F{red}kali [%f%F{#00FF00}%d%f%F{red}]%(?..[%?])%f%F{#FFFF00}$ %f"
+#else
+#   PROMPT="%F{#0070FF}$USER%f%F{#FBFF00}@%f%F{red}kali [%f%F{#00FF00}%d%f%F{red}]%(?..[%?])%f%F{#FFFF00}# %f"
+#fi
+
+NEWLINE=$'\n'
+
+
+default(){
+    if [[ $EUID -ne 0 ]]; then
+      PS1="%F{red}┌─[%F{#00FF00}$USER%f%F{#FFFF00}@%f%F{cyan}kali%F{red}][%F{#FD00FF}%d%f%F{red}]%(?..[%?])%f%F{#FFFF00}${NEWLINE}%F{red}└╼%F{#FFFF00}$ %f"
+            
+    else
+      PS1="%F{red}┌─[%F{blue}$USER%f%F{#FFFF00}@%f%F{cyan}kali%F{red}][%F{#FD00FF}%d%f%F{red}]%(?..[%?])%f%F{#FFFF00}${NEWLINE}%F{red}└╼%F{#FFFF00}# %f"
+    fi
+  }
+
+default
+
 
 echo "\t   __                    __                   __            
 \t _/ /________  __       / /__________________/ /_________
@@ -33,7 +48,7 @@ echo "\t   __                    __                   __
 \t       /_____/ \n" | lolcat                                              
  
 # Export PATH$
-export PATH=./:/home/kermit/.local/bin:/usr/bin/:/usr/share/responder:/usr/share/ghidra:/usr/share/hydra:/usr/share/libreoffice:/snap/bin:/usr/sandbox:/usr/local/bin:/usr/local/go/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/bin:/usr/local/games:/usr/games:/home/kermit/.fzf/bin:/opt/exploitdb:/root/.local/bin:/home/kermit/scripts/bash:/home/kermit/scripts/python:/usr/share/metasploit-framework/tools/exploit:/usr/bin/arsenal:/usr/bin/gtfo/:/home/kermit/.fzf/bin/:/usr/share/Wordpresscan/:/root/.local/pipx/shared/bin:/root/go/bin/:/home/kermit/go/bin:/usr/bin/pwsh/:PATH
+export PATH=./:/home/kermit/.local/bin:/usr/bin/:/usr/share/responder:/usr/share/ghidra:/usr/share/hydra:/usr/share/libreoffice:/snap/bin:/usr/sandbox:/usr/local/bin:/usr/local/go/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/bin:/usr/local/games:/usr/games:/home/kermit/.fzf/bin:/opt/exploitdb:/root/.local/bin:/home/kermit/scripts/bash:/home/kermit/scripts/python:/usr/share/metasploit-framework/tools/exploit:/usr/bin/arsenal:/usr/bin/gtfo/:/home/kermit/.fzf/bin/:/usr/share/Wordpresscan/:/root/.local/pipx/shared/bin:/root/go/bin/:/home/kermit/go/bin:/usr/bin/pwsh/:/home/kermit/kitty.app/bin/:PATH
  
 # Add as ~/.zshrc
 export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
@@ -43,7 +58,7 @@ export wpscan=$(cat /home/kermit/wpscan_key)
 export wpscan=$(cat /home/kermit/shodan_key)
 #export http_proxy=127.0.0.1:8080
 #export https_proxy=127.0.0.1:8080
-source /home/kermit/scripts/bash/bashsimplecurses/simple_curses.sh
+source /home/kermit/dev/bash/bashsimplecurses/simple_curses.sh
 
 
 function kroot()
@@ -118,6 +133,8 @@ function procnet()
 function fibtrie(){
   cat $1 | grep "LOCAL" -B 1 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u
 }
+
+
 alias clean='sed -e '\''s/\x1b\[[0-9;]*m//g'\'
 alias neofetch='neofetch --source /home/kermit/ascii | lolcat'
 alias urlencode='python3 -c "import sys, urllib.parse as ul; print (ul.quote_plus(sys.argv[1]))"'
@@ -138,7 +155,6 @@ alias xe='zoxide edit'
 alias xa='zoxide add'
 
 alias v='nvim'
-
 # Alias's for multiple directory listing commands
 alias la='lsd -Aalh' # show hidden files
 alias ls='lsd -aFh --color=always' # add colors and file type extensions
@@ -266,14 +282,14 @@ cpp()
 }
  
 #Automatically do an ls after each cd
-cd ()
-{
-  if [ -n "$1" ]; then
-  	builtin cd "$@" && lsd -lah
- 	else
- 		builtin cd ~ && ls
- 	fi
-}
+#cd ()
+#{
+#  if [ -n "$1" ]; then
+#  	builtin cd "$@" && lsd -lah
+# 	else
+# 		builtin cd ~ && ls
+# 	fi
+#}
  
 # IP address lookup
 alias whatismyip="whatsmyip"
@@ -430,29 +446,47 @@ function target(){
 }
 
 
-function tg(){
- 
-  tput civis
-  gum input --prompt="> " --placeholder "ip de la maquina" > /home/kermit/.config/bin/target.txt
-  gum input --prompt="> " --placeholder "nombre de la maquina" > /home/kermit/.config/bin/target_sys.txt
-  gum choose "windows" "linux" > /home/kermit/.config/bin/ttl.txt
+tg() {
+        tput civis
 
-  ip_address=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
-  nombre=$(/usr/bin/cat /home/kermit/.config/bin/target_sys.txt)
-  sistema=$(/usr/bin/cat /home/kermit/.config/bin/ttl.txt)
+        session_start_time=$(date +%s)
+        NEWLINE=$'\n'
+        echo $session_start_time > /home/kermit/.config/bin/session.txt
 
-  #echo -ne "$ip_address" > /home/kermit/.config/bin/target.txt
-  #echo -ne "$nombre" > /home/kermit/.config/bin/target_sys.txt
-  #echo -ne "$sistema" > /home/kermit/.config/bin/ttl.txt
-  export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
-  export name=$(/usr/bin/cat /home/kermit/.config/bin/target_sys.txt)
-  echo -ne "\n\t${blue}[+]${endcolor} Name: ${red}$nombre${endcolor}\n" 
-  echo -ne "\n\t${blue}[+]${endcolor} Ip: ${red}$ip_address${endcolor}\n"
-  echo -ne "\n\t${blue}[+]${endcolor} System: ${red}$sistema${endcolor}\n"
-  tput cnorm; echo
+        gum input --prompt="> " --placeholder "ip de la maquina" > /home/kermit/.config/bin/target.txt
+        gum input --prompt="> " --placeholder "nombre de la maquina" > /home/kermit/.config/bin/target_sys.txt
+        gum choose "windows" "linux" > /home/kermit/.config/bin/ttl.txt
 
+        ip_address=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
+        nombre=$(/usr/bin/cat /home/kermit/.config/bin/target_sys.txt)
+        sistema=$(/usr/bin/cat /home/kermit/.config/bin/ttl.txt)
+
+        export ip=$(cat /home/kermit/.config/bin/target.txt)
+        export name=$(cat /home/kermit/.config/bin/target_sys.txt)
+
+        echo -e "\n\t${blue}[+]${endcolor} Name: ${red}$nombre${endcolor}\n" 
+        echo -e "\n\t${blue}[+]${endcolor} Ip: ${red}$ip_address${endcolor}\n"
+        echo -e "\n\t${blue}[+]${endcolor} System: ${red}$sistema${endcolor}\n"
+
+        echo "Session started. Time counter activated."
+        #echo "Saving commands logs in $(cat /home/kermit/.config/bin/logs.txt)"
+        tput cnorm
+
+        #gum input --prompt="> " --placeholder "file for logs" > /home/kermit/.config/bin/logs.txt
+        #logs=$(/usr/bin/cat /home/kermit/.config/bin/logs.txt)
+        #echo "Saving commands at $logs"
+        #script -a $(/usr/bin/cat /home/kermit/.config/bin/logs.txt) -q
+        #precmd
+    
 }
 
+
+stop() {
+    # Limpiar el prompt y desactivar el contador de tiempo
+    unset session_start_time
+    rm /home/kermit/.config/bin/session.txt
+    echo "Session stopped. Time counter deactivated."
+}
 
 
 function mkt(){
@@ -495,12 +529,13 @@ function mk(){
   mkdir /home/kermit/maquinas/$machine/exploits
   mkdir /home/kermit/maquinas/$machine/content
   touch /home/kermit/maquinas/$machine/users
-  touch /home/kermit/maquinas/$machine/notes
+  touch /home/kermit/maquinas/$machine/notes.txt
   touch /home/kermit/maquinas/$machine/pass
-  touch /home/kermit/maquinas/$machine/hashes
   touch /home/kermit/maquinas/$machine/creds
+  touch /home/kermit/maquinas/$machine/index.html
+  chmod o+x /home/kermit/maquinas/$machine/index.html
   cd /home/kermit/maquinas/$machine 
-  echo -e "\n\t${blue}[+]${endcolor} Pined ${blue}/home/kermit/maquinas/$machine ${endcolor}as ${red}$pin${end}\n"
+  echo -e "\n\t${blue}[+]${endcolor} Added ${green}/home/kermit/maquinas/$machine ${endcolor} to zoxide\n"
   xa /home/kermit/maquinas/$machine
   tput cnorm; echo
 
