@@ -56,6 +56,7 @@ export name=$(/usr/bin/cat /home/kermit/.config/bin/target_sys.txt)
 export _JAVA_AWT_WM_NONREPARENTING=1
 export wpscan=$(cat /home/kermit/wpscan_key)
 export wpscan=$(cat /home/kermit/shodan_key)
+export PDCP_API_KEY=$(cat /home/kermit/CVEmap_key)
 #export http_proxy=127.0.0.1:8080
 #export https_proxy=127.0.0.1:8080
 source /home/kermit/dev/bash/bashsimplecurses/simple_curses.sh
