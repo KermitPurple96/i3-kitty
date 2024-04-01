@@ -135,7 +135,7 @@ function fibtrie(){
   cat $1 | grep "LOCAL" -B 1 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u
 }
 
-
+alias share='impacket-smbserver smbfolder $(pwd) -smb2support'
 alias clean='sed -e '\''s/\x1b\[[0-9;]*m//g'\'
 alias neofetch='neofetch --source /home/kermit/ascii | lolcat'
 alias urlencode='python3 -c "import sys, urllib.parse as ul; print (ul.quote_plus(sys.argv[1]))"'
