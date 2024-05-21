@@ -45,7 +45,7 @@ echo "\t   __                    __                   __
 \t/  __/ ___/ / / /      / __  / __  / ___/ __  / _  / ___/
 \t/ /_/ /  / /_/ /      / / / / /_/ / /  / /_/ /  __/ /
 \t\__/_/  _\__  /      /_/ /_/\__,_/_/  /_____/\___/_/   
-\t       /_____/ \n" | lolcat                                              
+\t       /_____/ \n" | lolcat;echo                                              
  
 # Export PATH$
 export PATH=./:/home/kermit/.local/bin:/usr/bin/:/usr/share/responder:/usr/share/ghidra:/usr/share/hydra:/usr/share/libreoffice:/snap/bin:/usr/sandbox:/usr/local/bin:/usr/local/go/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/bin:/usr/local/games:/usr/games:/home/kermit/.fzf/bin:/opt/exploitdb:/root/.local/bin:/home/kermit/scripts/bash:/home/kermit/scripts/python:/usr/share/metasploit-framework/tools/exploit:/usr/bin/arsenal:/usr/bin/gtfo/:/home/kermit/.fzf/bin/:/usr/share/Wordpresscan/:/root/.local/pipx/shared/bin:/root/go/bin/:/home/kermit/go/bin:/usr/bin/pwsh/:/home/kermit/kitty.app/bin/:PATH
@@ -79,10 +79,9 @@ function recon()
   scripts2=${scripts%?}
   echo "$scripts2" | xp > /dev/null 2>&1
   rm /tmp/nmap.tmp
-
-
-
 }
+
+
 function getusers()
 {
 # Lee la primera línea del archivo y extrae la cadena antes del primer ":"
@@ -135,7 +134,12 @@ function fibtrie(){
   cat $1 | grep "LOCAL" -B 1 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u
 }
 
-alias share='impacket-smbserver smbfolder $(pwd) -smb2support'
+alias dockerrmc='docker rm $(docker ps -a -q) --force'
+alias dockerrmi='docker rmi $(docker images -q)'
+
+alias fz='nvim $(fzf --preview="cat {}")'
+alias serve='python3 -m http.server $1'
+alias share='impacket-smbserver share $(pwd) -smb2support'
 alias clean='sed -e '\''s/\x1b\[[0-9;]*m//g'\'
 alias neofetch='neofetch --source /home/kermit/ascii | lolcat'
 alias urlencode='python3 -c "import sys, urllib.parse as ul; print (ul.quote_plus(sys.argv[1]))"'
@@ -155,6 +159,9 @@ alias xq='zoxide query'
 alias xe='zoxide edit'
 alias xa='zoxide add'
 
+
+
+alias a='run'
 alias v='nvim'
 # Alias's for multiple directory listing commands
 alias la='lsd -Aalh' # show hidden files
@@ -283,14 +290,14 @@ cpp()
 }
  
 #Automatically do an ls after each cd
-#cd ()
-#{
-#  if [ -n "$1" ]; then
-#  	builtin cd "$@" && lsd -lah
-# 	else
-# 		builtin cd ~ && ls
-# 	fi
-#}
+cd ()
+{
+  if [ -n "$1" ]; then
+  	builtin cd "$@" && lsd -lah
+ 	else
+ 		builtin cd ~ && ls
+ 	fi
+}
  
 # IP address lookup
 alias whatismyip="whatsmyip"
