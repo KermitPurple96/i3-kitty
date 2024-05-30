@@ -48,7 +48,7 @@ echo "\t   __                    __                   __
 \t       /_____/ \n" | lolcat;echo                                              
  
 # Export PATH$
-export PATH=./:/home/kermit/.local/bin:/usr/bin/:/usr/share/responder:/usr/share/ghidra:/usr/share/hydra:/usr/share/libreoffice:/snap/bin:/usr/sandbox:/usr/local/bin:/usr/local/go/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/bin:/usr/local/games:/usr/games:/home/kermit/.fzf/bin:/opt/exploitdb:/root/.local/bin:/home/kermit/scripts/bash:/home/kermit/scripts/python:/usr/share/metasploit-framework/tools/exploit:/usr/bin/arsenal:/usr/bin/gtfo/:/home/kermit/.fzf/bin/:/usr/share/Wordpresscan/:/root/.local/pipx/shared/bin:/root/go/bin/:/home/kermit/go/bin:/usr/bin/pwsh/:/home/kermit/kitty.app/bin/:PATH
+export PATH=./:/home/kermit/.local/bin:/usr/bin/:/usr/share/responder:/usr/share/ghidra:/usr/share/hydra:/usr/share/libreoffice:/snap/bin:/usr/sandbox:/usr/local/bin:/usr/local/go/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/bin:/usr/local/games:/usr/games:/home/kermit/.fzf/bin:/opt/exploitdb:/root/.local/bin:/home/kermit/scripts/bash:/home/kermit/scripts/python:/usr/share/metasploit-framework/tools/exploit:/usr/bin/arsenal:/usr/bin/gtfo/:/home/kermit/.fzf/bin/:/usr/share/Wordpresscan/:/root/.local/pipx/shared/bin:/root/go/bin/:/home/kermit/go/bin:/usr/bin/pwsh/:/home/kermit/kitty.app/bin/:/home/kermit/dev/python:PATH
  
 # Add as ~/.zshrc
 export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
@@ -80,6 +80,46 @@ function recon()
   echo "$scripts2" | xp > /dev/null 2>&1
   rm /tmp/nmap.tmp
 }
+
+
+
+# Agrega esta función a tu .zshrc
+getips() {
+    # Verificar si se pasó un argumento
+    if [ $# -eq 0 ]; then
+        echo "Uso: getips <archivo_de_entrada>"
+        return 1
+    fi
+
+    # Archivo de entrada pasado como primer argumento
+    local input_file="$1"
+
+    # Verificar si el archivo de entrada existe
+    if [ ! -f "$input_file" ]; then
+        echo "El archivo '$input_file' no existe."
+        return 1
+    fi
+
+    # Extraer las direcciones IP
+    local ips
+    ips=$(grep -oP 'Nmap scan report for \K[\d.]+(?=\s|$)' "$input_file")
+
+    # Mostrar las direcciones IP en la pantalla, una por línea
+    echo "$ips"
+
+    # Convertir las direcciones IP a una sola línea separadas por espacio para el clipboard
+    local ips_one_line
+    ips_one_line=$(echo "$ips" | tr '\n' ' ')
+
+    # Copiar las direcciones IP al portapapeles
+    echo -n "$ips_one_line" | xclip -sel clip
+
+    # Informar al usuario
+    echo "IPs copiadas al portapapeles."
+}
+
+# Para que la función esté disponible, recarga tu .zshrc o abre una nueva terminal
+
 
 
 function getusers()
@@ -139,7 +179,7 @@ alias dockerrmi='docker rmi $(docker images -q)'
 
 alias fz='nvim $(fzf --preview="cat {}")'
 alias serve='python3 -m http.server $1'
-alias share='impacket-smbserver share $(pwd) -smb2support'
+alias share='impacket-smbserver $1 $(pwd) -smb2support'
 alias clean='sed -e '\''s/\x1b\[[0-9;]*m//g'\'
 alias neofetch='neofetch --source /home/kermit/ascii | lolcat'
 alias urlencode='python3 -c "import sys, urllib.parse as ul; print (ul.quote_plus(sys.argv[1]))"'
