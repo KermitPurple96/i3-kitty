@@ -134,6 +134,31 @@ function gethashes()
   hashes=$(cat $1 | awk -F ':' '{print $NF}' | sort -u | uniq)
   echo $hashes
 }
+
+
+IFACE=$(/usr/sbin/ifconfig | grep tun0 | awk '{print $1}' | tr -d ':')
+IFACE2=$(/usr/sbin/ifconfig | grep tap0 | awk '{print $1}' | tr -d ':')
+
+ 
+if [ "$IFACE" = "tun0" ]; then
+  miip=$(/usr/sbin/ifconfig | grep tun0 -A1 | grep inet | awk '{print $2}')
+  echo "\t [+] VPN tun0 interface detected"
+else
+  echo "\t [!] No VPN tun0 interface detected"
+fi
+if [ "$IFACE2" = "tap0" ]; then
+  miip=$(/usr/sbin/ifconfig | grep tap0 -A1 | grep inet | awk '{print $2}')
+  echo "\t [+] VPN tap0 interface detected\n"
+else
+  echo "\t [!] No VPN tap0 interface detected\n"
+fi
+#if [ "$IFACE" = "tun0" ]; then
+
+function mip()
+{
+  echo $miip
+}
+
 function ipt()
 {
   echo $ip
@@ -580,6 +605,7 @@ function mk(){
   touch /home/kermit/maquinas/$machine/notes.txt
   touch /home/kermit/maquinas/$machine/pass
   touch /home/kermit/maquinas/$machine/creds
+  touch /home/kermit/maquinas/$machine/words
   touch /home/kermit/maquinas/$machine/index.html
   chmod o+x /home/kermit/maquinas/$machine/index.html
   cd /home/kermit/maquinas/$machine 
