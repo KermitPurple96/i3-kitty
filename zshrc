@@ -202,6 +202,7 @@ function fibtrie(){
 alias dockerrmc='docker rm $(docker ps -a -q) --force'
 alias dockerrmi='docker rmi $(docker images -q)'
 
+alias sd="sudo su"
 alias fz='nvim $(fzf --preview="cat {}")'
 alias serve='python3 -m http.server $1'
 alias share='impacket-smbserver $1 $(pwd) -smb2support'
