@@ -133,7 +133,6 @@ sudo rm /usr/bin/red-tldr_0.4.3_linux_amd64.tar.gz
 # Arsenal
 git clone https://github.com/Orange-Cyberdefense/arsenal.git /usr/bin/arsenal
 python3 -m pip install -r /usr/bin/arsenal/requirements.txt
-mv /usr/bin/arsenal/run /usr/bin/arsenal/ars
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/arsenal/mycheats.md -O /usr/bin/arsenal/my_cheats/my_cheats.md
 
 #neovim
