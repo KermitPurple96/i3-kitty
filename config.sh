@@ -64,6 +64,10 @@ wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/i3/clipboard
 mkdir /home/$SUDO_USER/.config/compton
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/compton/compton.conf -O /home/$SUDO_USER/.config/compton/compton.conf
 
+# rofi
+mkdir /home/$SUDO_USER/.config/rofi
+wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/rofi/config.rasi -O /home/$SUDO_USER/.config/rofi/config.rasi
+
 #zsh
 ####Done in xct environment####
 sudo apt-get install zsh
