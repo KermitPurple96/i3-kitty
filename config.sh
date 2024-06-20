@@ -155,8 +155,8 @@ git clone https://github.com/mikesmithgh/kitty-scrollback.nvim /home/$SUDO_USER/
 cp /home/$SUDO_USER/.config/kitty/* /root/.config/kitty/
 
 # jump
-sudo wget https://github.com/gsamokovarov/jump/releases/download/v0.51.0/jump_linux_amd64_binary -O /usr/bin/jump
-sudo chmod +x /usr/bin/jump
+# sudo wget https://github.com/gsamokovarov/jump/releases/download/v0.51.0/jump_linux_amd64_binary -O /usr/bin/jump
+# sudo chmod +x /usr/bin/jump
 
 # zoxide
 curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
