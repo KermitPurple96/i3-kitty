@@ -222,8 +222,9 @@ git clone --depth 1 https://github.com/junegunn/fzf.git /home/$SUDO_USER/.fzf
 sudo mv /home/$SUDO_USER/.fzf/bin/fzf /usr/local/bin
 
 #powershell
-wget https://github.com/PowerShell/PowerShell/releases/download/v7.4.1/powershell_7.4.1-1.deb_amd64.deb
-dpkg -i powershell_7.4.1-1.deb_amd64.deb
+wget https://github.com/PowerShell/PowerShell/releases/download/v7.4.3/powershell-lts_7.4.3-1.deb_amd64.deb
+dpkg -i powershell-lts_7.4.3-1.deb_amd64.deb
+rm /home/$SUDO_USER/powershell*
 
 rm /home/$SUDO_USER/alacritty*
 rm /home/$SUDO_USER/lsd*
