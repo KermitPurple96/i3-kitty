@@ -14,6 +14,9 @@ sudo apt-get -y install seclists putty-tools powercat lolcat neofetch build-esse
 sudo apt-get update && sudo apt-get -y install golang-go 
 python3 -m pip install --user pwntools
 
+git clone https://github.com/wirzka/incursore.git
+sudo ln -s $(pwd)/incursore/incursore.sh /usr/local/bin/
+
 go install github.com/ffuf/ffuf/v2@latest
 go install github.com/OJ/gobuster/v3@latest
 
