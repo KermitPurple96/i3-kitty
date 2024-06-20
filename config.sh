@@ -198,8 +198,8 @@ echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *
 sudo apt update && sudo apt install gum
 
 #bashsimplecurses
-mkdir -p scripts/{bash,python}
-git clone https://github.com/metal3d/bashsimplecurses /home/kermit/scripts/bash/bashsimplecurses
+mkdir -p /home/$SUDO_USER/dev/bash/
+git clone https://github.com/metal3d/bashsimplecurses /home/kermit/dev/bash/bashsimplecurses
 
 #wpscan fix
 apt remove wpscan -y
