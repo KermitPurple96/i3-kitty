@@ -5,13 +5,20 @@ sudo apt-get upgrade
 # https://github.com/xct/kali-clean
 
 #packages
-sudo apt install curl dnsrecon enum4linux feroxbuster gobuster impacket-scripts nbtscan nikto nmap onesixtyone oscanner redis-tools smbclient smbmap snmp sslscan sipvicious tnscmd10g whatweb wkhtmltopdf
+sudo apt install curl dnsrecon enum4linux feroxbuster impacket-scripts nbtscan nikto nmap onesixtyone oscanner redis-tools smbclient smbmap snmp sslscan sipvicious tnscmd10g whatweb wkhtmltopdf
 sudo apt-get -y install seclists putty-tools powercat lolcat neofetch build-essential gcc feroxbuster pipx zsh keepass2 moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp enum4linux dirsearch docker.io scrub jq apache2 ncat ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit
 sudo apt-get update && sudo apt-get -y install golang-go 
 python3 -m pip install --user pwntools
 
 go install github.com/ffuf/ffuf/v2@latest
 go install github.com/OJ/gobuster/v3@latest
+
+mkdir /home/$SUDO_USER/tools
+wget https://raw.githubusercontent.com/KermitPurple96/scripts/main/Bash/tools.sh -O /home/$SUDO_USER/tools/tools.sh
+
+mkdir /home/$SUDO_USER/dev
+mkdir /home/$SUDO_USER/dev/python
+wget https://raw.githubusercontent.com/KermitPurple96/scripts/main/Python/shell.py -O /home/$SUDO_USER/dev/python/shell
 
 mkdir /home/$SUDO_USER/Descargas/firefox
 mkdir /home/$SUDO_USER/maquinas
