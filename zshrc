@@ -694,14 +694,19 @@ function ports(){
   export ip_address="$(cat $1 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u | head -n 1)"
   #echo -e "\n${red}[*]${endcolor} ${green}Extracting information...${endcolor}\n" > extractPorts.tmp
   #echo -e "\t${red}[*]${endcolor} ${green}IP Address:${endcolor} $ip_address"  >> extractPorts.tmp
-  echo $ports | tr -d '\n' | xclip -sel clip
+  echo "nmap -sCV -p $ports $(ipt) -n -oN $(ipn).nmap" | tr -d '\n' | xclip -sel clip
+  
   #/home/kermit/maquinas/Oouch/prueba.sh $ports $ip_address
   #source /home/kermit/scripts/bash/bashsimplecurses/simple_curses.sh
   #
   gum style --foreground "#FF0000" --border-foreground "#00FF00" --border "rounded" --align center --width 20 --margin "1 1 1 8" --padding "1 0" "IP: $ip_address"
   echo -e "\t${red}[*]${endcolor} Open ports: ${green}$ports${endcolor} \n"  >> extractPorts.tmp
   /usr/bin/cat extractPorts.tmp; /usr/bin/rm extractPorts.tmp
-  echo -ne "\t${red}[*]${endcolor} Ports copied to clipboard\n"; echo 
+  echo -ne "\t${red}[*]${endcolor} nmap -sCV -p $ports $(ipt) -n -oN $(ipn).nmap ${green}copied to de clipboard\n ${end}"; echo
+  echo -ne "\t${red}[*]${endcolor} nmap --script 'vuln and exploit and intrusive' -p $ports $(ipt) -n -Pn -oN vulns\n"; echo
+  echo -ne "\n"; echo
+
+
   #/usr/bin/cat extractPorts.tmp; /usr/bin/rm extractPorts.tmp
 }
 #Funcion para cerrar sesion
