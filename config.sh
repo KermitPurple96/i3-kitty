@@ -60,6 +60,10 @@ wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/i3/i3blocks.
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/i3/config -O /home/$SUDO_USER/.config/i3/config
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/i3/clipboard_fix.sh -O /home/$SUDO_USER/.config/i3/clipboard_fix.sh
 
+#compton
+mkdir /home/$SUDO_USER/.config/compton
+wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/compton/compton.conf -O /home/$SUDO_USER/.config/compton/compton.conf
+
 #zsh
 ####Done in xct environment####
 sudo apt-get install zsh
