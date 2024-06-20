@@ -3,6 +3,9 @@ sudo apt-get upgrade
 
 # INSTALL XCT ENVIRONMENT
 # https://github.com/xct/kali-clean
+git clone https://github.com/xct/kali-clean
+cd kali-clean
+./install.sh
 
 #packages
 sudo apt install curl dnsrecon enum4linux feroxbuster impacket-scripts nbtscan nikto nmap onesixtyone oscanner redis-tools smbclient smbmap snmp sslscan sipvicious tnscmd10g whatweb wkhtmltopdf
