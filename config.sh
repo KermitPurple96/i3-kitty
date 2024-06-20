@@ -140,8 +140,8 @@ wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/arsenal/mych
 wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -O /usr/bin/nvim
 chmod +x /usr/bin/nvim
 #nvchad
-git clone https://github.com/NvChad/NvChad /home/$SUDO_USER/.config/nvim --depth 1 && nvim
-sudo chown $SUDO_USER:$SUDO_USER -R /home/$SUDO_USER/.config/nvim
+git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
+sudo chown $SUDO_USER:$SUDO_USER -R /home/$SUDO_USER/.config/
 
 #subl
 wget https://download.sublimetext.com/sublime-text_build-3211_amd64.deb
