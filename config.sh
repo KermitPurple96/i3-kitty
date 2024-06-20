@@ -142,6 +142,7 @@ chmod +x /usr/bin/nvim
 #nvchad
 git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
 sudo chown $SUDO_USER:$SUDO_USER -R /home/$SUDO_USER/.config/
+sudo cp -r /home/$SUDO_USER/.config/nvim /root/.config/nvim
 
 #subl
 wget https://download.sublimetext.com/sublime-text_build-3211_amd64.deb
