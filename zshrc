@@ -765,7 +765,7 @@ echo -en "\e]2;Parrot Terminal\a"
 preexec () { print -Pn "\e]0;$1 - Parrot Terminal\a" }
  
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
- 
+eval "$(atuin init zsh)"
 # Created by `pipx` on 2022-10-23 17:28:32
 export PATH="$PATH:/root/.local/bin"
  # Put the line below in ~/.zshrc:
