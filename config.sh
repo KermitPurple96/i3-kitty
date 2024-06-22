@@ -28,6 +28,8 @@ wget https://raw.githubusercontent.com/KermitPurple96/scripts/main/Bash/tools.sh
 mkdir /home/$SUDO_USER/dev
 mkdir /home/$SUDO_USER/dev/python
 wget https://raw.githubusercontent.com/KermitPurple96/scripts/main/Python/shell.py -O /home/$SUDO_USER/dev/python/shell
+wget https://raw.githubusercontent.com/KermitPurple96/scripts/main/Python/md4.py -O /home/$SUDO_USER/dev/python/md4
+chmod +x /home/$SUDO_USER/dev/python/*
 
 mkdir /home/$SUDO_USER/Descargas/firefox
 mkdir /home/$SUDO_USER/maquinas
