@@ -41,7 +41,7 @@ wget https://github.com/lsd-rs/lsd/releases/download/0.23.1/lsd-musl_0.23.1_amd6
 sudo dpkg -i lsd-musl_0.23.1_amd64.deb
 
 #bat
-wget https://github.com/sharkdp/bat/releases/download/v0.23.0/bat_0.23.0_amd64.deb
+wget https://github.com/sharkdp/bat/releases/download/v0.24.0/bat_0.24.0_amd64.deb
 sudo dpkg -i bat_0.23.0_amd64.deb
 
 # wallpaper
