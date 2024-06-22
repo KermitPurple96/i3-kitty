@@ -58,6 +58,7 @@ wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/usr/share/i3
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/usr/share/i3blocks/access_point.sh -O /usr/share/i3blocks/access_point.sh
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/usr/share/i3blocks/session.sh -O /usr/share/i3blocks/session.sh
 sudo chmod +x /usr/share/i3blocks/*
+sudo chown $SUDO_USER:$SUDO_USER /usr/share/i3blocks/*
 
 rm -rf /home/$SUDO_USER/.config/i3/*
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/i3/i3blocks.conf -O /home/$SUDO_USER/.config/i3/i3blocks.conf
