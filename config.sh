@@ -35,6 +35,7 @@ mkdir /home/$SUDO_USER/Descargas/firefox
 mkdir /home/$SUDO_USER/maquinas
 mkdir /home/$SUDO_USER/.config/bin
 touch /home/$SUDO_USER/.config/bin/{name.txt,target.txt,ttl.txt,target_sys.txt}
+sudo chown kermit:kermit -R /home/$SUDO_USER/.config/bin
 
 #lsd
 wget https://github.com/lsd-rs/lsd/releases/download/0.23.1/lsd-musl_0.23.1_amd64.deb
