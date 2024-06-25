@@ -260,4 +260,15 @@ rm /home/$SUDO_USER/Roboto*
 rm /home/$SUDO_USER/readme.md
 rm /home/$SUDO_USER/LICENSE.md
 
+# for fish shell
+# chsh -s /usr/bin/fish
+# edit .config/kitty/kitty.conf 
+
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/ascii -O /home/$SUDO_USER/ascii
+
+
+
+
+
+
+
