@@ -17,7 +17,10 @@ python3 -m pip install --user pwntools
 git clone https://github.com/wirzka/incursore.git
 sudo ln -s $(pwd)/incursore/incursore.sh /usr/local/bin/
 
+#zsh
 bash <(curl https://raw.githubusercontent.com/atuinsh/atuin/main/install.sh)
+# fish
+bash (curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh | psub)
 
 go install github.com/ffuf/ffuf/v2@latest
 go install github.com/OJ/gobuster/v3@latest
