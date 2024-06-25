@@ -61,32 +61,74 @@ function recon
 end
 
 # Agrega esta función a tu .config.fish
+
 function getips
+    # Verifica si se proporcionó un archivo como argumento
     if test (count $argv) -eq 0
-        echo "Uso: getips <archivo_de_entrada>"
+        echo "Uso: getips <archivo>"
         return 1
     end
-    set input_file $argv[1]
-    if not test -f $input_file
-        echo "El archivo '$input_file' no existe."
+
+    # Guarda el archivo proporcionado en una variable
+    set archivo $argv[1]
+
+    # Verifica si el archivo existe
+    if not test -f $archivo
+        echo "El archivo '$archivo' no existe."
         return 1
     end
-    set ips (grep -oP 'Nmap scan report for \K[\d.]+' $input_file)
-    echo "$ips"
-    set ips_one_line (string join ' ' $ips)
-    echo -n "$ips_one_line" | xclip -sel clip
-    echo "IPs copiadas al portapapeles."
+
+    # Extrae las direcciones IP usando grep con una expresión regular
+    grep -oE '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' $archivo | sort -u | uniq
 end
 
-function getusers
-    set users (cat $argv[1] | cut -d ':' -f 1 | sort -u | uniq)
-    echo $users
+
+
+function getips6
+    # Verifica si se proporcionó un archivo como argumento
+    if test (count $argv) -eq 0
+        echo "Uso: getips6 <archivo>"
+        return 1
+    end
+
+    # Guarda el archivo proporcionado en una variable
+    set archivo $argv[1]
+
+    # Verifica si el archivo existe
+    if not test -f $archivo
+        echo "El archivo '$archivo' no existe."
+        return 1
+    end
+
+    # Extrae las direcciones IPv6 usando grep con una expresión regular
+    grep -oE '(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))' $archivo | sort -u | uniq
 end
 
-function gethashes
-    set hashes (cat $argv[1] | awk -F ':' '{print $NF}' | sort -u | uniq)
-    echo $hashes
+
+
+function get
+    # Verifica si se proporcionaron los argumentos necesarios
+    if test (count $argv) -lt 3
+        echo "Uso: get <n campo> <FS> <archivo>"
+        return 1
+    end
+
+    # Guarda los argumentos en variables
+    set campo $argv[1]
+    set FS $argv[2]
+    set archivo $argv[3]
+
+    # Verifica si el archivo existe
+    if not test -f $archivo
+        echo "El archivo '$archivo' no existe."
+        return 1
+    end
+
+    # Usa awk para imprimir el campo especificado con el delimitador especificado
+    awk -v campo=$campo -v FS="$FS" '{print $campo}' $archivo
 end
+
+
 
 set -gx IFACE (/usr/sbin/ifconfig | grep tun0 | awk '{print $1}' | tr -d ':')
 set -gx IFACE2 (/usr/sbin/ifconfig | grep tap0 | awk '{print $1}' | tr -d ':')
@@ -332,7 +374,8 @@ end
 function ports
   set ports (cat $argv[1] | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs | tr ' ' ',')
   set ncports (cat $argv[1] | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs)
-  set ip_address (cat $argv[1] | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u | head -n 1)
+  #set ip_address (cat $argv[1] | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u | head -n 1)
+  set ip_address (cat $argv[1] | grep -oP '^Host: .* \(\)' | head -n 1 | awk '{print $2}')
   set red (set_color red)
   set green (set_color green)
   set endcolor (set_color normal)
