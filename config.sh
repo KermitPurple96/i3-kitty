@@ -235,6 +235,14 @@ git clone --depth 1 https://github.com/junegunn/fzf.git /home/$SUDO_USER/.fzf
 /home/$SUDO_USER/.fzf/install
 sudo mv /home/$SUDO_USER/.fzf/bin/fzf /usr/local/bin
 
+# peco
+wget https://github.com/peco/peco/releases/download/v0.5.11/peco_linux_amd64.tar.gz
+cd v0.5.11
+gunzip peco_linux_amd64.tar.gz
+tar -xfv peco_linux_amd64.tar
+chmod +x peco
+cp peco /bin/peco
+
 #powershell
 wget https://github.com/PowerShell/PowerShell/releases/download/v7.4.3/powershell-lts_7.4.3-1.deb_amd64.deb
 dpkg -i powershell-lts_7.4.3-1.deb_amd64.deb
