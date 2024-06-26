@@ -104,6 +104,48 @@ function getips6
     grep -oE '(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))' $archivo | sort -u | uniq
 end
 
+function rmk
+  scrub -p dod $argv[1]
+  shred -zun 10 -v $argv[1]
+end
+
+
+
+function extract
+  for archive in $argv
+    if test -f $archive
+      switch $archive
+        case "*.tar.bz2"
+          tar xvjf $archive
+        case "*.tar.gz"
+          tar xvzf $archive
+        case "*.bz2"
+          bunzip2 $archive
+        case "*.rar"
+          rar x $archive
+        case "*.gz"
+          gunzip $archive
+        case "*.tar"
+          tar xvf $archive
+        case "*.tbz2"
+          tar xvjf $archive
+        case "*.tgz"
+          tar xvzf $archive
+        case "*.zip"
+          unzip $archive
+        case "*.Z"
+          uncompress $archive
+        case "*.7z"
+          7z x $archive
+        case "*"
+          echo "don't know how to extract '$archive'..."
+      end
+    else
+      echo "'$archive' is not a valid file!"
+    end
+  end
+end
+
 
 
 function get
@@ -345,6 +387,14 @@ function tg
     #precmd
 end
 
+function stop
+  # Limpiar el prompt y desactivar el contador de tiempo
+  set -e session_start_time
+  rm /home/kermit/.config/bin/session.txt
+  echo "Session stopped. Time counter deactivated."
+end
+
+
 function mk
   tput civis
   gum input --prompt="> " --placeholder "nombre de la maquina" > machine.txt
@@ -399,6 +449,48 @@ function ports
 end
 
 
+function ftext
+  # -i case-insensitive
+  # -I ignore binary files
+  # -H causes filename to be printed
+  # -r recursive search
+  # -n causes line number to be printed
+  # optional: -F treat search term as a literal, not a regular expression
+  # optional: -l only print filenames and not the matching lines ex. grep -irl "$1" *
+  grep -iIHrn --color=always "$argv[1]" . | less -r
+end
+
+function cpp
+  set -e
+  strace -q -ewrite cp -- "$argv[1]" "$argv[2]" 2>&1 | awk '
+  {
+    count += $NF
+    if (count % 10 == 0) {
+      percent = count / total_size * 100
+      printf "%3d%% [", percent
+      for (i=0; i<=percent; i++)
+        printf "="
+      printf ">"
+      for (i=percent; i<100; i++)
+        printf " "
+      printf "]\r"
+    }
+  }
+  END { print "" }' total_size=(stat -c '%s' "$argv[1]") count=0
+end
+
+function cd
+  if test -n "$argv[1]"
+    builtin cd $argv
+    and lsd -a
+  else
+    builtin cd ~
+    and ls
+  end
+end
+
+
+
 # Save type history for completion and easier life
 set -U fish_history_file ~/.local/share/fish/fish_history
 set -U fish_history_max_count 10000
@@ -411,6 +503,9 @@ set -U fish_history_ignore_dups true
 
 # Share history across fish sessions
 set -U fish_share_history true
+
+
+
 
 
 if status is-interactive
