@@ -45,5 +45,5 @@ and execute all these commands https://github.com/KermitPurple96/i3-kitty/blob/m
 - ftext -> finds string in the current directory recusively
 - cpp -> copy with progress bar
 
-
+& more!!
 
