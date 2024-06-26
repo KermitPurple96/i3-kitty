@@ -269,7 +269,7 @@ sudo ln -s -f /home/$SUDO_USER/.config/fish/config.fish /root/.config/fish/confi
 
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/ascii -O /home/$SUDO_USER/ascii
 
-
+updatedb
 
 
 
