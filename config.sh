@@ -201,6 +201,9 @@ sudo apt install pipx git
 pipx ensurepath
 pipx install git+https://github.com/Pennyw0rth/NetExec
 
+#ftp
+pip install pyftpdlib
+
 #kerbrute
 pip3 install kerbrute
 git clone https://github.com/attackdebris/kerberos_enum_userlists /usr/share/kerberos_enum_userlists
