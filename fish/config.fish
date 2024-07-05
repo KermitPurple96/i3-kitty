@@ -189,6 +189,12 @@ else
     echo -e "\t No VPN tap0 interface detected\n"
 end
 
+set -gx miipk (/usr/sbin/ifconfig | grep eth0 -A1 | grep inet | awk '{print $2}')
+
+function mipk
+    echo $miipk
+end 
+
 function mip
     echo $miip
 end
@@ -231,12 +237,18 @@ function fibtrie
 end
 
 function share
-    impacket-smbserver $argv[1] (pwd) -smb2support
+    echo -ne "\n\t[+] Sharing at:"
+    echo -ne "\n\n\t"
+    echo "\\\\$(mip)\\$argv[1]"
+    echo -ne "\t"
+    echo "\\\\$(mipk)\\$argv[1]"
+    echo -ne "\n"
+    impacket-smbserver $argv[1] $(pwd) -smb2support
 end
 
-function miex
-    echo $argv | cut -d ' ' -f1,2
-end
+function serve
+    python3 -m http.server $argv[1]
+end  
 
 function gapi
     echo $PDCP_API_KEY
@@ -248,10 +260,10 @@ end
 # Alias
 alias dockerrmc='docker rm (docker ps -a -q) --force'
 alias dockerrmi='docker rmi (docker images -q)'
-
+#alias share='impacket-smbserver share (pwd) -smb2support'
 alias sd="sudo su"
 alias fz='nvim (fzf --preview="cat {}")'
-alias serve='python3 -m http.server $argv'
+#alias serve='python3 -m http.server $argv[1]'
 alias clean='sed -e "s/\x1b\[[0-9;]*m//g"'
 
 function neofetch
