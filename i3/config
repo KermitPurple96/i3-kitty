@@ -2,13 +2,13 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:RobotoMono Nerd Font Regular 9
+font pango:Hack Nerd Font 9
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec /home/kermit/kitty.app/bin/kitty -c /home/kermit/.config/kitty/kitty.conf
+bindsym $mod+Return exec /home/kermit/kitty.app/bin/kitty -c /home/kermit/.config/kitty/kitty.conf & disown
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -138,7 +138,7 @@ bar {
         i3bar_command i3bar -t
         position top
         height 26
-        font pango:RobotoMono Nerd Font Regular 7.5
+        font pango:Hack Nerd Font 7.5
         colors {
             statusline #EEEEEE
             background #1C1D2B88
@@ -151,8 +151,8 @@ bar {
 
 # i3-gaps
 for_window [class="^.*"] border pixel 1
-gaps inner 6
-gaps outer 0
+gaps inner 4
+gaps outer 2
 
 #2181C8
 client.focused  #43a047 #43a047 #dddddd
@@ -164,13 +164,15 @@ default_border normal
 # feh - Wallpaper Setter
 exec_always --no-startup-id sh ~/.fehbg
 
+exec --no-startup-id vmware-user-suid-wrapper
+
 # compton - Compositing Manager for Shadows and Opacity
 exec_always --no-startup-id compton -b --config ~/.config/compton/compton.conf
 
 # VM Clipboard Fix
 exec_always --no-startup-id ~/.config/i3/clipboard_fix.sh
 
-#vmware tools
+# VM ware tools
 exec --no-startup-id vmware-user-suid-wrapper
 
 # Resize Bindings
@@ -187,18 +189,3 @@ bindsym $mod+Ctrl+Shift+Right resize grow width 10 px or 10 ppt
 # screenshot
 bindsym $mod+P exec flameshot gui
 #bindsym $mod+Shift+L exec ars
-
-# vmware tools
-sudo apt-get remove open-vm-tools
-sudo apt-get remove --auto-remove open-vm-tools
-sudo apt-get purge open-vm-tools
-sudo apt-get purge --auto-remove open-vm-tools
-sudo reboot
-
-sudo apt-get install open-vm-tools
-sudo apt-get install open-vm-tools-desktop
-
-mkdir /home/kermit/.config/compton
-cp /root/.config/compton/compton.conf /home/kermit/.config/compton
-chown -R kermit:kermit /home/kermit/.config
-
