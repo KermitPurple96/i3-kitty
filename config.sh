@@ -278,7 +278,10 @@ rm /home/$SUDO_USER/LICENSE.md
 # edit .config/kitty/kitty.conf 
 
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/fish/config.fish -O /home/$SUDO_USER/.config/fish/config.fish
+wget https://github.com/KermitPurple96/i3-kitty/blob/main/fish/functions/fish_prompt.fish -O /home/$SUDO_USER/.config/fish/functions/fish_prompt.fish
+
 sudo ln -s -f /home/$SUDO_USER/.config/fish/config.fish /root/.config/fish/config.fish
+sudo ln -s -f /home/$SUDO_USER/.config/fish/functions/fish_prompt.fish /root/.config/fish/functions/fish_prompt.fish
 
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/ascii -O /home/$SUDO_USER/ascii
 
