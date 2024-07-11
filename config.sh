@@ -156,8 +156,14 @@ wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/arsenal/mych
 wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -O /usr/bin/nvim
 chmod +x /usr/bin/nvim
 
-#lazy vim
-https://www.lazyvim.org/installation
+#lazy vim as ROOT and $SUDO_USER
+mv ~/.config/nvim{,.bak}
+mv ~/.local/share/nvim{,.bak}
+mv ~/.local/state/nvim{,.bak}
+mv ~/.cache/nvim{,.bak}
+git clone https://github.com/LazyVim/starter ~/.config/nvim
+rm -rf ~/.config/nvim/.git
+nvim
 
 #nvchad
 #git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
