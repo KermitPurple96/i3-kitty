@@ -18,7 +18,7 @@ fondoazul="\e[0;44m\033[1m"
 fondopurple="\e[0;46m\033[1m"
 fondogris="\e[0;47m\033[1m"
 
- 
+
 #if [[ $EUID -ne 0 ]]; then    
 #    PROMPT="%F{#00FFFF}$USER%f%F{#FBFF00}@%f%F{red}kali [%f%F{#00FF00}%d%f%F{red}]%(?..[%?])%f%F{#FFFF00}$ %f"
 #else
@@ -28,16 +28,47 @@ fondogris="\e[0;47m\033[1m"
 NEWLINE=$'\n'
 
 
-default(){
-    if [[ $EUID -ne 0 ]]; then
-      PS1="%F{red}┌─[%F{#00FF00}$USER%f%F{#FFFF00}@%f%F{cyan}kali%F{red}][%F{#FD00FF}%d%f%F{red}]%(?..[%?])%f%F{#FFFF00}${NEWLINE}%F{red}└╼%F{#FFFF00}$ %f"
-            
-    else
-      PS1="%F{red}┌─[%F{blue}$USER%f%F{#FFFF00}@%f%F{cyan}kali%F{red}][%F{#FD00FF}%d%f%F{red}]%(?..[%?])%f%F{#FFFF00}${NEWLINE}%F{red}└╼%F{#FFFF00}# %f"
-    fi
-  }
+#default(){
+#    if [[ $EUID -ne 0 ]]; then
+#      PS1="%F{red}┌─[%F{#00FF00}$USER%f%F{#FFFF00}@%f%F{cyan}kali%F{red}][%F{#FD00FF}%d%f%F{red}]%(?..[%?])%f%F{#FFFF00}${NEWLINE}%F{red}└╼%F{#FFFF00}$ %f"
+#            
+#    else
+#      PS1="%F{red}┌─[%F{blue}$USER%f%F{#FFFF00}@%f%F{cyan}kali%F{red}][%F{#FD00FF}%d%f%F{red}]%(?..[%?])%f%F{#FFFF00}${NEWLINE}%F{red}└╼%F{#FFFF00}# %f"
+#    fi
+#  }
 
-default
+#default
+
+
+function simple_prompt() {
+    # Set color for username based on whether the user is root or not
+    if [[ $(whoami) == "root" ]]; then
+        local user_color="%F{red}"
+    else
+        local user_color="%F{yellow}"
+    fi
+
+    # Set color for the @ symbol to white
+    local at_color="%F{white}"
+
+    # Set color for the hostname to green
+    local host_color="%F{green}"
+
+    # Set color for the current working directory to purple
+    local dir_color="%F{magenta}"
+
+    # Reset color to normal
+    local reset_color="%f"
+
+    # Build the prompt
+    PS1=" ${user_color}$(whoami)${reset_color}${at_color}@${reset_color}${host_color}kali ${reset_color}${dir_color}%~${reset_color} > "
+}
+
+simple_prompt
+
+
+
+
 
 
 echo "\t   __                    __                   __            
@@ -47,6 +78,10 @@ echo "\t   __                    __                   __
 \t\__/_/  _\__  /      /_/ /_/\__,_/_/  /_____/\___/_/   
 \t       /_____/ \n" | lolcat;echo                                              
  
+
+
+
+
 # Export PATH$
 export PATH=./:/home/kermit/.local/bin:/usr/bin/:/usr/share/responder:/usr/share/ghidra:/usr/share/hydra:/usr/share/libreoffice:/snap/bin:/usr/sandbox:/usr/local/bin:/usr/local/go/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/bin:/usr/local/games:/usr/games:/home/kermit/.fzf/bin:/opt/exploitdb:/root/.local/bin:/home/kermit/scripts/bash:/home/kermit/scripts/python:/usr/share/metasploit-framework/tools/exploit:/usr/bin/arsenal:/usr/bin/gtfo/:/home/kermit/.fzf/bin/:/usr/share/Wordpresscan/:/root/.local/pipx/shared/bin:/root/go/bin/:/home/kermit/go/bin:/usr/bin/pwsh/:/home/kermit/kitty.app/bin/:/home/kermit/dev/python:PATH
  
@@ -62,88 +97,128 @@ export PDCP_API_KEY=$(cat /home/kermit/CVEmap_key)
 source /home/kermit/dev/bash/bashsimplecurses/simple_curses.sh
 
 
+
+
 function kroot()
 {
   /usr/bin/kitty &> /dev/null & disown
 }
-function recon()
-{
-  locate .nse | grep "$1" | sed 's|/usr/share/nmap/scripts/||' >> /tmp/nmap.tmp
+
+
+# FIND NMAP SCRIPTS
+
+
+
+
+
+function recon() {
+
+  # Buscar los scripts .nse que coincidan con el término de búsqueda y guardarlos en un archivo temporal
+  locate .nse | grep "$1" | sed 's|/usr/share/nmap/scripts/||' > /tmp/nmap.tmp
   archivo="/tmp/nmap.tmp"
   lineas=$(wc -l < "$archivo")
+  
+  # Mostrar el número de scripts encontrados
   echo "\n\t${blue}[+]${endcolor} $lineas scripts found\n"
+  
+  # Leer cada línea del archivo temporal
   while IFS= read -r linea; do
-    echo "\t${green}[+] ${endcolor}$linea \n"
+    # Extraer y formatear las categorías del script
+    categorias=$(grep "categories" "/usr/share/nmap/scripts/$linea" | grep -oP '(?<=\{).+?(?=\})' | tr -d '"')
+    # Mostrar el nombre del script y sus categorías en una línea
+    echo "\t${green}[+] ${endcolor}$linea ${red}[${endcolor}$categorias${red}]${endcolor}\n"
   done < "$archivo"
+  
+  # Crear una lista de scripts separados por comas
   scripts=$(locate .nse | grep "$1" | sed 's|/usr/share/nmap/scripts/||' | tr '\n' ',' | xargs)
   scripts2=${scripts%?}
+  
+  # Ejecutar el comando xp con los scripts encontrados
   echo "$scripts2" | xp > /dev/null 2>&1
+  
+  # Eliminar el archivo temporal
   rm /tmp/nmap.tmp
 }
 
 
 
-# Agrega esta función a tu .zshrc
-getips() {
-    # Verificar si se pasó un argumento
+# GET IPv4 IPS FROM FILE
+
+
+
+function getips() {
+    # Verifica si se proporcionó un archivo como argumento
     if [ $# -eq 0 ]; then
-        echo "Uso: getips <archivo_de_entrada>"
+        echo "Uso: getips <archivo>"
         return 1
     fi
 
-    # Archivo de entrada pasado como primer argumento
-    local input_file="$1"
+    # Guarda el archivo proporcionado en una variable
+    local archivo=$1
 
-    # Verificar si el archivo de entrada existe
-    if [ ! -f "$input_file" ]; then
-        echo "El archivo '$input_file' no existe."
+    # Verifica si el archivo existe
+    if [ ! -f "$archivo" ]; then
+        echo "El archivo '$archivo' no existe."
         return 1
     fi
 
-    # Extraer las direcciones IP
-    local ips
-    ips=$(grep -oP 'Nmap scan report for \K[\d.]+(?=\s|$)' "$input_file")
-
-    # Mostrar las direcciones IP en la pantalla, una por línea
-    echo "$ips"
-
-    # Convertir las direcciones IP a una sola línea separadas por espacio para el clipboard
-    local ips_one_line
-    ips_one_line=$(echo "$ips" | tr '\n' ' ')
-
-    # Copiar las direcciones IP al portapapeles
-    echo -n "$ips_one_line" | xclip -sel clip
-
-    # Informar al usuario
-    echo "IPs copiadas al portapapeles."
+    # Extrae las direcciones IP usando grep con una expresión regular
+    grep -oE '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' "$archivo" | sort -u | uniq
 }
 
-# Para que la función esté disponible, recarga tu .zshrc o abre una nueva terminal
+
+
+# GET IPv6 IPS FROM FILE
 
 
 
-function getusers()
-{
-# Lee la primera línea del archivo y extrae la cadena antes del primer ":"
-  users=$(cat $1 | cut -d ':' -f 1 | sort -u | uniq)
-  echo $users
+function getips6() {
+    # Verifica si se proporcionó un archivo como argumento
+    if [ $# -eq 0 ]; then
+        echo "Uso: getips6 <archivo>"
+        return 1
+    fi
+
+    # Guarda el archivo proporcionado en una variable
+    local archivo=$1
+
+    # Verifica si el archivo existe
+    if [ ! -f "$archivo" ]; then
+        echo "El archivo '$archivo' no existe."
+        return 1
+    fi
+
+    # Extrae las direcciones IPv6 usando grep con una expresión regular
+    grep -oE '(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))' "$archivo" | sort -u | uniq
 }
-function gethashes()
-{
-# Lee la primera línea del archivo y extrae la cadena antes del primer ":"
-  hashes=$(cat $1 | awk -F ':' '{print $NF}' | sort -u | uniq)
-  echo $hashes
+
+
+# LOW LEVEL ERASE 
+
+
+function rmk() {
+    if [ $# -eq 0 ]; then
+        echo "Uso: rmk <archivo>"
+        return 1
+    fi
+
+    scrub -p dod "$1"
+    shred -zun 10 -v "$1"
 }
+
+
+#VPN INTERFACES
 
 
 IFACE=$(/usr/sbin/ifconfig | grep tun0 | awk '{print $1}' | tr -d ':')
 IFACE2=$(/usr/sbin/ifconfig | grep tap0 | awk '{print $1}' | tr -d ':')
 
+ 
 if [ "$IFACE" = "tun0" ]; then
   miip=$(/usr/sbin/ifconfig | grep tun0 -A1 | grep inet | awk '{print $2}')
-  echo -ne "\t${green} [+]${endcolor} VPN tun0 interface detected"
+  echo -ne "\t${green} [+]${endcolor} VPN tun0 interface detected\n"
 else
-  echo -ne "\t${red} [!]${endcolor} No VPN tun0 interface detected"
+  echo -ne "\t${red} [!]${endcolor} No VPN tun0 interface detected\n"
 fi
 if [ "$IFACE2" = "tap0" ]; then
   miip=$(/usr/sbin/ifconfig | grep tap0 -A1 | grep inet | awk '{print $2}')
@@ -151,6 +226,53 @@ if [ "$IFACE2" = "tap0" ]; then
 else
   echo -ne "\t ${red}[!]${endcolor} No VPN tap0 interface detected\n"
 fi
+echo -ne "\n\n"
+
+
+
+# QUICK AWK 
+
+
+
+function get() {
+    # Verifica si se proporcionaron los argumentos necesarios
+    if [ $# -lt 2 ]; then
+        echo "Uso: get <n campo> <archivo> [FS]"
+        return 1
+    fi
+
+    # Guarda los argumentos en variables
+    local campo=$1
+    local archivo=$2
+    local FS=","
+
+    # Si se proporciona el tercer argumento, úsalo como FS
+    if [ $# -ge 3 ]; then
+        FS=$3
+    fi
+
+    # Verifica si el archivo existe
+    if [ ! -f "$archivo" ]; then
+        echo "El archivo '$archivo' no existe."
+        return 1
+    fi
+
+    # Usa awk para imprimir el campo especificado con el delimitador especificado
+    awk -v campo=$campo -v FS="$FS" '{print $campo}' "$archivo"
+}
+
+
+# SHORT FUNCTIONS 
+
+
+
+# Asignar la dirección IP de eth0 a la variable miipk
+miipk=$(/usr/sbin/ifconfig | grep eth0 -A1 | grep inet | awk '{print $2}')
+
+# Definir la función mipk para imprimir la dirección IP obtenida
+function mipk {
+    echo $miipk
+}
 
 function mip()
 {
@@ -197,13 +319,35 @@ function fibtrie(){
   cat $1 | grep "LOCAL" -B 1 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u
 }
 
+function share(){
+  impacket-smbserver $1 $(pwd) -smb2support
+}
+
+function share {
+    echo -e "\n\t[+] Sharing at:"
+    echo -e "\n\n\t\\\\$(mip)\\$1"
+    echo -e "\t\\\\$(mipk)\\$1"
+    echo -e ""
+    impacket-smbserver $1 $(pwd) -smb2support
+}
+
+function serve {
+    python3 -m http.server $1
+}
+
+
+
+# ALIASES 
+
+
+
 alias dockerrmc='docker rm $(docker ps -a -q) --force'
 alias dockerrmi='docker rmi $(docker images -q)'
 
+alias md5="md5sum"
 alias sd="sudo su"
 alias fz='nvim $(fzf --preview="cat {}")'
 alias serve='python3 -m http.server $1'
-alias share='impacket-smbserver $1 $(pwd) -smb2support'
 alias clean='sed -e '\''s/\x1b\[[0-9;]*m//g'\'
 alias neofetch='neofetch --source /home/kermit/ascii | lolcat'
 alias urlencode='python3 -c "import sys, urllib.parse as ul; print (ul.quote_plus(sys.argv[1]))"'
@@ -222,8 +366,6 @@ alias xr='zoxide remove'
 alias xq='zoxide query'
 alias xe='zoxide edit'
 alias xa='zoxide add'
-
-
 
 alias a='run'
 alias v='nvim'
@@ -383,7 +525,7 @@ apachelog ()
 		cd /var/log/apache2 && ls -xAh && multitail --no-repeat -c -s 2 /var/log/apache2/*.log
 	fi
 }
- 
+
  
 source /home/kermit/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /home/kermit/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -763,7 +905,7 @@ echo -en "\e]2;Parrot Terminal\a"
 preexec () { print -Pn "\e]0;$1 - Parrot Terminal\a" }
  
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-eval "$(atuin init zsh)"
+ 
 # Created by `pipx` on 2022-10-23 17:28:32
 export PATH="$PATH:/root/.local/bin"
  # Put the line below in ~/.zshrc:
@@ -790,3 +932,89 @@ export PATH="$PATH:/root/.local/bin"
 
 #compctl -U -K jump_completion j
 #export PATH="${PATH}:/root/.cargo/bin"
+
+. "$HOME/.atuin/bin/env"
+
+eval "$(atuin init zsh)"
+eval "$(atuin init zsh)"
+#compdef nxc
+# Run something, muting output or redirecting it to the debug stream
+# depending on the value of _ARC_DEBUG.
+# If ARGCOMPLETE_USE_TEMPFILES is set, use tempfiles for IPC.
+__python_argcomplete_run() {
+    if [[ -z "${ARGCOMPLETE_USE_TEMPFILES-}" ]]; then
+        __python_argcomplete_run_inner "$@"
+        return
+    fi
+    local tmpfile="$(mktemp)"
+    _ARGCOMPLETE_STDOUT_FILENAME="$tmpfile" __python_argcomplete_run_inner "$@"
+    local code=$?
+    cat "$tmpfile"
+    rm "$tmpfile"
+    return $code
+}
+
+__python_argcomplete_run_inner() {
+    if [[ -z "${_ARC_DEBUG-}" ]]; then
+        "$@" 8>&1 9>&2 1>/dev/null 2>&1 </dev/null
+    else
+        "$@" 8>&1 9>&2 1>&9 2>&1 </dev/null
+    fi
+}
+
+_python_argcomplete() {
+    local IFS=$'\013'
+    local script=""
+    if [[ -n "${ZSH_VERSION-}" ]]; then
+        local completions
+        completions=($(IFS="$IFS" \
+            COMP_LINE="$BUFFER" \
+            COMP_POINT="$CURSOR" \
+            _ARGCOMPLETE=1 \
+            _ARGCOMPLETE_SHELL="zsh" \
+            _ARGCOMPLETE_SUPPRESS_SPACE=1 \
+            __python_argcomplete_run ${script:-${words[1]}}))
+        local nosort=()
+        local nospace=()
+        if is-at-least 5.8; then
+            nosort=(-o nosort)
+        fi
+        if [[ "${completions-}" =~ ([^\\]): && "${match[1]}" =~ [=/:] ]]; then
+            nospace=(-S '')
+        fi
+        _describe "${words[1]}" completions "${nosort[@]}" "${nospace[@]}"
+    else
+        local SUPPRESS_SPACE=0
+        if compopt +o nospace 2> /dev/null; then
+            SUPPRESS_SPACE=1
+        fi
+        COMPREPLY=($(IFS="$IFS" \
+            COMP_LINE="$COMP_LINE" \
+            COMP_POINT="$COMP_POINT" \
+            COMP_TYPE="$COMP_TYPE" \
+            _ARGCOMPLETE_COMP_WORDBREAKS="$COMP_WORDBREAKS" \
+            _ARGCOMPLETE=1 \
+            _ARGCOMPLETE_SHELL="bash" \
+            _ARGCOMPLETE_SUPPRESS_SPACE=$SUPPRESS_SPACE \
+            __python_argcomplete_run ${script:-$1}))
+        if [[ $? != 0 ]]; then
+            unset COMPREPLY
+        elif [[ $SUPPRESS_SPACE == 1 ]] && [[ "${COMPREPLY-}" =~ [=/:]$ ]]; then
+            compopt -o nospace
+        fi
+    fi
+}
+if [[ -z "${ZSH_VERSION-}" ]]; then
+    complete -o nospace -o default -o bashdefault -F _python_argcomplete nxc
+else
+    # When called by the Zsh completion system, this will end with
+    # "loadautofunc" when initially autoloaded and "shfunc" later on, otherwise,
+    # the script was "eval"-ed so use "compdef" to register it with the
+    # completion system
+    autoload is-at-least
+    if [[ $zsh_eval_context == *func ]]; then
+        _python_argcomplete "$@"
+    else
+        compdef _python_argcomplete nxc
+    fi
+fi
