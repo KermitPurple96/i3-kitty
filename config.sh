@@ -195,21 +195,20 @@ cp /home/$SUDO_USER/.config/kitty/* /root/.config/kitty/
 # zoxide
 curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
 
-#crackmapexec
+#impacket pipx
 python3 -m pip install pipx
-pipx ensurepath
-pipx install crackmapexec
-
-#impacket & cme
 python3 -m pip install --user pipx 
 python3 -m pipx ensurepath
 python3 -m pipx install impacket
-python3 -m pipx install cme
 
 #nxc
 sudo apt install pipx git
 pipx ensurepath
 pipx install git+https://github.com/Pennyw0rth/NetExec
+
+#nxc autocompletion
+sudo apt install python3-argcomplete
+register-python-argcomplete nxc >> ~/.zshrc
 
 #ftp
 pip install pyftpdlib
