@@ -119,7 +119,7 @@ function recon() {
   lineas=$(wc -l < "$archivo")
   
   # Mostrar el número de scripts encontrados
-  echo "\n\t${blue}[+]${endcolor} $lineas scripts found\n"
+  echo "\n\t${blue}[+]${endcolor} $lineas scripts found and copied to the clipboard\n"
   
   # Leer cada línea del archivo temporal
   while IFS= read -r linea; do
