@@ -13,7 +13,7 @@ and execute all these commands https://github.com/KermitPurple96/i3-kitty/blob/m
 - gobuster ffuf dirsearch 
 - lsd bat
 - evil-winrm neo4j bloodhound empire nxc impacket kerbrute wpscan
-- re-tldr arsenal
+- red-tldr arsenal
 - & many more tools in addition to some personal ones
 
 ## config
