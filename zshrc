@@ -27,7 +27,6 @@ fondogris="\e[0;47m\033[1m"
 
 NEWLINE=$'\n'
 
-
 #default(){
 #    if [[ $EUID -ne 0 ]]; then
 #      PS1="%F{red}┌─[%F{#00FF00}$USER%f%F{#FFFF00}@%f%F{cyan}kali%F{red}][%F{#FD00FF}%d%f%F{red}]%(?..[%?])%f%F{#FFFF00}${NEWLINE}%F{red}└╼%F{#FFFF00}$ %f"
@@ -68,9 +67,6 @@ simple_prompt
 
 
 
-
-
-
 echo "\t   __                    __                   __            
 \t _/ /________  __       / /__________________/ /_________
 \t/  __/ ___/ / / /      / __  / __  / ___/ __  / _  / ___/
@@ -78,8 +74,6 @@ echo "\t   __                    __                   __
 \t\__/_/  _\__  /      /_/ /_/\__,_/_/  /_____/\___/_/   
 \t       /_____/ \n" | lolcat;echo                                              
  
-
-
 
 
 # Export PATH$
@@ -97,8 +91,6 @@ export PDCP_API_KEY=$(cat /home/kermit/CVEmap_key)
 source /home/kermit/dev/bash/bashsimplecurses/simple_curses.sh
 
 
-
-
 function kroot()
 {
   /usr/bin/kitty &> /dev/null & disown
@@ -106,9 +98,6 @@ function kroot()
 
 
 # FIND NMAP SCRIPTS
-
-
-
 
 
 function recon() {
@@ -263,8 +252,6 @@ function get() {
 
 
 # SHORT FUNCTIONS 
-
-
 
 # Asignar la dirección IP de eth0 a la variable miipk
 miipk=$(/usr/sbin/ifconfig | grep eth0 -A1 | grep inet | awk '{print $2}')
@@ -462,6 +449,9 @@ extract () {
  
  
 # Searches for text in all files in the current folder
+
+
+
 ftext ()
 {
 	# -i case-insensitive
@@ -473,8 +463,11 @@ ftext ()
 	optional: -l only print filenames and not the matching lines ex. grep -irl "$1" *
 	grep -iIHrn --color=always "$1" . | less -r
 }
+
  
 # Copy file with a progress bar
+
+
 cpp()
 {
 	set -e
@@ -495,7 +488,10 @@ cpp()
 	END { print "" }' total_size=$(stat -c '%s' "${1}") count=0
 }
  
+
 #Automatically do an ls after each cd
+
+
 cd ()
 {
   if [ -n "$1" ]; then
@@ -505,18 +501,20 @@ cd ()
  	fi
 }
  
+
 # IP address lookup
 alias whatismyip="whatsmyip"
+
 function whatsmyip ()
 {
-	# Dumps a list of all IP addresses for every device
-	# /sbin/ifconfig |grep -B1 "inet addr" |awk '{ if ( $1 == "inet" ) { print $2 } else if ( $2 == "Link" ) { printf "%s:" ,$1 } }' |awk -F: '{ print $1 ": " $3 }';
- 
   echo -ne "\n\t${blue}[+]${endcolor} ${green}External IP: ${endcolor}$(curl -s ifconfig.co)\n"; echo
 }
  
  
 # View Apache logs
+
+
+
 apachelog ()
 {
 	if [ -f /etc/httpd/conf/httpd.conf ]; then
@@ -530,34 +528,17 @@ apachelog ()
 source /home/kermit/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /home/kermit/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /home/kermit/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-#####################################################
-# Auto completion / suggestion
-# Mixing zsh-autocomplete and zsh-autosuggestions
-# Requires: zsh-autocomplete (custom packaging by Parrot Team)
-# Jobs: suggest files / foldername / histsory bellow the prompt
-# Requires: zsh-autosuggestions (packaging by Debian Team)
-# Jobs: Fish-like suggestion for command history
-#if [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-#  source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-#fi
+
+zstyle ':autocomplete:tab:*' insert-unambiguous yes
+zstyle ':autocomplete:tab:*' widget-style menu-select
+zstyle ':autocomplete:*' min-input 2
+
+
+bindkey $key[Up] up-line-or-history
+bindkey $key[Down] down-line-or-history
  
-##################################################
-# Fish like syntax highlighting
-# Requires "zsh-syntax-highlighting" from apt
-#if [ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-#  source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-#fi
- 
-#if [ -f /usr/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh ]; then
-#  source /usr/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-  # Select all suggestion instead of top on result only
-  zstyle ':autocomplete:tab:*' insert-unambiguous yes
-  zstyle ':autocomplete:tab:*' widget-style menu-select
-  zstyle ':autocomplete:*' min-input 2
-  bindkey $key[Up] up-line-or-history
-  bindkey $key[Down] down-line-or-history
-#fi
- 
+
+# help 
  
  
 function funciones(){
@@ -576,11 +557,15 @@ function funciones(){
   echo -e "\n\t${blue}[+]${endcolor} ${green}extract${endcolor} Extrae un archivo comprimido\n" 
 }
 
+
+# start HTB VPN or any .OVPN in DOwnloads
+
+
 function vpn(){
   htbvpn 2>&1 &
   check
 }
-#funciones
+
 function htbvpn(){
   sudo /usr/sbin/openvpn /home/kermit/Descargas/*.ovpn > /dev/null 2>&1
 }
@@ -603,61 +588,18 @@ function check(){
 
 }
  
+
+# erase
+
+
 function rmk(){
   scrub -p dod $1
   shred -zun 10 -v $1
 }
 
-function helpPanel(){
-  echo -ne "\n\t${red}[!]${endcolor} Es necesario especificar ambos parametros"
-  echo -ne "\n\n\t\t${blue}[+]${endcolor} Parametro ${red}-i${endcolor} especifica la ip"
-  echo -ne "\n\t\t${blue}[+]${endcolor} Parametro ${red}-n${endcolor} especifica el nombre\n"
-  tput cnorm; echo
- 
-}
-
-function helpTarget(){
-  echo -ne "\n\t\t${blue}[+]${endcolor} Parametro ${red}-i${endcolor} especifica la ip\n"
-  echo -ne "\n\t\t${blue}[+]${endcolor} Parametro ${red}-n${endcolor} especifica el nombre\n"
-  echo -ne "\n\t\t${blue}[+]${endcolor} Parametro ${red}-s${endcolor} especifica el sistema windows/linux\n"
-  tput cnorm; echo
- 
-}
-
-function helpMKT(){
-  echo -ne "\n\t\t${blue}[+]${endcolor} Parametro ${red}-n${endcolor} especifica el nombre\n"
-  echo -ne "\n\t\t${blue}[+]${endcolor} Parametro ${red}-p${endcolor} pin de la maquina\n"
-  tput cnorm; echo
- 
-}
-
-function target(){
 
 
-  tput civis
-  declare -i counter=0; while getopts "i:n:s:h:" arg; do
-    case $arg in
-      i) ip_address=$OPTARG; let counter+=1;;
-      n) nombre_maquina=$OPTARG; let counter+=1;;
-      s) sistema=$OPTARG; let counter+=1;;
-      h) helpTarget;;
-    esac
-  done
-
-  if [ $counter -ne 3 ]; then
-    helpTarget
-  else
-    echo -ne "$ip_address" > /home/kermit/.config/bin/target.txt
-    echo -ne "$nombre_maquina" > /home/kermit/.config/bin/target_sys.txt
-    echo -ne "$sistema" > /home/kermit/.config/bin/ttl.txt
-    export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
-    export name=$(/usr/bin/cat /home/kermit/.config/bin/target_sys.txt)
-    echo -ne "\n\t${blue}[+]${endcolor} Name: ${red}$nombre_maquina${endcolor}\n" 
-    echo -ne "\n\t${blue}[+]${endcolor} Ip: ${red}$ip_address${endcolor}\n"
-    echo -ne "\n\t${blue}[+]${endcolor} System: ${red}$sistema${endcolor}\n"
-    tput cnorm; echo
-  fi
-}
+# function set target
 
 
 tg() {
@@ -695,40 +637,14 @@ tg() {
 }
 
 
+# function stop timer
+
+
 stop() {
     # Limpiar el prompt y desactivar el contador de tiempo
     unset session_start_time
     rm /home/kermit/.config/bin/session.txt
     echo "Session stopped. Time counter deactivated."
-}
-
-
-function mkt(){
-  
-  tput civis
-  declare -i counter=0; while getopts "n:p:h:" arg; do
-    case $arg in
-      n) nombre_maquina=$OPTARG; let counter+=1;;
-      p) pin=$OPTARG; let counter+=1;;
-      h) helpMKT;;
-    esac
-  done
-
-  if [ $counter -ne 2 ]; then
-    helpMKT
-  else
-    echo -e "\n\t${blue}[+]${endcolor} Creando directorios de trabajo...\n"
-    mkdir /home/kermit/maquinas/$nombre_maquina
-    mkdir /home/kermit/maquinas/$nombre_maquina/exploits
-    mkdir /home/kermit/maquinas/$nombre_maquina/content
-    touch /home/kermit/maquinas/$nombre_maquina/cred.txt
-    touch /home/kermit/maquinas/$nombre_maquina/index.html
-    chmod o+x /home/kermit/maquinas/$nombre_maquina/index.html
-    cd /home/kermit/maquinas/$nombre_maquina
-    echo -e "\n\t${blue}[+]${endcolor} Pined ${blue}/home/kermit/maquinas/$nombre_maquina ${endcolor}as ${red}$pin${end}\n"
-    xa /home/kermit/maquinas/$machine
-    tput cnorm; echo
-  fi
 }
 
 
@@ -758,77 +674,9 @@ function mk(){
 
 
 
+# function ports analysis
 
 
-function scope(){
- 
-  tput civis
-  declare -i counter=0; while getopts "i:n:h:" arg; do
-    case $arg in
-      i) ip_address=$OPTARG; let counter+=1;;
-      n) nombre_maquina=$OPTARG; let counter+=1;;
-      h) helpPanel;;
-    esac
-  done
- 
-  if [ $counter -ne 2 ]; then
-    helpPanel
-  else
-    echo -ne "\n\n\t${yellow}[?]${endcolor} Confirmando conexion VPN..."
-    IFACE=$(/usr/sbin/ifconfig | grep tun0 | awk '{print $1}' | tr -d ':')
-    
-    if [ "$IFACE" = "tun0" ]; then
-      htb_ip=$(/usr/sbin/ifconfig | grep tun0 -A1 | grep inet | awk '{print $2}')
-      echo -ne "\n\n\t${blue}[+]${endcolor} Conexion con VPN establecida"
-      echo -ne "\n\n\t${blue}[+]${endcolor} Ip VPN: ${blue}$(/usr/sbin/ifconfig tun0 | grep "inet " | awk '{print $2}')${endcolor}"
-    else
-      echo "\n\n\t${red}[!]${endcolor} Error al crear index.html, ip de interfaz tun0 no disponible"
-    fi
-
-    ttl="$(ping -c 1 $ip_address | grep ttl | tr '=' ' ' | awk '{print $8}')"
-    if [ $? = "1" ]; then
-      echo -e "\n\t${red}[!]${endcolor} Host ${red}$nombre_maquina${endcolor} inactivo"
-      tput cnorm; exit 1
-    else
-      echo -e "\n\t${blue}[+]${endcolor} Host ${red}$nombre_maquina${endcolor} activo"
-    fi
- 
-    echo -e "$nombre_maquina" > /home/kermit/.config/bin/target_sys.txt
- 
-    if [[ $ttl -le 64 ]]; then
-      echo -e "\n\t${blue}[+]${endcolor} Sistema ${red}Linux  ${endcolor}"
-      echo -e "linux" > /home/kermit/.config/bin/ttl.txt
-    fi
-    if [[ $ttl -le 128 && $ttl -gt 64 ]]; then
-      echo -e "\n\t${blue}[+]${end} Sistema ${red}Windows  ${endcolor}"
-      echo -e "windows" > /home/kermit/.config/bin/ttl.txt
-    fi
-    echo -ne "\n\t${blue}[+]${endcolor} Ip target: ${red}$ip_address ${endcolor}"
- 
-    echo "$ip_address" > /home/kermit/.config/bin/target.txt
-    echo "$nombre_maquina" > /home/kermit/.config/bin/name.txt
- 
-    echo -ne "\n$ip_address\t$nombre_maquina.htb\n\n" >> /etc/hosts
-    echo -e "\n\n\t${blue}[+]${endcolor} Añadido ${red}$nombre_maquina${endcolor} -> ${red}$ip_address${endcolor} al /etc/hosts..."
- 
-    echo -e "\n\t${blue}[+]${endcolor} Creando directorios de trabajo...\n"
-    mkdir /home/kermit/maquinas/$nombre_maquina
-    mkdir /home/kermit/maquinas/$nombre_maquina/exploits
-    mkdir /home/kermit/maquinas/$nombre_maquina/recon
-    touch /home/kermit/maquinas/$nombre_maquina/cred.txt
-    touch /home/kermit/maquinas/$nombre_maquina/index.html
-    chmod o+x /home/kermit/maquinas/$nombre_maquina/index.html
-    cd /home/kermit/maquinas/$nombre_maquina
-    echo "\n"
-    export ip=$(/usr/bin/cat /home/kermit/.config/bin/target.txt)
-    export name=$(/usr/bin/cat /home/kermit/.config/bin/name.txt)
-    chown -R kermit:kermit /home/kermit/maquinas/
-    tput cnorm
-  fi
-}
-
-
-# funcion iiixgxgstrackckcttt porrrtttsss
 function ports(){
   export ports="$(cat $1 | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs | tr ' ' ',')"
   export ncports="$(cat $1 | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs)"
@@ -858,37 +706,20 @@ function ports(){
 
   #/usr/bin/cat extractPorts.tmp; /usr/bin/rm extractPorts.tmp
 }
-#Funcion para cerrar sesion
+
+
+#Function end session
+
+
 function finish(){
  
-tput civis
+  tput civis
  
-# Borrando /descargas/firefox
-rm -rf /home/kermit/Descargas/firefox/*
-echo -ne "\n\n\t${yellow}[$]${endcolor} Borrando descargas..."
-if [ -z "$(ls -A /home/kermit/Descargas/firefox/)" ]; then
-  echo "\n\n\t${blue}[+]${endcolor} Borradas correctamente"
-else
-  echo "\n\n\t${red}[!]${endcolor} Error al borrar /Descargas/firefox"
-fi
+  echo "" > /home/kermit/.config/bin/ttl.txt
+  echo "" > /home/kermit/.config/bin/target.txt
+  echo "" > /home/kermit/.config/bin/name.txt
  
-echo "# Host addresses" > /etc/hosts
-echo "#" >> /etc/hosts
-echo "127.0.0.1  localhost" >> /etc/hosts
-echo "127.0.1.1  parrot" >> /etc/hosts
-echo -ne "\n\n\n" >> /etc/hosts
-echo "::1        localhost ip6-localhost ip6-loopback" >> /etc/hosts
-echo "ff02::1    ip6-allnodes" >> /etc/hosts
-echo "ff02::2    ip6-allrouters" >> /etc/hosts
- 
-echo "\n\t${blue}[+]${endcolor} reconfigurado ${blue}/etc/hosts${endcolor}"
-echo "\n\t${blue}[+]${endcolor} target ${red}$ip ${endcolor}deleted\n"
- 
-echo "" > /home/kermit/.config/bin/ttl.txt
-echo "" > /home/kermit/.config/bin/target.txt
-echo "" > /home/kermit/.config/bin/name.txt
- 
-tput cnorm
+  tput cnorm
 }
  
 # Save type history for completion and easier life
@@ -905,38 +736,19 @@ echo -en "\e]2;Parrot Terminal\a"
 preexec () { print -Pn "\e]0;$1 - Parrot Terminal\a" }
  
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
- 
+source <(fzf --zsh)
+
+
 # Created by `pipx` on 2022-10-23 17:28:32
 export PATH="$PATH:/root/.local/bin"
- # Put the line below in ~/.zshrc:
-#
-#   eval "$(jump shell zsh)"
-#
-# The following lines are autogenerated:
-
-#__jump_chpwd() {
-#  jump chdir
-#}
-
-#jump_completion() {
-#  reply="'$(jump hint "$@")'"
-#}
-
-#j() {
-#  local dir="$(jump cd $@)"
-#  test -d "$dir" && cd "$dir"
-#}
-
-#typeset -gaU chpwd_functions
-#chpwd_functions+=__jump_chpwd
-
-#compctl -U -K jump_completion j
-#export PATH="${PATH}:/root/.cargo/bin"
 
 . "$HOME/.atuin/bin/env"
 
 eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
+
+
+#AUTOCOMPLETE NXC
+
 #compdef nxc
 # Run something, muting output or redirecting it to the debug stream
 # depending on the value of _ARC_DEBUG.
@@ -1018,3 +830,7 @@ else
         compdef _python_argcomplete nxc
     fi
 fi
+
+
+
+
