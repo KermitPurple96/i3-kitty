@@ -136,6 +136,14 @@ gem install evil-winrm
 #neo4j bloodhound
 apt install neo4j bloodhound
 
+# bloodhound docker
+curl -L https://ghst.ly/getbhce > docker-compose.yml
+docker-compose up
+# take the random password from the output
+# go to localhost:8080/ui/login
+# login as admin/<random password>
+# reset password
+
 #empire
 sudo apt-get install powershell-empire starkiller -y
 
