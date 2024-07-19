@@ -4,7 +4,10 @@ Just install kali
 instal xct env https://github.com/xct/kali-clean
 and execute all these commands https://github.com/KermitPurple96/i3-kitty/blob/main/config.sh
 
-![parrot](https://github.com/KermitPurple96/i3-kitty/assets/103221169/a7fab5ae-7d18-4004-aa20-aa4266d0d86e)
+
+![kali3](https://github.com/user-attachments/assets/daf99662-3a72-4c40-9de3-1053975d50ee)
+
+
 
 ## Tools
 - compton rofi kitty i3 & hack nerd fonts
