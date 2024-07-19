@@ -1,4 +1,4 @@
-# i3-alacrity-kitty
+# i3-compton-kitty
 
 Just install kali
 instal xct env https://github.com/xct/kali-clean
