@@ -256,13 +256,10 @@ function serve
     python3 -m http.server $argv[1]
 end
 
-function gapi
-    echo $PDCP_API_KEY
-end
 
 
 # ~/.config/fish/config.fish
-
+alias montar='sudo vmhgfs-fuse .host:/D /mnt/hgfs/ -o allow_other -o uid=1000'
 # Alias
 alias dockerrmc='docker rm (docker ps -a -q) --force'
 alias dockerrmi='docker rmi (docker images -q)'
@@ -538,7 +535,11 @@ set -U fish_share_history true
 
 
 
+
 if status is-interactive
     atuin init fish | source
     # Commands to run in interactive sessions can go here
 end
+
+# Created by `pipx` on 2024-07-13 13:34:55
+set PATH $PATH /root/.local/bin
