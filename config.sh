@@ -122,13 +122,9 @@ fc-cache -fv
 # ~/.config/rofi/config
 
 #rustscan
-wget wget https://github.com/RustScan/RustScan/archive/refs/tags/2.1.1.zip
-unzip /home/$SUDO_USER/2.1.1.zip
-cd /home/$SUDO_USER/RustScan-2.1.1
-cargo build --release
-rm /home/$SUDO_USER/2.1.1.zip
-mv /home/$SUDO_USER/RustScan-2.1.1/target/release/rustscan /usr/bin/rustscan
-cd /home/$SUDO_USER
+wget https://github.com/RustScan/RustScan/releases/download/2.3.0/rustscan-2.3.0-x86_64-linux.zip
+unzip /home/$SUDO_USER/rustscan-2.3.0-x86_64-linux.zip
+mv /home/$SUDO_USER/tmp/rustscan-2.3.0-x86_64-linux/rustscan /usr/bin/
 
 #evil-winrm
 gem install evil-winrm
