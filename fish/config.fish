@@ -269,6 +269,8 @@ alias montar='sudo vmhgfs-fuse .host:/D /mnt/hgfs/ -o allow_other -o uid=1000'
 # Alias
 alias dockerrmc='docker rm (docker ps -a -q) --force'
 alias dockerrmi='docker rmi (docker images -q)'
+alias dockerrmv='docker volume rm (docker volume ls -q)'
+
 #alias share='impacket-smbserver share (pwd) -smb2support'
 alias sd="sudo su"
 alias fz='nvim (fzf --preview="cat {}")'
