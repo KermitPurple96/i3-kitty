@@ -181,19 +181,25 @@ end
 set -gx IFACE (/usr/sbin/ifconfig | grep tun0 | awk '{print $1}' | tr -d ':')
 set -gx IFACE2 (/usr/sbin/ifconfig | grep tap0 | awk '{print $1}' | tr -d ':')
 
+
+
+
 if test "$IFACE" = tun0
     set -gx miip (/usr/sbin/ifconfig | grep tun0 -A1 | grep inet | awk '{print $2}')
-    echo -e "\t VPN tun0 interface detected\n"
+    echo -e (set_color green)"\t[+]"(set_color normal)" VPN tun0 interface detected \n"
 else
-    echo -e "\t No VPN tun0 interface detected\n"
+    echo -e (set_color red)"\t[-]"(set_color normal)" No VPN tun0 interface detected \n"
 end
 
 if test "$IFACE2" = tap0
     set -gx miip (/usr/sbin/ifconfig | grep tap0 -A1 | grep inet | awk '{print $2}')
-    echo -e "\t VPN tap0 interface detected\n"
+    echo -e (set_color green)"\t[+]"(set_color normal)" VPN tap0 interface detected \n"
 else
-    echo -e "\t No VPN tap0 interface detected\n"
+    echo -e (set_color red)"\t[-]"(set_color normal)" No VPN tap0 interface detected \n"
 end
+
+
+
 
 set -gx miipk (/usr/sbin/ifconfig | grep eth0 -A1 | grep inet | awk '{print $2}')
 
@@ -532,7 +538,7 @@ set -U fish_history_ignore_dups true
 set -U fish_share_history true
 
 
-
+set -U fish_greeting (set_color blue) "       glu glu 🐟"(set_color normal)
 
 
 
