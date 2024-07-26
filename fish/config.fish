@@ -420,25 +420,27 @@ end
 
 function mk
     tput civis
-    gum input --prompt="> " --placeholder "nombre de la maquina" >machine.txt
+    gum input --prompt="> " --placeholder "machine name" >machine.txt
+    gum input --prompt="> " --placeholder /path/to/create/files >path.txt
     set machine (cat ./machine.txt)
+    set workspace (cat ./path.txt)
     set blue (set_color blue)
     set endcolor (set_color normal)
     set green (set_color green)
-    echo -e "\n\t$blue [+]$endcolor Creando directorios de trabajo...\n"
-    mkdir /home/kermit/maquinas/$machine
-    mkdir /home/kermit/maquinas/$machine/exploits
-    mkdir /home/kermit/maquinas/$machine/content
-    touch /home/kermit/maquinas/$machine/users
-    touch /home/kermit/maquinas/$machine/notes.txt
-    touch /home/kermit/maquinas/$machine/pass
-    touch /home/kermit/maquinas/$machine/creds
-    touch /home/kermit/maquinas/$machine/words
-    touch /home/kermit/maquinas/$machine/index.html
-    chmod o+x /home/kermit/maquinas/$machine/index.html
-    cd /home/kermit/maquinas/$machine
-    echo -e "\n\t$blue [+]$endcolor Added $green/home/kermit/maquinas/$machine $endcolor to zoxide\n"
-    xa /home/kermit/maquinas/$machine
+    echo -e "\n\t$blue [+]$endcolor Creating workspace...\n"
+    mkdir $workspace/$machine
+    mkdir $workspace/$machine/exploits
+    mkdir $workspace/$machine/content
+    touch $workspace/$machine/users
+    touch $workspace/$machine/notes.txt
+    touch $workspace/$machine/pass
+    touch $workspace/$machine/creds
+    touch $workspace/$machine/words
+    touch $workspace/$machine/index.html
+    chmod o+x $workspace/$machine/index.html
+    cd $workspace/$machine
+    echo -e "\n\t$blue [+]$endcolor Added $green$workspace/$machine $endcolor to zoxide"
+    xa $workspace/
     tput cnorm
     echo
 end
@@ -517,10 +519,10 @@ end
 function cd
     if test -n "$argv[1]"
         builtin cd $argv
-        and lsd -a
+        and lsd -A
     else
         builtin cd ~
-        and ls
+        and ls -A
     end
 end
 
