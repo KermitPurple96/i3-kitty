@@ -30,7 +30,7 @@ wget https://raw.githubusercontent.com/KermitPurple96/scripts/main/Bash/tools.sh
 
 mkdir /home/$SUDO_USER/dev
 mkdir /home/$SUDO_USER/dev/python
-wget https://raw.githubusercontent.com/KermitPurple96/scripts/main/Python/shell.py -O /home/$SUDO_USER/dev/python/shell
+wget https://raw.githubusercontent.com/KermitPurple96/shellpy/main/main.py -O /home/$SUDO_USER/dev/python/shellpy
 wget https://raw.githubusercontent.com/KermitPurple96/scripts/main/Python/md4.py -O /home/$SUDO_USER/dev/python/md4
 chmod +x /home/$SUDO_USER/dev/python/*
 
@@ -232,7 +232,9 @@ sudo apt update && sudo apt install gum
 
 #bashsimplecurses
 mkdir -p /home/$SUDO_USER/dev/bash/
-git clone https://github.com/metal3d/bashsimplecurses /home/kermit/dev/bash/bashsimplecurses
+git clone https://github.com/metal3d/bashsimplecurses /home/$SUDO_USER/dev/bash/bashsimplecurses
+wget https://raw.githubusercontent.com/KermitPurple96/scripts/main/Bash/scope.sh -O /home/$SUDO_USER/dev/bash/scope.sh
+chmod +x /home/$SUDO_USER/dev/bash/scope.sh
 
 #wpscan fix
 apt remove wpscan -y
