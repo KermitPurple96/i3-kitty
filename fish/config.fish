@@ -30,7 +30,7 @@ echo
 
 
 # Export PATH
-set -g PATH $PATH /home/kermit/.local/bin /usr/bin /usr/share/responder /usr/share/ghidra /usr/share/hydra /usr/share/libreoffice /snap/bin /usr/sandbox /usr/local/bin /usr/local/go/bin /bin /usr/local/games /usr/games /usr/share/games /usr/local/sbin /usr/sbin /sbin /usr/local/bin /bin /usr/local/games /usr/games /home/kermit/.fzf/bin /opt/exploitdb /root/.local/bin /usr/share/metasploit-framework/tools/exploit /usr/bin/arsenal /usr/bin/gtfo /home/kermit/.fzf/bin /usr/share/Wordpresscan /root/.local/pipx/shared/bin /root/go/bin /home/kermit/go/bin /usr/bin/pwsh /home/kermit/kitty.app/bin /home/kermit/dev/python /home/kermit/dev/bash
+set -g PATH $PATH /home/kermit/.local/bin /usr/bin /usr/share/responder /usr/share/ghidra /usr/share/hydra /usr/share/libreoffice /snap/bin /usr/sandbox /usr/local/bin /usr/local/go/bin /bin /usr/local/games /usr/games /usr/share/games /usr/local/sbin /usr/sbin /sbin /usr/local/bin /bin /usr/local/games /usr/games /home/kermit/.fzf/bin /opt/exploitdb /root/.local/bin /home/kermit/scripts/bash /home/kermit/scripts/python /usr/share/metasploit-framework/tools/exploit /usr/bin/arsenal /usr/bin/gtfo /home/kermit/.fzf/bin /usr/share/Wordpresscan /root/.local/pipx/shared/bin /root/go/bin /home/kermit/go/bin /usr/bin/pwsh /home/kermit/kitty.app/bin /home/kermit/dev/python /home/kermit/dev/bash
 
 # Set other environment variables
 set -gx ip (cat /home/kermit/.config/bin/target.txt)
@@ -47,19 +47,25 @@ function kroot
     /usr/bin/kitty &>/dev/null & disown
 end
 
+
+
 function recon
     locate .nse | grep "$argv" | sed 's|/usr/share/nmap/scripts/||' >>/tmp/nmap.tmp
     set archivo /tmp/nmap.tmp
     set lineas (wc -l < $archivo)
-    echo -e "\n\t$blue[+]$endcolor $lineas scripts found\n"
+    echo -e (set_color blue)"\n\t[+] "(set_color normal)"$lineas scripts found\n"
     for linea in (cat $archivo)
-        echo -e "\t$green[+] $endcolor$linea \n"
+        echo -e (set_color green)"\t[+] "(set_color normal)"$linea \n"
     end
     set scripts (locate .nse | grep "$argv" | sed 's|/usr/share/nmap/scripts/||' | tr '\n' ',' | xargs)
     set scripts2 (string trim -c ',' $scripts)
     echo "$scripts2" | xp >/dev/null 2>&1
     rm $archivo
 end
+
+
+
+
 
 # Agrega esta función a tu .config.fish
 
@@ -399,15 +405,8 @@ function tg
     echo -e "\n\t$blue [+]$endcolor Ip: $red $ip_address$endcolor\n"
     echo -e "\n\t$blue [+]$endcolor System: $red $sistema$endcolor\n"
 
-    #echo "Session started. Time counter activated."
-    #echo "Saving commands logs in (cat /home/kermit/.config/bin/logs.txt)"
     tput cnorm
 
-    #gum input --prompt="> " --placeholder "file for logs" > /home/kermit/.config/bin/logs.txt
-    #set logs (cat /home/kermit/.config/bin/logs.txt)
-    #echo "Saving commands at $logs"
-    #script -a (cat /home/kermit/.config/bin/logs.txt) -q
-    #precmd
 end
 
 function stop
@@ -420,7 +419,7 @@ end
 
 function mk
     tput civis
-    gum input --prompt="> " --placeholder "machine name" >machine.txt
+    gum input --prompt="> " --placeholder "workspace name" >machine.txt
     gum input --prompt="> " --placeholder /path/to/create/files >path.txt
     set machine (cat ./machine.txt)
     set workspace (cat ./path.txt)
@@ -429,8 +428,10 @@ function mk
     set green (set_color green)
     echo -e "\n\t$blue [+]$endcolor Creating workspace...\n"
     mkdir $workspace/$machine
+    mkdir $workspace/$machine/tools
     mkdir $workspace/$machine/exploits
     mkdir $workspace/$machine/content
+    touch $workspace/$machine/scope
     touch $workspace/$machine/users
     touch $workspace/$machine/notes.txt
     touch $workspace/$machine/pass
@@ -455,13 +456,13 @@ function ports
     set green (set_color green)
     set endcolor (set_color normal)
 
-    echo "nmap -sCV -p $ports (ipt) -n -oN (ipn).nmap" | tr -d '\n' | xclip -sel clip
+    echo "nmap -sCV -p $ports $ip_address -n -oN SCV_$ip_address.txt" | tr -d '\n' | xclip -sel clip
 
     gum style --foreground "#FF0000" --border-foreground "#00FF00" --border rounded --align center --width 20 --margin "1 1 1 8" --padding "1 0" "IP: $ip_address"
     echo -e "\t$red [*]$endcolor Open ports: $green $ports$endcolor \n" >extractPorts.tmp
     /usr/bin/cat extractPorts.tmp
     /usr/bin/rm extractPorts.tmp
-    echo -ne "\t$red [*]$endcolor nmap -sCV -p $ports $ip_address -n -oN (ipn).nmap $green copied to de clipboard\n $endcolor"
+    echo -ne "\t$red [*]$endcolor nmap -sCV -p $ports $ip_address -n -oN SCV_$ip_address.txt $green copied to de clipboard\n $endcolor"
     echo
     echo -ne "\t$red [*]$endcolor nmap --script 'vuln and exploit and intrusive' -p $ports $ip_address -n -Pn -oN vulns.nmap\n"
     echo
