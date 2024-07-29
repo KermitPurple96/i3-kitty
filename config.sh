@@ -8,7 +8,7 @@ cd kali-clean
 ./install.sh
 
 #packages
-sudo apt install proxychains dnsmasq dnscat2 curl ncat dnsrecon enum4linux feroxbuster impacket-scripts nbtscan nikto nmap onesixtyone oscanner redis-tools smbclient smbmap snmp sslscan sipvicious tnscmd10g whatweb wkhtmltopdf
+sudo apt install proxychains dnsmasq smtp-user-enum dnscat2 curl ncat dnsrecon enum4linux feroxbuster impacket-scripts nbtscan nikto nmap onesixtyone oscanner redis-tools smbclient smbmap snmp sslscan sipvicious tnscmd10g whatweb wkhtmltopdf
 sudo apt install autorecon
 sudo apt-get -y install seclists putty-tools powercat lolcat neofetch build-essential gcc feroxbuster pipx zsh keepass2 moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp enum4linux dirsearch docker-compose docker.io scrub jq apache2 ncat ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit
 sudo apt-get update && sudo apt-get -y install golang-go 
