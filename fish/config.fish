@@ -430,8 +430,10 @@ function mk
     mkdir $workspace/$machine
     mkdir $workspace/$machine/tools
     mkdir $workspace/$machine/exploits
+    mkdir $workspace/$machine/payloads
     mkdir $workspace/$machine/content
     touch $workspace/$machine/scope
+    touch $workspace/$machine/hash
     touch $workspace/$machine/users
     touch $workspace/$machine/notes.txt
     touch $workspace/$machine/pass
@@ -446,6 +448,21 @@ function mk
     echo
 end
 
+
+function multiscan
+    if test (count $argv) -eq 0
+        echo "Uso: multiscan <archivo_de_ips>"
+        return 1
+    end
+
+    set file $argv[1]
+    for ip in (cat $file)
+        set formatted_ip (echo $ip | tr '.' '_')
+
+        echo "Escaneando IP: $ip"
+        nmap -sS --open -p- $ip -n -Pn -oG nmap_$formatted_ip.txt -vvv
+    end
+end
 
 function ports
     set ports (cat $argv[1] | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs | tr ' ' ',')
