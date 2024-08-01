@@ -479,26 +479,87 @@ function ports
     echo -e "\t$red [*]$endcolor Open ports: $green $ports$endcolor \n" >extractPorts.tmp
     /usr/bin/cat extractPorts.tmp
     /usr/bin/rm extractPorts.tmp
-    echo -ne "\t$red [*]$endcolor nmap -sCV -p $ports $ip_address -n -oN SCV_$ip_address.txt $green copied to de clipboard\n $endcolor"
+
+    echo -ne "\t$green [+]$endcolor Scripts scans"
     echo
-    echo -ne "\t$red [*]$endcolor nmap --script 'vuln and exploit and intrusive' -p $ports $ip_address -n -Pn -oN vulns.nmap\n"
+    echo -ne "\t$yellow [!]$endcolor Copied to de clipboard\n $endcolor"
     echo
-    echo -ne "\t$red [*]$endcolor nmap -p- -sS --open -vvv -n -Pn -6 <ipv6>%eth0 -oG ipv6.nmap\n"
+    echo -ne "\t$red [*]$endcolor nmap -sCV -p $ports $ip_address -n -oN SCV_$ip_address.txt"
     echo
-    echo -ne "\t$red [*]$endcolor nmap -sU --top-ports 100 --open -v -n $ip_address -oG udp.ports\n"
+    echo -ne "\t$red [*]$endcolor nmap --script 'vuln and exploit and intrusive' -p $ports $ip_address -n -Pn -oN vulns.nmap"
     echo
-    echo -ne "\t$red [*]$endcolor nmap -sCV -p161 -sU $ip_address -oN udpScan.nmap\n"
+    echo -ne "\n\t$green [+]$endcolor IPv6 scan"
     echo
-    echo -ne "\t$red [*]$endcolor enum4linux -a $ip_address \n"
+    echo -ne "\t python IOXIDResolver.py -t $ip_address"
     echo
-    echo -ne "\t$red [*]$endcolor autorecon $ip_address \n"
+    echo -ne "\t$red [*]$endcolor nmap -p- -sS --open -vvv -n -Pn -6 <ipv6 >%eth0 -oG ipv6.nmap"
     echo
-    echo -ne "\t$red [*]$endcolor nc -nvv -w 1 -z $ip_address $ncports \n"
+    echo -ne "\n\t$green [+]$endcolor UDP scans"
     echo
-    echo -ne "\t$red [*]$endcolor nc -nv -u -z -w 1 $ip_address $ncports \n"
+    echo -ne "\t$red [*]$endcolor nmap -sU --top-ports 100 --open -v -n $ip_address -oG udp.ports"
     echo
-    echo -ne "\t$red [*]$endcolor incursore.sh -t All -H $ip_address \n"
+    echo -ne "\t$red [*]$endcolor nmap -sCV -p161 -sU $ip_address -oN udpScan.nmap"
     echo
+    echo -ne "\n\t$green [+]$endcolor Automated scans"
+    echo
+    echo -ne "\t$red [*]$endcolor enum4linux -a $ip_address"
+    echo
+    echo -ne "\t$red [*]$endcolor autorecon $ip_address"
+    echo
+    echo -ne "\t$red [*]$endcolor nc -nvv -w 1 -z $ip_address $ncports"
+    echo
+    echo -ne "\t$red [*]$endcolor nc -nv -u -z -w 1 $ip_address $ncports"
+    echo
+    echo -ne "\t$red [*]$endcolor incursore.sh -t All -H $ip_address"
+    echo
+    echo -ne "\n\t$green [+]$endcolor Recommended scans"
+
+    echo -ne "\n\t Run$green recon <protocol>$endcolor to get nmap scripts"
+
+    if echo $ports | grep -q '\b21\b'
+        echo -ne "\n\t ftp $ip_address"
+    end
+    if echo $ports | grep -q '\b43\b'
+        echo -ne "\n\t whois $ip_address"
+        echo -ne "\n\t whois <domain> -h $ip_address"
+    end
+    if echo $ports | grep -q '\b43\b'
+        echo -ne "\n\t whois $ip_address"
+        echo -ne "\n\t whois <domain> -h $ip_address"
+    end
+    if echo $ports | grep -q '\b53\b'
+        echo -ne "\n\t dnsenum --dnsserver $ip_address--threads 50 -f /usr/share/SecLists/Discovery/DNS/subdomains-top1million-5000.txt <domain>"
+        echo -ne "\n\t dnsrecon -n 192.168.198.254 -d relia.com -t std,axfr,brt"
+    end
+    if echo $ports | grep -q '\b80\b'
+        echo -ne "\n\t nmap --script http-enum -p80 $ip_address"
+        echo -ne "\n\t wfuzz -c --hc=404 -t 200 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt $ip_address/FUZZ"
+        echo -ne "\n\t gobuster dir -u $ip_address -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -t 20 -x html,php,txt"
+    end
+    if echo $ports | grep -q '\b123\b'
+        echo -ne "\n\t ntpdate -s $ip_address"
+    end
+    if echo $ports | grep -qE '\b(135|137|139)\b'
+        echo -ne "\n\t impacket-rpcdump $ip_address -p <port>"
+        echo -ne "\n\t rpcclient -U "" $ip_address -N"
+    end
+    if echo $ports | grep -q '\b161\b'
+        echo -ne "\n\t onesixtyone $ip_address -c usr/share/SecLists/Discovery/SNMP/common-snmp-community-strings.txt -i ips"
+        echo -ne "\n\t snmpwalk -v2c -c public $ip_address"
+        echo -ne "\n\t snmpbulkwalk -v2c -c public $ip_address"
+    end
+    if echo $ports | grep -q '\b443\b'
+        echo -ne "\n\t openssl s_client -connect $ip_address:443"
+    end
+    if echo $ports | grep -q '\b445\b'
+        echo -ne "\n\t nbtscan -r $ip_address"
+        echo -ne "\n\t nxc smb $ip_address --shares"
+        echo -ne "\n\t smbclient -N -L "
+        echo "\\\\\\\\$ip_address\\\\"
+        echo -ne "\t smbmap -H $ip_address"
+    end
+
+
     echo -ne "\n"
     echo
 end
@@ -525,7 +586,7 @@ function cpp
       printf "%3d%% [", percent
       for (i=0; i<=percent; i++)
         printf "="
-      printf ">"
+      printf " >"
       for (i=percent; i<100; i++)
         printf " "
       printf "]\r"
@@ -560,7 +621,7 @@ set -U fish_history_ignore_dups true
 set -U fish_share_history true
 
 
-set -U fish_greeting (set_color blue) "       glu glu 🐟"(set_color normal)
+set -U fish_greeting (set_color blue) " glu glu 🐟"(set_color normal)
 
 
 
