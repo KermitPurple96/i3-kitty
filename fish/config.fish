@@ -42,11 +42,10 @@ set -gx PDCP_API_KEY (cat /home/kermit/CVEmap_key)
 
 #source /home/kermit/dev/bash/bashsimplecurses/simple_curses.sh
 
-# Define other functions and aliases here
 function kroot
-    /usr/bin/kitty &>/dev/null & disown
+    /home/kermit/kitty.app/bin/kitty &>/dev/null &
+    disown
 end
-
 
 
 function recon
