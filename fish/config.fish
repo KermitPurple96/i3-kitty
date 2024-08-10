@@ -675,7 +675,7 @@ set -U fish_history_ignore_dups true
 set -U fish_share_history true
 
 
-set -U fish_greeting (set_color blue) " glu glu 🐟"(set_color normal)
+set -U fish_greeting (set_color blue) "       glu glu 🐟"(set_color normal)
 
 
 
