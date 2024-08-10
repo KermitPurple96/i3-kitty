@@ -35,6 +35,13 @@ wget https://raw.githubusercontent.com/KermitPurple96/toolpy/main/toolpy.py -O /
 wget https://raw.githubusercontent.com/KermitPurple96/scripts/main/Python/md4.py -O /home/$SUDO_USER/dev/python/md4
 chmod +x /home/$SUDO_USER/dev/python/*
 
+mkdir /home/$SUDO_USER/dev/go
+wget https://raw.githubusercontent.com/KermitPurple96/fastTCPscan/main/fastTCPscan.go -O /home/$SUDO_USER/dev/go/fastTCPScan.go 
+go build -ldflags "-s -w" /home/$SUDO_USER/dev/go/fastTCPScan.go
+upx brute /home/$SUDO_USER/dev/go/fastTCPScan
+chmod +x /home/$SUDO_USER/dev/go/fastTCPScan
+mv /home/$SUDO_USER/dev/go/fastTCPScan.go /home/$SUDO_USER/dev/go/fast
+
 mkdir /home/$SUDO_USER/Descargas/firefox
 mkdir /home/$SUDO_USER/maquinas
 mkdir /home/$SUDO_USER/.config/bin
