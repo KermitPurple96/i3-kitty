@@ -265,8 +265,9 @@ function share
 end
 
 function serve
-    python3 -m http.server $argv[1]
+    python3 /home/kermit/dev/python/httpTempServ.py $argv[1]
 end
+
 
 
 
