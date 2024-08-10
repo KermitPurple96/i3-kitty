@@ -254,20 +254,29 @@ function fibtrie
     cat $argv[1] | grep LOCAL -B 1 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u
 end
 
+
+
 function share
     echo -ne "\n\t[+] Sharing at:"
     echo -ne "\n\n\t"
-    echo "\\\\$(mip)\\$argv[1]"
-    echo -ne "\t"
-    echo "\\\\$(mipk)\\$argv[1]"
+
+    # Verificar si mip no está vacía y ejecutar el comando correspondiente
+    if test -n (mip)
+        echo "\\\\$(mip)\\$argv[1]"
+    end
+
+    # Verificar si mipk no está vacía y ejecutar el comando correspondiente
+    if test -n (mipk)
+        echo "\\\\$(mipk)\\$argv[1]"
+    end
+
     echo -ne "\n"
-    impacket-smbserver $argv[1] $(pwd) -smb2support
+    impacket-smbserver $argv[1] (pwd) -smb2support
 end
 
 function serve
-    python3 /home/kermit/dev/python/httpTempServ.py $argv[1]
+    python3 -m uploadserver $argv[1]
 end
-
 
 
 
