@@ -33,7 +33,7 @@ mkdir /home/$SUDO_USER/dev/python
 wget https://raw.githubusercontent.com/KermitPurple96/shellpy/main/shellpy.py -O /home/$SUDO_USER/dev/python/shellpy
 wget https://raw.githubusercontent.com/KermitPurple96/toolpy/main/toolpy.py -O /home/$SUDO_USER/dev/python/toolpy
 wget https://raw.githubusercontent.com/KermitPurple96/scripts/main/Python/md4.py -O /home/$SUDO_USER/dev/python/md4
-wget https://raw.githubusercontent.com/KermitPurple96/OSCP_AuxReconTools/main/httpTempServ.py -O /home/$SUDO_USER/dev/python/httpTempServ.py
+wget https://raw.githubusercontent.com/KermitPurple96/OSCP_AuxReconTools/main/httpTempServ.py -O /home/$SUDO_USER/dev/python/servpy
 chmod +x /home/$SUDO_USER/dev/python/*
 
 mkdir /home/$SUDO_USER/dev/go
