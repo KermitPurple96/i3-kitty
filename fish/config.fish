@@ -30,7 +30,7 @@ echo
 
 
 # Export PATH
-set -g PATH $PATH /home/kermit/.local/bin /usr/bin /usr/share/responder /usr/share/ghidra /usr/share/hydra /usr/share/libreoffice /snap/bin /usr/sandbox /usr/local/bin /usr/local/go/bin /bin /usr/local/games /usr/games /usr/share/games /usr/local/sbin /usr/sbin /sbin /usr/local/bin /bin /usr/local/games /usr/games /home/kermit/.fzf/bin /opt/exploitdb /root/.local/bin /home/kermit/scripts/bash /home/kermit/scripts/python /usr/share/metasploit-framework/tools/exploit /usr/bin/arsenal /usr/bin/gtfo /home/kermit/.fzf/bin /usr/share/Wordpresscan /root/.local/pipx/shared/bin /root/go/bin /home/kermit/go/bin /usr/bin/pwsh /home/kermit/kitty.app/bin /home/kermit/dev/go /home/kermit/dev/python /home/kermit/dev/bash
+set -g PATH $PATH /home/kermit/.local/bin /usr/bin /usr/share/responder /usr/share/ghidra /usr/share/hydra /usr/share/libreoffice /snap/bin /usr/sandbox /usr/local/bin /usr/local/go/bin /bin /usr/local/games /usr/games /usr/share/games /usr/local/sbin /usr/sbin /sbin /usr/local/bin /bin /usr/local/games /usr/games /home/kermit/.fzf/bin /opt/exploitdb /root/.local/bin /home/kermit/scripts/bash /home/kermit/scripts/python /usr/share/metasploit-framework/tools/exploit /usr/bin/arsenal /usr/bin/gtfo /home/kermit/.fzf/bin /usr/share/Wordpresscan /root/.local/pipx/shared/bin /root/go/bin /home/kermit/go/bin /usr/bin/pwsh /home/kermit/kitty.app/bin /home/kermit/dev/python /home/kermit/dev/bash /home/kermit/dev/go
 
 # Set other environment variables
 set -gx ip (cat /home/kermit/.config/bin/target.txt)
@@ -46,6 +46,7 @@ function kroot
     /home/kermit/kitty.app/bin/kitty &>/dev/null &
     disown
 end
+
 
 
 function recon
@@ -380,73 +381,27 @@ alias mountedinfo='df -hT'
 #alias logs='sudo find /var/log -type f -exec file {} + | grep "text" | cut -d" " -f1 | sed -e "s/:$//" | grep -v "[0-9]$" | xargs tail -f'
 
 
+# mkdir lab
+# nmap -sn
+# getips 
+# multiscan
+# ports
+# tg
+# mk
+# stop
 
-function tg
-    tput civis
 
-    set session_start_time (date +%s)
-    echo $session_start_time >/home/kermit/.config/bin/session.txt
-
-    set -l NEWLINE "\n"
-
-    gum input --prompt="> " --placeholder "ip de la maquina" >/home/kermit/.config/bin/target.txt
-    gum input --prompt="> " --placeholder "nombre de la maquina" >/home/kermit/.config/bin/target_sys.txt
-    gum choose windows linux >/home/kermit/.config/bin/ttl.txt
-
-    set ip_address (cat /home/kermit/.config/bin/target.txt)
-    set nombre (cat /home/kermit/.config/bin/target_sys.txt)
-    set sistema (cat /home/kermit/.config/bin/ttl.txt)
-
-    set -x ip (cat /home/kermit/.config/bin/target.txt)
-    set -x name (cat /home/kermit/.config/bin/target_sys.txt)
-
-    echo -e "\n\t$blue [+]$endcolor Name: $red $nombre$endcolor\n"
-    echo -e "\n\t$blue [+]$endcolor Ip: $red $ip_address$endcolor\n"
-    echo -e "\n\t$blue [+]$endcolor System: $red $sistema$endcolor\n"
-
-    tput cnorm
-
+function method
+    echo "mkdir lab"
+    echo "nmap -sn 192.168.1.0/24 -oG ips.nmap"
+    echo "getips ips.nmap"
+    echo "multiscan ips"
+    echo "mutlifast ips"
+    echo "ports nmap.txt"
+    echo tg
+    echo mk
+    echo stop
 end
-
-function stop
-    # Limpiar el prompt y desactivar el contador de tiempo
-    set -e session_start_time
-    rm /home/kermit/.config/bin/session.txt
-    echo "Session stopped. Time counter deactivated."
-end
-
-
-function mk
-    tput civis
-    gum input --prompt="> " --placeholder "workspace name" >machine.txt
-    gum input --prompt="> " --placeholder /path/to/create/files >path.txt
-    set machine (cat ./machine.txt)
-    set workspace (cat ./path.txt)
-    set blue (set_color blue)
-    set endcolor (set_color normal)
-    set green (set_color green)
-    echo -e "\n\t$blue [+]$endcolor Creating workspace...\n"
-    mkdir $workspace/$machine
-    mkdir $workspace/$machine/tools
-    mkdir $workspace/$machine/exploits
-    mkdir $workspace/$machine/payloads
-    mkdir $workspace/$machine/content
-    touch $workspace/$machine/scope
-    touch $workspace/$machine/hash
-    touch $workspace/$machine/users
-    touch $workspace/$machine/notes.txt
-    touch $workspace/$machine/pass
-    touch $workspace/$machine/creds
-    touch $workspace/$machine/words
-    touch $workspace/$machine/index.html
-    chmod o+x $workspace/$machine/index.html
-    cd $workspace/$machine
-    echo -e "\n\t$blue [+]$endcolor Added $green$workspace/$machine $endcolor to zoxide"
-    xa $workspace/
-    tput cnorm
-    echo
-end
-
 
 function multiscan
     if test (count $argv) -eq 0
@@ -462,6 +417,22 @@ function multiscan
         nmap -sS --open -p- $ip -n -Pn -oG nmap_$formatted_ip.txt -vvv
     end
 end
+
+function multifast
+    if test (count $argv) -eq 0
+        echo "Uso: multifast <archivo_de_ips>"
+        return 1
+    end
+
+    set file $argv[1]
+    for ip in (cat $file)
+        set formatted_ip (echo $ip | tr '.' '_')
+
+        echo "Escaneando IP: $ip"
+        fast $ip >nmap_$formatted_ip.txt
+    end
+end
+
 
 function ports
     set ports (cat $argv[1] | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs | tr ' ' ',')
@@ -562,6 +533,80 @@ function ports
     echo -ne "\n"
     echo
 end
+
+
+
+function tg
+    tput civis
+
+    set session_start_time (date +%s)
+    echo $session_start_time >/home/kermit/.config/bin/session.txt
+
+    set -l NEWLINE "\n"
+
+    gum input --prompt="> " --placeholder "ip de la maquina" >/home/kermit/.config/bin/target.txt
+    gum input --prompt="> " --placeholder "nombre de la maquina" >/home/kermit/.config/bin/target_sys.txt
+    gum choose windows linux >/home/kermit/.config/bin/ttl.txt
+
+    set ip_address (cat /home/kermit/.config/bin/target.txt)
+    set nombre (cat /home/kermit/.config/bin/target_sys.txt)
+    set sistema (cat /home/kermit/.config/bin/ttl.txt)
+
+    set -x ip (cat /home/kermit/.config/bin/target.txt)
+    set -x name (cat /home/kermit/.config/bin/target_sys.txt)
+
+    echo -e "\n\t$blue [+]$endcolor Name: $red $nombre$endcolor\n"
+    echo -e "\n\t$blue [+]$endcolor Ip: $red $ip_address$endcolor\n"
+    echo -e "\n\t$blue [+]$endcolor System: $red $sistema$endcolor\n"
+
+    tput cnorm
+
+end
+
+
+
+function mk
+    tput civis
+    gum input --prompt="> " --placeholder "workspace name" >machine.txt
+    gum input --prompt="> " --placeholder /path/to/create/files >path.txt
+    set machine (cat ./machine.txt)
+    set workspace (cat ./path.txt)
+    set blue (set_color blue)
+    set endcolor (set_color normal)
+    set green (set_color green)
+    echo -e "\n\t$blue [+]$endcolor Creating workspace...\n"
+    mkdir $workspace/$machine
+    mkdir $workspace/$machine/tools
+    mkdir $workspace/$machine/exploits
+    mkdir $workspace/$machine/payloads
+    mkdir $workspace/$machine/content
+    mkdir $workspace/$machine/server
+    touch $workspace/$machine/scope
+    touch $workspace/$machine/hash
+    touch $workspace/$machine/users
+    touch $workspace/$machine/notes.txt
+    touch $workspace/$machine/pass
+    touch $workspace/$machine/creds
+    touch $workspace/$machine/words
+    touch $workspace/$machine/index.html
+    chmod o+x $workspace/$machine/index.html
+    cd $workspace/$machine
+    echo -e "\n\t$blue [+]$endcolor Added $green$workspace/$machine $endcolor to zoxide"
+    xa $workspace/
+    tput cnorm
+    echo
+end
+
+
+
+function stop
+    # Limpiar el prompt y desactivar el contador de tiempo
+    set -e session_start_time
+    rm /home/kermit/.config/bin/session.txt
+    echo "Session stopped. Time counter deactivated."
+end
+
+
 
 
 function ftext
