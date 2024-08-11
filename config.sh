@@ -30,11 +30,10 @@ wget https://raw.githubusercontent.com/KermitPurple96/scripts/main/Bash/tools.sh
 
 mkdir /home/$SUDO_USER/dev
 mkdir /home/$SUDO_USER/dev/python
-wget https://raw.githubusercontent.com/KermitPurple96/shellpy/main/shellpy.py -O /home/$SUDO_USER/dev/python/shellpy
-wget https://raw.githubusercontent.com/KermitPurple96/toolpy/main/toolpy.py -O /home/$SUDO_USER/dev/python/toolpy
+git clone https://github.com/KermitPurple96/Shellpy -O /home/$SUDO_USER/dev/python/shellpy
+git clone https://github.com/KermitPurple96/OSCP-PythonSupportTools -O /home/$SUDO_USER/dev/python/support
 wget https://raw.githubusercontent.com/KermitPurple96/scripts/main/Python/md4.py -O /home/$SUDO_USER/dev/python/md4
-wget https://raw.githubusercontent.com/KermitPurple96/OSCP_AuxReconTools/main/httpTempServ.py -O /home/$SUDO_USER/dev/python/servpy
-chmod +x /home/$SUDO_USER/dev/python/*
+chmod -R +x /home/$SUDO_USER/dev/python/*
 
 mkdir /home/$SUDO_USER/dev/go
 wget https://raw.githubusercontent.com/KermitPurple96/fastTCPscan/main/fastTCPscan.go -O /home/$SUDO_USER/dev/go/fastTCPScan.go 
