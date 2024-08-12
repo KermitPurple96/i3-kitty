@@ -504,8 +504,8 @@ function ports
         echo -ne "\n\t whois <domain> -h $ip_address"
     end
     if echo $ports | grep -q '\b53\b'
-        echo -ne "\n\t dnsenum --dnsserver $ip_address--threads 50 -f /usr/share/SecLists/Discovery/DNS/subdomains-top1million-5000.txt <domain>"
-        echo -ne "\n\t dnsrecon -n 192.168.198.254 -d <domain> -t std,axfr,brt"
+        echo -ne "\n\t dnsenum --dnsserver $ip_address --threads 50 -f /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt <domain>"
+        echo -ne "\n\t dnsrecon -n $ip_address -d <domain> -t std,axfr,brt"
     end
     if echo $ports | grep -q '\b80\b'
         echo -ne "\n\t nmap --script http-enum -p80 $ip_address"
