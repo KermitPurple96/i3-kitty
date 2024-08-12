@@ -395,8 +395,10 @@ alias mountedinfo='df -hT'
 function netscan
     set segment $argv[1]
     set output_file "ips.nmap"
-    nmap -sn $segment -oG $output_file
-    getips $output_file
+    nmap -sn $segment -oG $output_file >/dev/null 2>&1
+    getips $output_file | sponge $output_file
+    echo "Alive hosts in $output_file"
+    cat $output_file
 end
 
 
