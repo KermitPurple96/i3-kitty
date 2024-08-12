@@ -30,7 +30,7 @@ echo
 
 
 # Export PATH
-set -g PATH $PATH /home/kermit/.local/bin /usr/bin /usr/share/responder /usr/share/ghidra /usr/share/hydra /usr/share/libreoffice /snap/bin /usr/sandbox /usr/local/bin /usr/local/go/bin /bin /usr/local/games /usr/games /usr/share/games /usr/local/sbin /usr/sbin /sbin /usr/local/bin /bin /usr/local/games /usr/games /home/kermit/.fzf/bin /opt/exploitdb /root/.local/bin /home/kermit/scripts/bash /home/kermit/scripts/python /usr/share/metasploit-framework/tools/exploit /usr/bin/arsenal /usr/bin/gtfo /home/kermit/.fzf/bin /usr/share/Wordpresscan /root/.local/pipx/shared/bin /root/go/bin /home/kermit/go/bin /usr/bin/pwsh /home/kermit/kitty.app/bin /home/kermit/dev/python /home/kermit/dev/python/shellpy /home/kermit/dev/python/support /home/kermit/dev/python/shellpy /home/kermit/dev/bash /home/kermit/dev/go
+set -g PATH $PATH /home/kermit/.local/bin /usr/bin /usr/share/responder /usr/share/ghidra /usr/share/hydra /usr/share/libreoffice /snap/bin /usr/sandbox /usr/local/bin /usr/local/go/bin /bin /usr/local/games /usr/games /usr/share/games /usr/local/sbin /usr/sbin /sbin /usr/local/bin /bin /usr/local/games /usr/games /home/kermit/.fzf/bin /opt/exploitdb /root/.local/bin /home/kermit/scripts/bash /home/kermit/scripts/python /usr/share/metasploit-framework/tools/exploit /usr/bin/arsenal /usr/bin/gtfo /home/kermit/.fzf/bin /usr/share/Wordpresscan /root/.local/pipx/shared/bin /root/go/bin /home/kermit/go/bin /usr/bin/pwsh /home/kermit/kitty.app/bin /home/kermit/dev/python /home/kermit/dev/bash /home/kermit/dev/go
 
 # Set other environment variables
 set -gx ip (cat /home/kermit/.config/bin/target.txt)
@@ -43,7 +43,7 @@ set -gx PDCP_API_KEY (cat /home/kermit/CVEmap_key)
 #source /home/kermit/dev/bash/bashsimplecurses/simple_curses.sh
 
 function kroot
-    /home/kermit/kitty.app/bin/kitty &>/dev/null &
+    /home/kermit/kitty.app/bin/kitty -e fish &>/dev/null &
     disown
 end
 
@@ -401,7 +401,7 @@ alias mountedinfo='df -hT'
 # stop
 
 
-function method
+function oscp
     echo "mkdir lab"
     echo "nmap -sn 192.168.1.0/24 -oG ips.nmap"
     echo "getips ips.nmap"
@@ -453,7 +453,7 @@ function ports
     set green (set_color green)
     set endcolor (set_color normal)
 
-    echo "nmap -sCV -p $ports $ip_address -n -oN SCV_$ip_address.txt" | tr -d '\n' | xclip -sel clip
+    echo "nmap -sCV -p $ports $ip_address -n -vvv -oN SCV_$ip_address.txt" | tr -d '\n' | xclip -sel clip
 
     gum style --foreground "#FF0000" --border-foreground "#00FF00" --border rounded --align center --width 20 --margin "1 1 1 8" --padding "1 0" "IP: $ip_address"
     echo -e "\t$red [*]$endcolor Open ports: $green $ports$endcolor \n" >extractPorts.tmp
@@ -503,13 +503,9 @@ function ports
         echo -ne "\n\t whois $ip_address"
         echo -ne "\n\t whois <domain> -h $ip_address"
     end
-    if echo $ports | grep -q '\b43\b'
-        echo -ne "\n\t whois $ip_address"
-        echo -ne "\n\t whois <domain> -h $ip_address"
-    end
     if echo $ports | grep -q '\b53\b'
         echo -ne "\n\t dnsenum --dnsserver $ip_address--threads 50 -f /usr/share/SecLists/Discovery/DNS/subdomains-top1million-5000.txt <domain>"
-        echo -ne "\n\t dnsrecon -n 192.168.198.254 -d relia.com -t std,axfr,brt"
+        echo -ne "\n\t dnsrecon -n 192.168.198.254 -d <domain> -t std,axfr,brt"
     end
     if echo $ports | grep -q '\b80\b'
         echo -ne "\n\t nmap --script http-enum -p80 $ip_address"
