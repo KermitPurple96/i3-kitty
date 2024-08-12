@@ -391,27 +391,14 @@ alias mountedinfo='df -hT'
 #alias logs='sudo find /var/log -type f -exec file {} + | grep "text" | cut -d" " -f1 | sed -e "s/:$//" | grep -v "[0-9]$" | xargs tail -f'
 
 
-# mkdir lab
-# nmap -sn
-# getips 
-# multiscan
-# ports
-# tg
-# mk
-# stop
 
-
-function oscp
-    echo "mkdir lab"
-    echo "nmap -sn 192.168.1.0/24 -oG ips.nmap"
-    echo "getips ips.nmap"
-    echo "multiscan ips"
-    echo "mutlifast ips"
-    echo "ports nmap.txt"
-    echo tg
-    echo mk
-    echo stop
+function netscan
+    set segment $argv[1]
+    set output_file "ips.nmap"
+    nmap -sn $segment -oG $output_file
+    getips $output_file
 end
+
 
 function multiscan
     if test (count $argv) -eq 0
