@@ -467,7 +467,7 @@ function ports
     echo
     echo -ne "\t$red [*]$endcolor nmap -sU --top-ports 100 --open -v -n $ip_address -oG udp.ports"
     echo
-    echo -ne "\t$red [*]$endcolor nmap -sCV -p161 -sU $ip_address -oN udpScan.nmap"
+    echo -ne "\t$red [*]$endcolor nmap -sCV -p$ports -sU $ip_address -oN udpScan.nmap"
     echo
     echo -ne "\n\t$green [+]$endcolor Automated scans"
     echo
