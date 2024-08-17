@@ -279,7 +279,7 @@ function serve
 end
 
 
-
+alias sploit="searchsploit"
 # ~/.config/fish/config.fish
 alias montar='sudo vmhgfs-fuse .host:/D /mnt/hgfs/ -o allow_other -o uid=1000'
 # Alias
