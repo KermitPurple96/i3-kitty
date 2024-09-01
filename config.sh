@@ -41,7 +41,6 @@ wget https://raw.githubusercontent.com/KermitPurple96/fastTCPscan/main/fastTCPsc
 go build -ldflags "-s -w" /home/$SUDO_USER/dev/go/fastTCPScan.go
 upx brute /home/$SUDO_USER/dev/go/fastTCPScan
 chmod +x /home/$SUDO_USER/dev/go/fastTCPScan
-mv /home/$SUDO_USER/dev/go/fastTCPScan.go /home/$SUDO_USER/dev/go/fast
 
 mkdir /home/$SUDO_USER/Descargas/firefox
 mkdir /home/$SUDO_USER/maquinas
