@@ -391,6 +391,15 @@ alias mountedinfo='df -hT'
 #alias logs='sudo find /var/log -type f -exec file {} + | grep "text" | cut -d" " -f1 | sed -e "s/:$//" | grep -v "[0-9]$" | xargs tail -f'
 
 
+function fast
+    if test (count $argv) -ne 2
+        echo "Error: 2 arguments required: host & threads."
+        return 1
+    end
+
+    fastTCPscan -host=$argv[1] -threads=$argv[2]
+end
+
 
 function netscan
     set segment $argv[1]
