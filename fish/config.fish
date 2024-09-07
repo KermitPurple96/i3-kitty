@@ -279,7 +279,7 @@ function serve
 end
 
 
-alias sploit="searchsploit"
+
 # ~/.config/fish/config.fish
 alias montar='sudo vmhgfs-fuse .host:/D /mnt/hgfs/ -o allow_other -o uid=1000'
 # Alias
@@ -287,6 +287,7 @@ alias dockerrmc='docker rm (docker ps -a -q) --force'
 alias dockerrmi='docker rmi (docker images -q)'
 alias dockerrmv='docker volume rm (docker volume ls -q)'
 
+alias sploit="searchsploit"
 #alias share='impacket-smbserver share (pwd) -smb2support'
 alias sd="sudo su"
 alias fz='nvim (fzf --preview="cat {}")'
@@ -308,6 +309,9 @@ end
 function burpro
     java --illegal-access=permit -Dfile.encoding=utf-8 -javaagent:/home/kermit/Desktop/Burp-Suite/loader.jar -noverify -jar /home/kermit/Desktop/Burp-Suite/Burp_Suite_Pro.jar &
 end
+
+
+
 
 alias kitten="kitty +kitten icat"
 alias pins='jump pins'
@@ -391,22 +395,56 @@ alias mountedinfo='df -hT'
 #alias logs='sudo find /var/log -type f -exec file {} + | grep "text" | cut -d" " -f1 | sed -e "s/:$//" | grep -v "[0-9]$" | xargs tail -f'
 
 
-function fast
-    if test (count $argv) -ne 2
-        echo "Error: 2 arguments required: host & threads."
+
+function scan
+    if test (count $argv) -eq 0
+        echo "Uso: scan <IP>"
         return 1
     end
 
-    fastTCPscan -host=$argv[1] -threads=$argv[2]
+    set ip $argv[1]
+    # Formateamos la IP reemplazando los puntos con guiones para usar en el nombre del archivo
+    set formatted_ip (echo $ip | tr '.' '-')
+
+    # Escaneo SYN en todos los puertos y guarda la salida en formato greppable
+    echo "Ejecutando nmap -sS --open -p- en $ip..."
+    nmap -sS --open -p- $ip -n -Pn -oG nmap_$formatted_ip.txt -vvv
+
+    # Extraemos los puertos abiertos y los formateamos en una lista separada por comas
+    set ports (cat nmap_$formatted_ip.txt | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs | tr ' ' ',')
+
+    # Si no hay puertos abiertos, mostramos un mensaje y salimos
+    if test -z "$ports"
+        echo "No se encontraron puertos abiertos en $ip."
+        return 1
+    end
+
+    # Escaneo detallado en los puertos abiertos
+    echo "Ejecutando nmap -sCV en los puertos: $ports..."
+    nmap -sCV -p$ports -n -Pn $ip -v -oN scan_$formatted_ip.txt
+
+    echo "Escaneo completado. Resultado guardado en scan_$formatted_ip.txt."
 end
 
 
+
 function netscan
+    if test (count $argv) -eq 0
+        echo "Uso: netscan <segmento_de_red>"
+        echo "Ejemplo: netscan 192.168.1.0/24"
+        return 1
+    end
+
     set segment $argv[1]
     set output_file "ips.nmap"
+
+    # Realiza el escaneo con nmap
     nmap -sn $segment -oG $output_file >/dev/null 2>&1
+
+    # Extrae las IPs y usa sponge para sobreescribir el archivo de salida
     getips $output_file | sponge $output_file
-    echo "Alive hosts in $output_file"
+
+    echo "Hosts vivos en $output_file:"
     cat $output_file
 end
 
@@ -425,6 +463,18 @@ function multiscan
         nmap -sS --open -p- $ip -n -Pn -oG nmap_$formatted_ip.txt -vvv
     end
 end
+
+
+
+function fast
+    if test (count $argv) -ne 2
+        echo "Error: 2 arguments required: host & threads."
+        return 1
+    end
+
+    fastTCPscan -host=$argv[1] -threads=$argv[2]
+end
+
 
 function multifast
     if test (count $argv) -eq 0
@@ -468,7 +518,7 @@ function ports
     echo
     echo -ne "\n\t$green [+]$endcolor IPv6 scan"
     echo
-    echo -ne "\t python IOXIDResolver.py -t $ip_address"
+    echo -ne "\t python3 IOXIDResolver.py -t $ip_address"
     echo
     echo -ne "\t$red [*]$endcolor nmap -p- -sS --open -vvv -n -Pn -6 <ipv6 >%eth0 -oG ipv6.nmap"
     echo
