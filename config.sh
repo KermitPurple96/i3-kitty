@@ -260,6 +260,10 @@ apt --purge remove python3-pycurl && apt install libcurl4-openssl-dev libssl-dev
 sudo git clone https://github.com/mzfr/gtfo /usr/bin/gtfo
 chmod +x /usr/bin/gtfo
 
+#minikerberos
+git clone https://github.com/skelsec/minikerberos.git
+python3 setup.py ./minikerbero/install
+
 # fzf
 git clone --depth 1 https://github.com/junegunn/fzf.git /home/$SUDO_USER/.fzf
 /home/$SUDO_USER/.fzf/install
