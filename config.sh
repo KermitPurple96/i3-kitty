@@ -169,18 +169,19 @@ wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -O
 chmod +x /usr/bin/nvim
 
 #lazy vim as ROOT and $SUDO_USER
-mv ~/.config/nvim{,.bak}
-mv ~/.local/share/nvim{,.bak}
-mv ~/.local/state/nvim{,.bak}
-mv ~/.cache/nvim{,.bak}
-git clone https://github.com/LazyVim/starter ~/.config/nvim
-rm -rf ~/.config/nvim/.git
-nvim
+#mv ~/.config/nvim{,.bak}
+#mv ~/.local/share/nvim{,.bak}
+#mv ~/.local/state/nvim{,.bak}
+#mv ~/.cache/nvim{,.bak}
+#git clone https://github.com/LazyVim/starter ~/.config/nvim
+#rm -rf ~/.config/nvim/.git
+#nvim
 
 #nvchad
-#git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
-#sudo chown $SUDO_USER:$SUDO_USER -R /home/$SUDO_USER/.config/
-#sudo cp -r /home/$SUDO_USER/.config/nvim /root/.config/nvim
+git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
+sudo chown $SUDO_USER:$SUDO_USER -R /home/$SUDO_USER/.config/
+sudo cp -r /home/$SUDO_USER/.config/nvim /root/.config/nvim
+nvim
 
 #subl
 wget https://download.sublimetext.com/sublime-text_build-3211_amd64.deb
