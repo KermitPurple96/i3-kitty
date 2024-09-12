@@ -396,6 +396,59 @@ alias mountedinfo='df -hT'
 
 
 
+function swep
+    if test (count $argv) -eq 0
+        echo "nxc smb 192.168.1.0/24 --log 'sweep.log'"
+        echo "Usage: swep sweep.log"
+        return 1
+    end
+
+    set file $argv[1]
+
+    awk -F' ' '
+    BEGIN {
+        ip_color="\033[34m";
+        text_color="\033[32m";
+        highlight_red="\033[31m";
+        reset_color="\033[0m";
+    }
+    {
+        for (i=1; i<=NF; i++) {
+            if ($i ~ /[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/) {
+                ip=$i;
+                sub(ip, ip_color ip reset_color, $0);
+                rest=substr($0, index($0, ip) + length(ip));
+                split(rest, parts, " ");
+                for (j=1; j<=length(parts); j++) {
+                    if (parts[j] ~ /name:/) {
+                        name_value = substr(parts[j], index(parts[j], ":") + 1);
+                        if (name_value ~ /dc/i) {
+                            parts[j] = highlight_red parts[j] reset_color;
+                        } else {
+                            parts[j] = text_color parts[j] reset_color;
+                        }
+                    } else if (parts[j] ~ /signing:/ && substr(parts[j], index(parts[j], ":") + 1) ~ /False/) {
+                        parts[j] = highlight_red parts[j] reset_color;
+                    } else if (parts[j] ~ /:/) {
+                        parts[j] = text_color parts[j] reset_color;
+                    }
+                }
+                print ip_color ip reset_color, join(parts, " ");
+            }
+        }
+    }
+    function join(arr, sep,    str, i) {
+        str = arr[1];
+        for (i=2; i in arr; i++) {
+            str = str sep arr[i];
+        }
+        return str;
+    }' $file
+end
+
+
+
+
 function scan
     if test (count $argv) -eq 0
         echo "Uso: scan <IP>"
