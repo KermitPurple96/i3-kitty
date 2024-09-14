@@ -292,6 +292,10 @@ rm /home/$SUDO_USER/Roboto*
 rm /home/$SUDO_USER/readme.md
 rm /home/$SUDO_USER/LICENSE.md
 
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+
 # for fish shell
 # chsh -s /usr/bin/fish
 # edit .config/kitty/kitty.conf 
