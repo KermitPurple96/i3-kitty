@@ -18,7 +18,7 @@ git clone https://github.com/wirzka/incursore.git
 sudo ln -s $(pwd)/incursore/incursore.sh /usr/local/bin/
 
 #zsh
-bash <(curl https://raw.githubusercontent.com/atuinsh/atuin/main/install.sh)
+# bash <(curl https://raw.githubusercontent.com/atuinsh/atuin/main/install.sh)
 # fish
 bash (curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh | psub)
 
@@ -87,26 +87,26 @@ wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/rofi/config.
 
 #zsh
 ####Done in xct environment####
-sudo apt-get install zsh
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+#sudo apt-get install zsh
+#sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ###############################
 
 #zsh pluggins
-mkdir /home/$SUDO_USER/.zsh
-git clone https://github.com/zsh-users/zsh-autosuggestions /home/$SUDO_USER/.zsh/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/$SUDO_USER/.zsh/zsh-syntax-highlighting
-git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git /home/$SUDO_USER/.zsh/zsh-autocomplete
+#mkdir /home/$SUDO_USER/.zsh
+#git clone https://github.com/zsh-users/zsh-autosuggestions /home/$SUDO_USER/.zsh/zsh-autosuggestions
+#git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/$SUDO_USER/.zsh/zsh-syntax-highlighting
+#git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git /home/$SUDO_USER/.zsh/zsh-autocomplete
 
-rm /home/$SUDO_USER/.zshrc
-wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/zshrc
-mv /home/$SUDO_USER/zshrc /home/$SUDO_USER/.zshrc
-ln -s -f /home/$SUDO_USER/.zshrc /root/.zshrc
+#rm /home/$SUDO_USER/.zshrc
+#wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/zshrc
+#mv /home/$SUDO_USER/zshrc /home/$SUDO_USER/.zshrc
+#ln -s -f /home/$SUDO_USER/.zshrc /root/.zshrc
 
-chown -R root:root /home/$SUDO_USER/.zsh
-chown $SUDO_USER:$SUDO_USER /etc/hosts
-sudo chmod -R 755 /home/$SUDO_USER/.zsh
-sudo usermod --shell /usr/bin/zsh $SUDO_USER
-sudo usermod --shell /usr/bin/zsh root
+#chown -R root:root /home/$SUDO_USER/.zsh
+#chown $SUDO_USER:$SUDO_USER /etc/hosts
+#sudo chmod -R 755 /home/$SUDO_USER/.zsh
+#sudo usermod --shell /usr/bin/zsh $SUDO_USER
+#sudo usermod --shell /usr/bin/zsh root
 
 # fonts
 wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/Hack.zip -O /usr/local/share/fonts/Hack.zip
@@ -219,10 +219,6 @@ sudo apt install pipx git
 pipx ensurepath
 pipx install git+https://github.com/Pennyw0rth/NetExec
 
-#nxc autocompletion
-sudo apt install python3-argcomplete
-register-python-argcomplete nxc >> ~/.zshrc
-
 #ftp
 pip install pyftpdlib
 
@@ -292,16 +288,25 @@ rm /home/$SUDO_USER/Roboto*
 rm /home/$SUDO_USER/readme.md
 rm /home/$SUDO_USER/LICENSE.md
 
-
+#rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
+# poetry
+pip install poetry
+poetry install
 
-# for fish shell
-# chsh -s /usr/bin/fish
-# edit .config/kitty/kitty.conf 
+# Fish shell
+chsh -s /usr/bin/fish
+# remember edit last line of /home/$SUDO_USER/.config/kitty/kitty.conf 
 
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/fish/config.fish -O /home/$SUDO_USER/.config/fish/config.fish
 wget https://github.com/KermitPurple96/i3-kitty/blob/main/fish/functions/fish_prompt.fish -O /home/$SUDO_USER/.config/fish/functions/fish_prompt.fish
+
+chown -R $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.config/fish
+chown $SUDO_USER:$SUDO_USER /etc/hosts
+
+sudo usermod --shell /usr/bin/fish $SUDO_USER
+sudo usermod --shell /usr/bin/fish root
 
 sudo ln -s -f /home/$SUDO_USER/.config/fish/config.fish /root/.config/fish/config.fish
 sudo ln -s -f /home/$SUDO_USER/.config/fish/functions/fish_prompt.fish /root/.config/fish/functions/fish_prompt.fish
