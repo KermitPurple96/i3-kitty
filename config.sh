@@ -223,11 +223,11 @@ pipx install git+https://github.com/Pennyw0rth/NetExec
 pip install pyftpdlib
 
 #kerbrute
-pip3 install kerbrute
 git clone https://github.com/attackdebris/kerberos_enum_userlists /usr/share/kerberos_enum_userlists
 # kerbrute
-wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_linux_amd64 -O /usr/bin/kerbrute
-chmod +x /usr/bin/kerbrute
+rm /usr/local/bin/kerbrute
+wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_linux_amd64 -O /usr/local/bin/kerbrute
+chmod +x /usr/local/bin/kerbrute
 
 #gum
 sudo mkdir -p /etc/apt/keyrings
