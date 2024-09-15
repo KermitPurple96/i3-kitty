@@ -32,7 +32,6 @@ echo
 # Export PATH
 set -g PATH $PATH $HOME/.local/bin /usr/bin /usr/share/responder /usr/share/ghidra /usr/share/hydra /usr/share/libreoffice /snap/bin /usr/sandbox /usr/local/bin /usr/local/go/bin /bin /usr/local/games /usr/games /usr/share/games /usr/local/sbin /usr/sbin /sbin /usr/local/bin /bin /usr/local/games /usr/games $HOME/.fzf/bin /opt/exploitdb $HOME/.local/bin /usr/share/metasploit-framework/tools/exploit /usr/bin/arsenal /usr/bin/gtfo $HOME/.fzf/bin /usr/share/Wordpresscan $HOME/.local/pipx/shared/bin $HOME/go/bin /usr/bin/pwsh $HOME/kitty.app/bin $HOME/dev/python $HOME/dev/bash $HOME/.cargo/bin
 
-
 # Set other environment variables
 set -gx ip (cat /home/kermit/.config/bin/target.txt)
 set -gx name (cat /home/kermit/.config/bin/target_sys.txt)
@@ -397,6 +396,23 @@ alias mountedinfo='df -hT'
 
 
 
+function tools
+    echo -e "\n"
+    echo -e "$green [+]$endcolor $blue scan <ip>$endcolor Classic nmap scan"
+    echo -e "$green [+]$endcolor $blue netscan <interface>$endcolor ARP and ping interface scan"
+    echo -e "$green [+]$endcolor $blue swep <file>$endcolor Parse nxc smb output"
+    echo -e "$green [+]$endcolor $blue multiscan <file>$endcolor nmap -sS a list of IPs"
+    echo -e "$green [+]$endcolor $blue fast <ip> <threads>$endcolor fast go TCP scan"
+    echo -e "$green [+]$endcolor $blue multifast <file>$endcolor fast scan a list of IPs"
+    echo -e "$green [+]$endcolor $blue ports <file>$endcolor Parse nmap -sS"
+    echo -e "$green [+]$endcolor $blue tg$endcolor Defines IP target"
+    echo -e "$green [+]$endcolor $blue mk$endcolor Makes working environment"
+    echo -e "$green [+]$endcolor $blue stop$endcolor stops yellow watch"
+end
+
+
+
+
 function swep
     if test (count $argv) -eq 0
         echo "nxc smb 192.168.1.0/24 --log 'sweep.log'"
@@ -481,26 +497,67 @@ function scan
 end
 
 
-
 function netscan
     if test (count $argv) -eq 0
-        echo "Uso: netscan <segmento_de_red>"
-        echo "Ejemplo: netscan 192.168.1.0/24"
+        echo "Uso: netscan <nombre_interfaz>"
+        echo "Ejemplo: netscan eth0"
         return 1
     end
 
-    set segment $argv[1]
+    set iface $argv[1]
+
+    # Obtiene la dirección IP y el segmento de red de la interfaz proporcionada
+    set ip_info (ip addr show $iface | grep "inet " | awk '{print $2}')
+    
+    if test -z "$ip_info"
+        echo "No se encontró información de red para la interfaz $iface"
+        return 1
+    end
+
+    # Calcula la red base usando ipcalc
+    set network_info (ipcalc -n $ip_info | grep "Network" | awk '{print $2}')
+    
+    if test -z "$network_info"
+        echo "No se pudo calcular la red base para la interfaz $iface"
+        return 1
+    end
+
+    # Realiza el ping sweep con nmap en el segmento de red calculado
+    echo "Realizando ping sweep en $network_info con nmap..."
     set output_file "ips.nmap"
+    nmap -sn $network_info -oG $output_file >/dev/null 2>&1
 
-    # Realiza el escaneo con nmap
-    nmap -sn $segment -oG $output_file >/dev/null 2>&1
+    # Realiza el escaneo ARP con arp-scan en el segmento de red calculado
+    echo "Realizando escaneo ARP en $network_info con arp-scan..."
+    arp-scan --interface=$iface $network_info >/dev/null 2>&1
 
-    # Extrae las IPs y usa sponge para sobreescribir el archivo de salida
-    getips $output_file | sponge $output_file
+    # Extrae las IPs de los hosts vivos del archivo de salida de nmap
+    set nmap_ips (grep 'Up' $output_file | awk '{print $2}')
 
-    echo "Hosts vivos en $output_file:"
+    # Si no se encuentran IPs, muestra el mensaje correspondiente
+    if test (count $nmap_ips) -eq 0
+        echo "No se encontraron hosts vivos en $network_info."
+        return 1
+    end
+
+    # Guarda las IPs en el archivo de salida
+    echo "[+] Hosts vivos encontrados en $network_info"
+    for ip in $nmap_ips
+        echo $ip >> $output_file
+    end
+
+    # Ordena las IPs, elimina duplicados, y sobrescribe el archivo
+    sort -u $output_file | sponge $output_file
+
+    # Muestra las IPs encontradas
+    echo "IPs guardadas en $output_file:"
     cat $output_file
 end
+
+
+
+
+
 
 
 function multiscan
