@@ -401,6 +401,7 @@ function tools
     echo -e "$green [+]$endcolor $blue scan <ip>$endcolor Classic nmap scan"
     echo -e "$green [+]$endcolor $blue netscan <interface>$endcolor ARP and ping interface scan"
     echo -e "$green [+]$endcolor $blue swep <file>$endcolor Parse nxc smb output"
+    echo -e "$green [+]$endcolor $blue swep <file>$endcolor Parse nxc smb -M spider_plus output"
     echo -e "$green [+]$endcolor $blue multiscan <file>$endcolor nmap -sS a list of IPs"
     echo -e "$green [+]$endcolor $blue fast <ip> <threads>$endcolor fast go TCP scan"
     echo -e "$green [+]$endcolor $blue multifast <file>$endcolor fast scan a list of IPs"
