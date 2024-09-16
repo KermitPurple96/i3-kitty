@@ -396,7 +396,7 @@ alias mountedinfo='df -hT'
 
 
 
-function tools
+function info
     echo -e "\n"
     echo -e "$green [+]$endcolor $blue scan <ip>$endcolor Classic nmap scan"
     echo -e "$green [+]$endcolor $blue netscan <interface>$endcolor ARP and ping interface scan"
