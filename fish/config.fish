@@ -411,15 +411,7 @@ function tools
 end
 
 
-
-
-
-
-
 function swap
-
-
-
 
 # Define default paths
   set default_paths 'NETLOGON' 'SYSVOL' 'Users' 'ADMIN$' 'C$' 'IPC$' 'wsus'
