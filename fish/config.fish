@@ -30,7 +30,7 @@ echo
 
 
 # Export PATH
-set -g PATH $PATH $HOME/.local/bin /usr/bin /usr/share/responder /usr/share/ghidra /usr/share/hydra /usr/share/libreoffice /snap/bin /usr/sandbox /usr/local/bin /usr/local/go/bin /bin /usr/local/games /usr/games /usr/share/games /usr/local/sbin /usr/sbin /sbin /usr/local/bin /bin /usr/local/games /usr/games $HOME/.fzf/bin /opt/exploitdb $HOME/.local/bin /usr/share/metasploit-framework/tools/exploit /usr/bin/arsenal /usr/bin/gtfo $HOME/.fzf/bin /usr/share/Wordpresscan $HOME/.local/pipx/shared/bin $HOME/go/bin /usr/bin/pwsh $HOME/kitty.app/bin $HOME/dev/python $HOME/dev/bash $HOME/.cargo/bin
+set -g PATH $PATH $HOME/.local/bin /usr/bin /usr/share/responder /usr/share/ghidra /usr/share/hydra /usr/share/libreoffice /snap/bin /usr/sandbox /usr/local/bin /usr/local/go/bin /bin /usr/local/games /usr/games /usr/share/games /usr/local/sbin /usr/sbin /sbin /usr/local/bin /bin /usr/local/games /usr/games $HOME/.fzf/bin /opt/exploitdb $HOME/.local/bin /usr/share/metasploit-framework/tools/exploit /usr/bin/arsenal /usr/bin/gtfo $HOME/.fzf/bin /usr/share/Wordpresscan $HOME/.local/pipx/shared/bin $HOME/go/bin /usr/bin/pwsh $HOME/kitty.app/bin /home/kermit/dev/python /home/kermit/dev/bash $HOME/.cargo/bin
 
 # Set other environment variables
 set -gx ip (cat /home/kermit/.config/bin/target.txt)
@@ -409,6 +409,59 @@ function tools
     echo -e "$green [+]$endcolor $blue mk$endcolor Makes working environment"
     echo -e "$green [+]$endcolor $blue stop$endcolor stops yellow watch"
 end
+
+
+
+
+
+
+
+function swap
+
+
+
+
+# Define default paths
+  set default_paths 'NETLOGON' 'SYSVOL' 'Users' 'ADMIN$' 'C$' 'IPC$' 'wsus'
+
+# Define colors
+  set color_default (set_color normal)
+  set color_red (set_color red)
+
+# Function to check if the path contains any of the default paths
+  function is_default_path
+      set path $argv[1]
+      for default_path in $default_paths
+          if string match -q -r "/$default_path/" $path
+              return 0
+          end
+      end
+      return 1
+  end
+
+# Process the JSON file and apply color formatting
+  cat $argv[1] | jq -r 'paths | select(. | length == 2) | join("/")' | while read path
+      set path_lower (string lower $path)
+
+      if is_default_path $path_lower
+          if string match -q -r '\.xml$|\.txt$' $path_lower
+              echo $color_red$path$color_default
+          else
+              echo $color_default$path$color_default
+          end
+      else
+          if string match -q -r '\.xml$|\.txt$' $path_lower
+              echo $color_red$path$color_default
+          else
+              echo $color_default$path$color_default
+          end
+      end
+  end
+
+
+
+end
+
 
 
 
