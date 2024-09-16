@@ -238,8 +238,8 @@ sudo apt update && sudo apt install gum
 #bashsimplecurses
 mkdir -p /home/$SUDO_USER/dev/bash/
 git clone https://github.com/metal3d/bashsimplecurses /home/$SUDO_USER/dev/bash/bashsimplecurses
-wget https://raw.githubusercontent.com/KermitPurple96/rpcenum/master/rpcenum.sh -O /home/$SUDO_USER/dev/bash/rpcenum.sh
-wget https://raw.githubusercontent.com/KermitPurple96/scripts/main/Bash/router -O /home/$SUDO_USER/dev/bash/router.sh
+wget https://raw.githubusercontent.com/KermitPurple96/rpcenum/master/rpcenum.sh -O /home/$SUDO_USER/dev/bash/rpcenum
+wget https://raw.githubusercontent.com/KermitPurple96/scripts/main/Bash/router -O /home/$SUDO_USER/dev/bash/router
 chmod +x /home/$SUDO_USER/dev/bash/*
 
 #wpscan fix
