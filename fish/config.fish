@@ -397,7 +397,6 @@ alias mountedinfo='df -hT'
 
 
 function info
-    echo -e "\n"
     echo -e "$green [+]$endcolor $blue scan <ip>$endcolor Classic nmap scan"
     echo -e "$green [+]$endcolor $blue netscan <interface>$endcolor ARP and ping interface scan"
     echo -e "$green [+]$endcolor $blue swep <file>$endcolor Parse nxc smb output"
@@ -406,6 +405,7 @@ function info
     echo -e "$green [+]$endcolor $blue fast <ip> <threads>$endcolor fast go TCP scan"
     echo -e "$green [+]$endcolor $blue multifast <file>$endcolor fast scan a list of IPs"
     echo -e "$green [+]$endcolor $blue ports <file>$endcolor Parse nmap -sS"
+    echo -e "$green [+]$endcolor $blue recon <protocol$endcolor Search nmap scripts"
     echo -e "$green [+]$endcolor $blue tg$endcolor Defines IP target"
     echo -e "$green [+]$endcolor $blue mk$endcolor Makes working environment"
     echo -e "$green [+]$endcolor $blue stop$endcolor stops yellow watch"
