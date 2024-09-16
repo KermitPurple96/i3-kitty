@@ -400,7 +400,7 @@ function info
     echo -e "$green [+]$endcolor $blue scan <ip>$endcolor Classic nmap scan"
     echo -e "$green [+]$endcolor $blue netscan <interface>$endcolor ARP and ping interface scan"
     echo -e "$green [+]$endcolor $blue swep <file>$endcolor Parse nxc smb output"
-    echo -e "$green [+]$endcolor $blue swep <file>$endcolor Parse nxc smb -M spider_plus output"
+    echo -e "$green [+]$endcolor $blue swap <file>$endcolor Parse nxc smb -M spider_plus output"
     echo -e "$green [+]$endcolor $blue multiscan <file>$endcolor nmap -sS a list of IPs"
     echo -e "$green [+]$endcolor $blue fast <ip> <threads>$endcolor fast go TCP scan"
     echo -e "$green [+]$endcolor $blue multifast <file>$endcolor fast scan a list of IPs"
@@ -409,6 +409,10 @@ function info
     echo -e "$green [+]$endcolor $blue tg$endcolor Defines IP target"
     echo -e "$green [+]$endcolor $blue mk$endcolor Makes working environment"
     echo -e "$green [+]$endcolor $blue stop$endcolor stops yellow watch"
+
+    echo -e "$red [+]$endcolor More:$endcolor"
+    echo -e "$green [+]$endcolor $blue getips$endcolor Extracts IPv4 from file"
+    echo -e "$green [+]$endcolor $blue getips6$endcolor Extracts IPv6 from file"
 end
 
 
