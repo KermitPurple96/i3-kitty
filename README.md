@@ -5,7 +5,8 @@ instal xct env https://github.com/xct/kali-clean
 and execute all these commands https://github.com/KermitPurple96/i3-kitty/blob/main/config.sh
 
 
-![kali3](https://github.com/user-attachments/assets/daf99662-3a72-4c40-9de3-1053975d50ee)
+![github](https://github.com/user-attachments/assets/e399d72a-967d-4dbb-9180-6eb772c0ba7e)
+
 
 
 
