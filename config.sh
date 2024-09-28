@@ -293,6 +293,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 # poetry
 pip install poetry
+poetry init
 poetry install
 
 # Fish shell
