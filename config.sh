@@ -30,8 +30,8 @@ wget https://raw.githubusercontent.com/KermitPurple96/scripts/main/Bash/tools.sh
 
 mkdir /home/$SUDO_USER/dev
 mkdir /home/$SUDO_USER/dev/python
-git clone https://github.com/KermitPurple96/Shellpy -O /home/$SUDO_USER/dev/python/shellpy
-git clone https://github.com/KermitPurple96/OSCP-PythonSupportTools -O /home/$SUDO_USER/dev/python/support
+git clone https://github.com/KermitPurple96/Shellpy /home/$SUDO_USER/dev/python/shellpy
+git clone https://github.com/KermitPurple96/OSCP-PythonSupportTools /home/$SUDO_USER/dev/python/support
 wget https://raw.githubusercontent.com/KermitPurple96/scripts/main/Python/md4.py -O /home/$SUDO_USER/dev/python/md4
 wget https://raw.githubusercontent.com/mubix/IOXIDResolver/main/IOXIDResolver.py -O /home/$SUDO_USER/dev/python/IOXIDResolver.py
 chmod -R +x /home/$SUDO_USER/dev/python/*
@@ -54,7 +54,7 @@ sudo dpkg -i lsd-musl_0.23.1_amd64.deb
 
 #bat
 wget https://github.com/sharkdp/bat/releases/download/v0.24.0/bat_0.24.0_amd64.deb
-sudo dpkg -i bat_0.23.0_amd64.deb
+sudo dpkg -i bat_*
 
 # wallpaper
 rm /home/$SUDO_USER/.fehbg
