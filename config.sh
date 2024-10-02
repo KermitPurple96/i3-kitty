@@ -291,6 +291,8 @@ rm /home/$SUDO_USER/LICENSE.md
 #rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
+cargo install ntlm-info
+
 # poetry
 pip install poetry
 poetry init
