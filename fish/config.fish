@@ -18,19 +18,21 @@ set -g fondopurple "\e[0;46m\033[1m"
 set -g fondogris "\e[0;47m\033[1m"
 
 
-echo -ne "\t   __                    __                   __            
-\t _/ /________  __       / /__________________/ /_________
-\t/  __/ ___/ / / /      / __  / __  / ___/ __  / _  / ___/
-\t/ /_/ /  / /_/ /      / / / / /_/ / /  / /_/ /  __/ /
-\t\__/_/  _\__  /      /_/ /_/\__,_/_/  /_____/\___/_/   
-\t       /_____/ \n" | lolcat
-echo
+#echo -ne "\t   __                    __                   __            
+#\t _/ /________  __       / /__________________/ /_________
+#\t/  __/ ___/ / / /      / __  / __  / ___/ __  / _  / ___/
+#\t/ /_/ /  / /_/ /      / / / / /_/ / /  / /_/ /  __/ /
+#\t\__/_/  _\__  /      /_/ /_/\__,_/_/  /_____/\___/_/   
+#\t       /_____/ \n" | lolcat
+#echo
 
 
 
 
 # Export PATH
 set -g PATH $PATH $HOME/.local/bin /usr/bin /usr/share/responder /usr/share/ghidra /usr/share/hydra /usr/share/libreoffice /snap/bin /usr/sandbox /usr/local/bin /usr/local/go/bin /bin /usr/local/games /usr/games /usr/share/games /usr/local/sbin /usr/sbin /sbin /usr/local/bin /bin /usr/local/games /usr/games $HOME/.fzf/bin /opt/exploitdb $HOME/.local/bin /usr/share/metasploit-framework/tools/exploit /usr/bin/arsenal /usr/bin/gtfo $HOME/.fzf/bin /usr/share/Wordpresscan $HOME/.local/pipx/shared/bin $HOME/go/bin /usr/bin/pwsh $HOME/kitty.app/bin /home/kermit/dev/python /home/kermit/dev/bash $HOME/.cargo/bin
+
+set _OLD_VIRTUAL_PATH "$PATH"
 
 # Set other environment variables
 set -gx ip (cat /home/kermit/.config/bin/target.txt)
@@ -192,9 +194,9 @@ set -gx IFACE2 (/usr/sbin/ifconfig | grep tap0 | awk '{print $1}' | tr -d ':')
 
 if test "$IFACE" = tun0
     set -gx miip (/usr/sbin/ifconfig | grep tun0 -A1 | grep inet | awk '{print $2}')
-    echo -e (set_color green)"\t[+]"(set_color normal)" VPN tun0 interface detected \n"
+    echo -e (set_color green)"\n\t[+]"(set_color normal)" VPN tun0 interface detected \n"
 else
-    echo -e (set_color red)"\t[-]"(set_color normal)" No VPN tun0 interface detected \n"
+    echo -e (set_color red)"\n\t[-]"(set_color normal)" No VPN tun0 interface detected \n"
 end
 
 if test "$IFACE2" = tap0
@@ -282,6 +284,8 @@ end
 
 # ~/.config/fish/config.fish
 alias montar='sudo vmhgfs-fuse .host:/D /mnt/hgfs/ -o allow_other -o uid=1000'
+alias crack='cd /mnt/hgfs/share/hashcat-6.2.6/hashcat-6.2.6'
+
 # Alias
 alias dockerrmc='docker rm (docker ps -a -q) --force'
 alias dockerrmi='docker rmi (docker images -q)'
@@ -409,6 +413,7 @@ function info
     echo -e "$green [+]$endcolor $blue tg$endcolor Defines IP target"
     echo -e "$green [+]$endcolor $blue mk$endcolor Makes working environment"
     echo -e "$green [+]$endcolor $blue stop$endcolor stops yellow watch"
+    echo -e "$green [+]$endcolor $blue router <target AP>$endcolor stops yellow watch"
 
     echo -e "$red [+]$endcolor More:$endcolor"
     echo -e "$green [+]$endcolor $blue getips$endcolor Extracts IPv4 from file"
