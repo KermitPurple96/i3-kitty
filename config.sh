@@ -34,6 +34,7 @@ git clone https://github.com/KermitPurple96/Shellpy /home/$SUDO_USER/dev/python/
 git clone https://github.com/KermitPurple96/OSCP-PythonSupportTools /home/$SUDO_USER/dev/python/support
 wget https://raw.githubusercontent.com/KermitPurple96/scripts/main/Python/md4.py -O /home/$SUDO_USER/dev/python/md4
 wget https://raw.githubusercontent.com/mubix/IOXIDResolver/main/IOXIDResolver.py -O /home/$SUDO_USER/dev/python/IOXIDResolver.py
+wget https://raw.githubusercontent.com/KermitPurple96/scripts/refs/heads/main/Python/look.py -O /home/$SUDO_USER/dev/python/look.py
 chmod -R +x /home/$SUDO_USER/dev/python/*
 
 mkdir /home/$SUDO_USER/dev/go
