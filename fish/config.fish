@@ -67,6 +67,18 @@ end
 
 
 
+function crt
+    set domain $argv[1]
+    set output_file "booz"
+
+    # Hacer la petición web y filtrar los resultados iniciales
+    curl -ks "https://crt.sh/?q=$domain" | grep $domain | grep -v "\*" | sort -u | uniq | sponge $output_file
+
+    # Extraer los subdominios del archivo
+    cat $output_file | grep -oP "[a-z0-9._-]+\\.$domain" | uniq | sort -u | sponge $output_file
+    cat $output_file
+end
+
 
 
 # Agrega esta función a tu .config.fish
