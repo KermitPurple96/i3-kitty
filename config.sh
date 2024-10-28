@@ -258,6 +258,9 @@ apt --purge remove python3-pycurl && apt install libcurl4-openssl-dev libssl-dev
 sudo git clone https://github.com/mzfr/gtfo /usr/bin/gtfo
 chmod +x /usr/bin/gtfo
 
+# donpapi
+pipx install donpapi
+
 #minikerberos
 git clone https://github.com/skelsec/minikerberos.git
 python3 setup.py ./minikerbero/install
