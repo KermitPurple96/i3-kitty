@@ -67,17 +67,6 @@ end
 
 
 
-function crt
-    set domain $argv[1]
-    set output_file "booz"
-
-    # Hacer la petición web y filtrar los resultados iniciales
-    curl -ks "https://crt.sh/?q=$domain" | grep $domain | grep -v "\*" | sort -u | uniq | sponge $output_file
-
-    # Extraer los subdominios del archivo
-    cat $output_file | grep -oP "[a-z0-9._-]+\\.$domain" | uniq | sort -u | sponge $output_file
-    cat $output_file
-end
 
 
 
@@ -178,13 +167,8 @@ function get
 
     # Guarda los argumentos en variables
     set campo $argv[1]
-    set archivo $argv[2]
-    set FS ","
-
-    # Si se proporciona el tercer argumento, úsalo como FS
-    if test (count $argv) -ge 3
-        set FS $argv[3]
-    end
+    set FS $argv[2]
+    set archivo $argv[3]
 
     # Verifica si el archivo existe
     if not test -f $archivo
@@ -413,24 +397,38 @@ alias mountedinfo='df -hT'
 
 
 function info
-    echo -e "$green [+]$endcolor $blue scan <ip>$endcolor Classic nmap scan"
-    echo -e "$green [+]$endcolor $blue netscan <interface>$endcolor ARP and ping interface scan"
-    echo -e "$green [+]$endcolor $blue swep <file>$endcolor Parse nxc smb output"
-    echo -e "$green [+]$endcolor $blue swap <file>$endcolor Parse nxc smb -M spider_plus output"
-    echo -e "$green [+]$endcolor $blue multiscan <file>$endcolor nmap -sS a list of IPs"
-    echo -e "$green [+]$endcolor $blue fast <ip> <threads>$endcolor fast go TCP scan"
-    echo -e "$green [+]$endcolor $blue multifast <file>$endcolor fast scan a list of IPs"
-    echo -e "$green [+]$endcolor $blue ports <file>$endcolor Parse nmap -sS"
-    echo -e "$green [+]$endcolor $blue recon <protocol$endcolor Search nmap scripts"
+    # Configuración
+    echo -e "\n$yellow settings:$endcolor"
     echo -e "$green [+]$endcolor $blue tg$endcolor Defines IP target"
     echo -e "$green [+]$endcolor $blue mk$endcolor Makes working environment"
-    echo -e "$green [+]$endcolor $blue stop$endcolor stops yellow watch"
-    echo -e "$green [+]$endcolor $blue router <target AP>$endcolor stops yellow watch"
+    echo -e "$green [+]$endcolor $blue stop$endcolor Stops yellow watch"
+    echo -e "$green [+]$endcolor $blue iface$endcolor Sets interface to show"
 
-    echo -e "$red [+]$endcolor More:$endcolor"
+    # Escaneos
+    echo -e "\n$yellow nmap scans:$endcolor"
+    echo -e "$green [+]$endcolor $blue scan <ip>$endcolor Classic nmap scan"
+    echo -e "$green [+]$endcolor $blue netscan <interface>$endcolor ARP and ping interface scan"
+    echo -e "$green [+]$endcolor $blue multiscan <file>$endcolor Nmap -sS and -sCV a list of IPs"
+    echo -e "$green [+]$endcolor $blue ports <file>$endcolor Parse nmap -sS"
+    echo -e "$green [+]$endcolor $blue recon <protocol>$endcolor Search nmap scripts"
+
+    # Análisis de SMB
+    echo -e "\n$yellow nxc smb analysis:$endcolor"
+    echo -e "$green [+]$endcolor $blue swep <file>$endcolor Parse nxc smb output"
+    echo -e "$green [+]$endcolor $blue swap <file>$endcolor Parse nxc smb -M spider_plus output"
+
+    # Escaneos rápidos
+    echo -e "\n$yellow fast golang TCP scan:$endcolor"
+    echo -e "$green [+]$endcolor $blue fast <ip> <threads>$endcolor Fast go TCP scan"
+    echo -e "$green [+]$endcolor $blue multifast <file>$endcolor Fast scan a list of IPs"
+
+    echo -e "\n$yellow utilities:$endcolor"
+    echo -e "$green [+]$endcolor $blue router <target AP>$endcolor Configure router target AP"
     echo -e "$green [+]$endcolor $blue getips$endcolor Extracts IPv4 from file"
     echo -e "$green [+]$endcolor $blue getips6$endcolor Extracts IPv6 from file"
 end
+
+
 
 
 function swap
@@ -566,55 +564,40 @@ end
 
 function netscan
     if test (count $argv) -eq 0
-        echo "Uso: netscan <nombre_interfaz>"
-        echo "Ejemplo: netscan eth0"
+        echo "Uso: netscan <range>"
+        echo "Ejemplo: netscan 192.168.1.0/24"
         return 1
     end
 
-    set iface $argv[1]
+    set range $argv[1]
 
-    # Obtiene la dirección IP y el segmento de red de la interfaz proporcionada
-    set ip_info (ip addr show $iface | grep "inet " | awk '{print $2}')
-    
-    if test -z "$ip_info"
-        echo "No se encontró información de red para la interfaz $iface"
-        return 1
-    end
-
-    # Calcula la red base usando ipcalc
-    set network_info (ipcalc -n $ip_info | grep "Network" | awk '{print $2}')
-    
-    if test -z "$network_info"
-        echo "No se pudo calcular la red base para la interfaz $iface"
-        return 1
-    end
-
-    # Realiza el ping sweep con nmap en el segmento de red calculado
-    echo "Realizando ping sweep en $network_info con nmap..."
+    # Realiza el ping sweep con nmap en el segmento de red dado
+    echo "Realizando ping sweep en $range con nmap..."
     set output_file "ips.nmap"
-    nmap -sn $network_info -oG $output_file >/dev/null 2>&1
-
-    # Realiza el escaneo ARP con arp-scan en el segmento de red calculado
-    echo "Realizando escaneo ARP en $network_info con arp-scan..."
-    arp-scan --interface=$iface $network_info >/dev/null 2>&1
+    nmap -sn $range -oG $output_file >/dev/null 2>&1
 
     # Extrae las IPs de los hosts vivos del archivo de salida de nmap
     set nmap_ips (grep 'Up' $output_file | awk '{print $2}')
 
     # Si no se encuentran IPs, muestra el mensaje correspondiente
     if test (count $nmap_ips) -eq 0
-        echo "No se encontraron hosts vivos en $network_info."
+        echo "No se encontraron hosts vivos en $range."
         return 1
     end
 
-    # Guarda las IPs en el archivo de salida
-    echo "[+] Hosts vivos encontrados en $network_info"
-    for ip in $nmap_ips
-        echo $ip >> $output_file
-    end
-
+    # Guarda las IPs en el archivo de salida, descartando aquellas que terminan en .0
+    echo "[+] Hosts vivos encontrados en $range"
+    
     # Ordena las IPs, elimina duplicados, y sobrescribe el archivo
     sort -u $output_file | sponge $output_file
+    getips $output_file | sponge $output_file
+
+    for ip in $nmap_ips
+        set last_octet (echo $ip | awk -F. '{print $4}')
+        if test "$last_octet" != "0"
+            echo $ip >> $output_file
+        end
+    end
 
     # Muestra las IPs encontradas
     echo "IPs guardadas en $output_file:"
@@ -623,24 +606,68 @@ end
 
 
 
+function iface
+    if test (count $argv) -eq 0
+        echo "Uso: iface <interfaz>"
+        echo "Ejemplo: iface tun0"
+        return 1
+    end
+
+    # Guarda el primer argumento en una variable
+    set interface $argv[1]
+
+    # Escribe la interfaz en el archivo
+    echo $interface > /usr/share/i3blocks/iface
+    echo "Interfaz $interface establecida en /usr/share/i3blocks/iface"
+end
+
+
 
 
 
 
 function multiscan
     if test (count $argv) -eq 0
-        echo "Uso: multiscan <archivo_de_ips>"
+        echo "Uso: scan <archivo_de_IPs>"
         return 1
     end
 
-    set file $argv[1]
-    for ip in (cat $file)
-        set formatted_ip (echo $ip | tr '.' '_')
+    set ip_file $argv[1]
 
-        echo "Escaneando IP: $ip"
+    # Verifica si el archivo existe
+    if not test -f $ip_file
+        echo "Archivo $ip_file no encontrado."
+        return 1
+    end
+
+    # Lee cada IP del archivo y realiza el escaneo
+    for ip in (cat $ip_file)
+        # Formatea la IP reemplazando puntos por guiones para el nombre del archivo
+        set formatted_ip (echo $ip | tr '.' '-')
+
+        # Escaneo SYN en todos los puertos y guarda la salida en formato greppable
+        echo "Ejecutando nmap -sS --open -p- en $ip..."
         nmap -sS --open -p- $ip -n -Pn -oG nmap_$formatted_ip.txt -vvv
+
+        # Extrae los puertos abiertos y los formatea en una lista separada por comas
+        set ports (grep -oP '\d{1,5}/open' nmap_$formatted_ip.txt | awk '{print $1}' FS='/' | xargs | tr ' ' ',')
+
+        # Si no hay puertos abiertos, muestra un mensaje y continúa con la siguiente IP
+        if test -z "$ports"
+            echo "No se encontraron puertos abiertos en $ip."
+            continue
+        end
+
+        # Escaneo detallado en los puertos abiertos
+        echo "Ejecutando nmap -sCV en los puertos: $ports..."
+        nmap -sCV -p$ports -n -Pn $ip -v -oN scan_$formatted_ip.txt
+
+        echo "Escaneo completado. Resultado guardado en scan_$formatted_ip.txt."
     end
 end
+
+
+
 
 
 
@@ -908,3 +935,5 @@ end
 
 # Created by `pipx` on 2024-07-13 13:34:55
 set PATH $PATH /root/.local/bin
+
+
