@@ -416,6 +416,7 @@ function info
 
     # Escaneos
     echo -e "\n$yellow nmap scans:$endcolor"
+    echo -e "$green [+]$endcolor $blue iface <interface>$endcolor Definas interface to show in i3blocks"
     echo -e "$green [+]$endcolor $blue scan <ip>$endcolor Classic nmap scan"
     echo -e "$green [+]$endcolor $blue netscan <interface>$endcolor ARP and ping interface scan"
     echo -e "$green [+]$endcolor $blue multiscan <file>$endcolor Nmap -sS and -sCV a list of IPs"
