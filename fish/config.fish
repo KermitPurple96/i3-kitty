@@ -204,8 +204,14 @@ end
 
 
 
+#set -gx miipk (/usr/sbin/ifconfig | grep eth0 -A1 | grep inet | awk '{print $2}')
 
-set -gx miipk (/usr/sbin/ifconfig | grep eth0 -A1 | grep inet | awk '{print $2}')
+function update_ip
+  set interface (cat /usr/share/i3blocks/iface)
+  set -gx miipk (/usr/sbin/ifconfig $interface | grep inet | awk '{print $2}' | head -n 1)
+end
+
+update_ip
 
 function mipk
     echo $miipk
@@ -406,12 +412,12 @@ alias mountedinfo='df -hT'
 
 
 
-
-
 function info
     # Configuración
     echo -e "\n$yellow settings:$endcolor"
-    echo -e "$green [+]$endcolor $blue iface <interface>$endcolor Definas interface to show in i3blocks"
+    echo -e "$green [+]$endcolor $blue iface <interface>$endcolor Define interface to show in i3blocks"
+    echo -e "$green [+]$endcolor $blue mipk$endcolor Print current iface ip"
+    echo -e "$green [+]$endcolor $blue mip$endcolor Print VPN tun0 ip"
     echo -e "$green [+]$endcolor $blue tg$endcolor Defines IP target"
     echo -e "$green [+]$endcolor $blue mk$endcolor Makes working environment"
     echo -e "$green [+]$endcolor $blue stop$endcolor Stops yellow watch"
@@ -446,7 +452,10 @@ function info
     echo -e "\n$yellow share:$endcolor"
     echo -e "$green [+]$endcolor $blue share <share name>$endcolor share current folder via smb"
     echo -e "$green [+]$endcolor $blue serve <port>$endcolor share current folder via http"
+
+
 end
+
 
 
 
@@ -640,8 +649,8 @@ function iface
     # Escribe la interfaz en el archivo
     echo $interface > /usr/share/i3blocks/iface
     echo "Interfaz $interface establecida en /usr/share/i3blocks/iface"
+    update_ip
 end
-
 
 
 
@@ -965,3 +974,5 @@ end
 
 # Created by `pipx` on 2024-07-13 13:34:55
 set PATH $PATH /root/.local/bin
+
+
