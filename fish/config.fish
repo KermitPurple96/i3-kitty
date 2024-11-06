@@ -254,23 +254,33 @@ end
 
 
 
+
 function share
     echo -ne "\n\t[+] Sharing at:"
-    echo -ne "\n\n\t"
+    echo -ne "\n\n"
 
-    # Verificar si mip no está vacía y ejecutar el comando correspondiente
-    if test -n (mip)
-        echo "\\\\$(mip)\\$argv[1]"
-    end
+    # Lista de interfaces a verificar
+    set interfaces eth0 eth1 tun0 tap0
 
-    # Verificar si mipk no está vacía y ejecutar el comando correspondiente
-    if test -n (mipk)
-        echo "\\\\$(mipk)\\$argv[1]"
+    # Recorre cada interfaz y verifica si existe y tiene IP
+    for iface in $interfaces
+        if ifdata -e $iface
+            # Obtiene la IP de la interfaz y almacena en variable mip
+            set mip (ifdata -p $iface | awk '{print $1}')
+            
+            # Verifica si mip no está vacía y muestra el share
+            if test -n "$mip"
+                echo "\\\\$mip\\$argv[1]"
+            end
+        end
     end
 
     echo -ne "\n"
+    # Inicia el servidor SMB
     impacket-smbserver $argv[1] (pwd) -smb2support
 end
+
+
 
 function serve
     python3 -m uploadserver $argv[1]
@@ -287,7 +297,7 @@ alias dockerrmc='docker rm (docker ps -a -q) --force'
 alias dockerrmi='docker rmi (docker images -q)'
 alias dockerrmv='docker volume rm (docker volume ls -q)'
 
-alias sploit="searchsploit"
+alias sp="searchsploit"
 #alias share='impacket-smbserver share (pwd) -smb2support'
 alias sd="sudo su"
 alias fz='nvim (fzf --preview="cat {}")'
@@ -426,7 +436,15 @@ function info
     echo -e "$green [+]$endcolor $blue router <target AP>$endcolor Configure router target AP"
     echo -e "$green [+]$endcolor $blue getips$endcolor Extracts IPv4 from file"
     echo -e "$green [+]$endcolor $blue getips6$endcolor Extracts IPv6 from file"
+
+    echo -e "\n$yellow share:$endcolor"
+    echo -e "$green [+]$endcolor $blue share <share name>$endcolor share current folder via smb"
+    echo -e "$green [+]$endcolor $blue serve <port>$endcolor share current folder via http"
+
+
 end
+
+
 
 
 
@@ -556,7 +574,7 @@ function scan
 
     # Escaneo detallado en los puertos abiertos
     echo "Ejecutando nmap -sCV en los puertos: $ports..."
-    nmap -sCV -p$ports -n -Pn $ip -v -oN scan_$formatted_ip.txt
+    nmap -sCV -p$ports -n -Pn $ip -vvv -oN scan_$formatted_ip.txt
 
     echo "Escaneo completado. Resultado guardado en scan_$formatted_ip.txt."
 end
@@ -867,6 +885,15 @@ end
 
 
 
+#BLOODHOUND
+
+function bloodusers
+    set -l file $argv[1]
+    jq -r '.data[].Properties.name' $file | sed 's/@.*//' | tr '[:upper:]' '[:lower:]'
+end
+
+
+
 
 function ftext
     # -i case-insensitive
@@ -935,5 +962,3 @@ end
 
 # Created by `pipx` on 2024-07-13 13:34:55
 set PATH $PATH /root/.local/bin
-
-
