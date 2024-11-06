@@ -406,9 +406,12 @@ alias mountedinfo='df -hT'
 
 
 
+
+
 function info
     # Configuración
     echo -e "\n$yellow settings:$endcolor"
+    echo -e "$green [+]$endcolor $blue iface <interface>$endcolor Definas interface to show in i3blocks"
     echo -e "$green [+]$endcolor $blue tg$endcolor Defines IP target"
     echo -e "$green [+]$endcolor $blue mk$endcolor Makes working environment"
     echo -e "$green [+]$endcolor $blue stop$endcolor Stops yellow watch"
@@ -416,8 +419,7 @@ function info
 
     # Escaneos
     echo -e "\n$yellow nmap scans:$endcolor"
-    echo -e "$green [+]$endcolor $blue iface <interface>$endcolor Definas interface to show in i3blocks"
-    echo -e "$green [+]$endcolor $blue scan <ip>$endcolor Classic nmap scan"
+    echo -e "$green [+]$endcolor $blue scan <ip>$endcolor Classic -sS and -sCV nmap scan"
     echo -e "$green [+]$endcolor $blue netscan <interface>$endcolor ARP and ping interface scan"
     echo -e "$green [+]$endcolor $blue multiscan <file>$endcolor Nmap -sS and -sCV a list of IPs"
     echo -e "$green [+]$endcolor $blue ports <file>$endcolor Parse nmap -sS"
@@ -437,14 +439,14 @@ function info
     echo -e "$green [+]$endcolor $blue router <target AP>$endcolor Configure router target AP"
     echo -e "$green [+]$endcolor $blue getips$endcolor Extracts IPv4 from file"
     echo -e "$green [+]$endcolor $blue getips6$endcolor Extracts IPv6 from file"
+    echo -e "$green [+]$endcolor $blue extract <file>$endcolor Decompress the file"
+    echo -e "$green [+]$endcolor $blue get <n field> <archivo> [FS]$endcolor AWK filter"
+    echo -e "$green [+]$endcolor $blue bloodusers <file>$endcolor Extract users from bloohound users.json"
 
     echo -e "\n$yellow share:$endcolor"
     echo -e "$green [+]$endcolor $blue share <share name>$endcolor share current folder via smb"
     echo -e "$green [+]$endcolor $blue serve <port>$endcolor share current folder via http"
-
-
 end
-
 
 
 
