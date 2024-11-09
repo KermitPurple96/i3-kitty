@@ -457,6 +457,25 @@ function info
 end
 
 
+function cracktgt
+    if test -z $argv[1]
+        echo "Por favor, proporciona el nombre del archivo que contiene los hashes."
+        return 1
+    end
+
+    sudo hashcat -m 18200 $argv[1] /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule --force
+end
+
+
+function cracktgs
+    if test -z $argv[1]
+        echo "Por favor, proporciona el nombre del archivo que contiene los hashes de TGS."
+        return 1
+    end
+
+    sudo hashcat -m 13100 $argv[1] /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule --force
+end
+
 
 
 
