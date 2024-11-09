@@ -27,6 +27,20 @@ set -g fondogris "\e[0;47m\033[1m"
 #echo
 
 
+function word
+    if test -z $argv[1]
+        echo "Por favor, proporciona la ruta del directorio o archivo."
+        return 1
+    end
+
+    # Encuentra solo archivos en el directorio dado y sus subdirectorios, excluyendo directorios
+    find $argv[1] -type f -exec cat {} + | grep -oE '\w+' | tr '[:upper:]' '[:lower:]' | sort | uniq > wordlist.txt
+
+    echo "Wordlist creada como 'wordlist.txt'"
+end
+
+
+
 
 
 # Export PATH
@@ -332,7 +346,7 @@ end
 alias kitten="kitty +kitten icat"
 alias pins='jump pins'
 alias js='js-beautify'
-
+alias hi='hash-identifier'
 
 zoxide init fish | source
 
@@ -435,6 +449,13 @@ function info
     echo -e "\n$yellow nxc smb analysis:$endcolor"
     echo -e "$green [+]$endcolor $blue swep <file>$endcolor Parse nxc smb output"
     echo -e "$green [+]$endcolor $blue swap <file>$endcolor Parse nxc smb -M spider_plus output"
+    echo -e "$green [+]$endcolor $blue crack <file>$endcolor Parse nxc smb output"
+
+    # Análisis de SMB
+    echo -e "\n$yellow cracking:$endcolor"
+    echo -e "$green [+]$endcolor $blue crack <file>$endcolor crack without -m format specified"
+    echo -e "$green [+]$endcolor $blue cracktgt <file>$endcolor crack tgt"
+    echo -e "$green [+]$endcolor $blue cracktgs <file>$endcolor crack tgs" 
 
     # Escaneos rápidos
     echo -e "\n$yellow fast golang TCP scan:$endcolor"
@@ -447,6 +468,8 @@ function info
     echo -e "$green [+]$endcolor $blue getips6$endcolor Extracts IPv6 from file"
     echo -e "$green [+]$endcolor $blue extract <file>$endcolor Decompress the file"
     echo -e "$green [+]$endcolor $blue get <n field> <archivo> [FS]$endcolor AWK filter"
+    echo -e "$green [+]$endcolor $blue word ./* $endcolor make a wordlist"
+    echo -e "$green [+]$endcolor $blue ftext <keyword> $endcolor find txt in current directory"
     echo -e "$green [+]$endcolor $blue bloodusers <file>$endcolor Extract users from bloohound users.json"
 
     echo -e "\n$yellow share:$endcolor"
@@ -454,6 +477,16 @@ function info
     echo -e "$green [+]$endcolor $blue serve <port>$endcolor share current folder via http"
 
 
+end
+
+
+function crack
+    if test -z $argv[1]
+        echo "Por favor, proporciona el nombre del archivo que contiene los hashes."
+        return 1
+    end
+
+    sudo hashcat $argv[1] /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule --force
 end
 
 
@@ -475,8 +508,6 @@ function cracktgs
 
     sudo hashcat -m 13100 $argv[1] /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule --force
 end
-
-
 
 
 
@@ -993,5 +1024,4 @@ end
 
 # Created by `pipx` on 2024-07-13 13:34:55
 set PATH $PATH /root/.local/bin
-
 
