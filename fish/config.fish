@@ -27,24 +27,12 @@ set -g fondogris "\e[0;47m\033[1m"
 #echo
 
 
-function word
-    if test -z $argv[1]
-        echo "Por favor, proporciona la ruta del directorio o archivo."
-        return 1
-    end
-
-    # Encuentra solo archivos en el directorio dado y sus subdirectorios, excluyendo directorios
-    find $argv[1] -type f -exec cat {} + | grep -oE '\w+' | tr '[:upper:]' '[:lower:]' | sort | uniq > wordlist.txt
-
-    echo "Wordlist creada como 'wordlist.txt'"
-end
-
 
 
 
 
 # Export PATH
-set -g PATH $PATH $HOME/.local/bin /usr/bin /usr/share/responder /usr/share/ghidra /usr/share/hydra /usr/share/libreoffice /snap/bin /usr/sandbox /usr/local/bin /usr/local/go/bin /bin /usr/local/games /usr/games /usr/share/games /usr/local/sbin /usr/sbin /sbin /usr/local/bin /bin /usr/local/games /usr/games $HOME/.fzf/bin /opt/exploitdb $HOME/.local/bin /usr/share/metasploit-framework/tools/exploit /usr/bin/arsenal /usr/bin/gtfo $HOME/.fzf/bin /usr/share/Wordpresscan $HOME/.local/pipx/shared/bin $HOME/go/bin /usr/bin/pwsh $HOME/kitty.app/bin /home/kermit/dev/python /home/kermit/dev/python/shellpy /home/kermit/dev/python/support /home/kermit/dev/bash $HOME/.cargo/bin
+set -g PATH $PATH $HOME/.local/bin /usr/bin /usr/share/responder /usr/share/ghidra /usr/share/hydra /usr/share/libreoffice /snap/bin /usr/sandbox /usr/local/bin /usr/local/go/bin /bin /usr/local/games /usr/games /usr/share/games /usr/local/sbin /usr/sbin /sbin /usr/local/bin /bin /usr/local/games /usr/games $HOME/.fzf/bin /opt/exploitdb $HOME/.local/bin /usr/share/metasploit-framework/tools/exploit /usr/bin/arsenal /usr/bin/gtfo $HOME/.fzf/bin /usr/share/Wordpresscan $HOME/.local/pipx/shared/bin $HOME/go/bin /usr/bin/pwsh $HOME/kitty.app/bin /home/kermit/dev/python /home/kermit/dev/bash $HOME/.cargo/bin
 
 set _OLD_VIRTUAL_PATH "$PATH"
 
@@ -81,6 +69,33 @@ end
 
 
 
+function word
+    if test -z $argv[1]
+        echo "Por favor, proporciona la ruta del directorio o archivo."
+        return 1
+    end
+
+    # Encuentra solo archivos en el directorio dado y sus subdirectorios, excluyendo directorios
+    find $argv[1] -type f -exec cat {} + | grep -oE '\w+' | tr '[:upper:]' '[:lower:]' | sort | uniq > wordlist.txt
+
+    echo "Wordlist creada como 'wordlist.txt'"
+end
+
+function swep
+    if test -z "$argv[1]"
+        echo "Uso: ping_sweep <base de IP>"
+        echo "Ejemplo: ping_sweep 10.10.123"
+        return 1
+    end
+
+    set -l ip_base $argv[1]
+
+    for i in (seq 1 255)
+        sleep 1
+        ping -c 1 "$ip_base.$i" &>/dev/null; and echo "Host $ip_base.$i active" &
+    end
+    wait
+end
 
 
 
@@ -196,33 +211,52 @@ end
 
 
 
-set -gx IFACE (/usr/sbin/ifconfig | grep tun0 | awk '{print $1}' | tr -d ':')
-set -gx IFACE2 (/usr/sbin/ifconfig | grep tap0 | awk '{print $1}' | tr -d ':')
+#set -gx IFACE (/usr/sbin/ifconfig | grep tun0 | awk '{print $1}' | tr -d ':')
+#set -gx IFACE2 (/usr/sbin/ifconfig | grep tap0 | awk '{print $1}' | tr -d ':')
 
 
 
 
-if test "$IFACE" = tun0
-    set -gx miip (/usr/sbin/ifconfig | grep tun0 -A1 | grep inet | awk '{print $2}')
+#if test "$IFACE" = tun0
+#    set -gx miip (/usr/sbin/ifconfig | grep tun0 -A1 | grep inet | awk '{print $2}')
+#    echo -e (set_color green)"\n\t[+]"(set_color normal)" VPN tun0 interface detected \n"
+#else
+#    echo -e (set_color red)"\n\t[-]"(set_color normal)" No VPN tun0 interface detected \n"
+#end
+
+#if test "$IFACE2" = tap0
+#    set -gx miip (/usr/sbin/ifconfig | grep tap0 -A1 | grep inet | awk '{print $2}')
+#    echo -e (set_color green)"\t[+]"(set_color normal)" VPN tap0 interface detected \n"
+#else
+#    echo -e (set_color red)"\t[-]"(set_color normal)" No VPN tap0 interface detected \n"
+#end
+
+# Verifica si la interfaz tun0 está presente
+if ifdata -e tun0
+    set -gx miip (/usr/sbin/ifconfig tun0 | grep inet | awk '{print $2}')
     echo -e (set_color green)"\n\t[+]"(set_color normal)" VPN tun0 interface detected \n"
 else
     echo -e (set_color red)"\n\t[-]"(set_color normal)" No VPN tun0 interface detected \n"
 end
 
-if test "$IFACE2" = tap0
-    set -gx miip (/usr/sbin/ifconfig | grep tap0 -A1 | grep inet | awk '{print $2}')
+# Verifica si la interfaz tap0 está presente
+if ifdata -e tap0
+    set -gx miip (/usr/sbin/ifconfig tap0 | grep inet | awk '{print $2}')
     echo -e (set_color green)"\t[+]"(set_color normal)" VPN tap0 interface detected \n"
 else
     echo -e (set_color red)"\t[-]"(set_color normal)" No VPN tap0 interface detected \n"
 end
 
 
-
 #set -gx miipk (/usr/sbin/ifconfig | grep eth0 -A1 | grep inet | awk '{print $2}')
 
 function update_ip
   set interface (cat /usr/share/i3blocks/iface)
-  set -gx miipk (/usr/sbin/ifconfig $interface | grep inet | awk '{print $2}' | head -n 1)
+  if ifdata -e $interface
+    set -gx miipk (/usr/sbin/ifconfig $interface | grep inet | awk '{print $2}' | head -n 1)
+    #else 
+    #echo -e (set_color red)"\n\t[-] Error"(set_color normal)" check /usr/share/i3blocks/iface"
+  end
 end
 
 update_ip
@@ -310,7 +344,7 @@ end
 
 # ~/.config/fish/config.fish
 alias montar='sudo vmhgfs-fuse .host:/D /mnt/hgfs/ -o allow_other -o uid=1000'
-alias crack='cd /mnt/hgfs/share/hashcat-6.2.6/hashcat-6.2.6'
+alias hash='cd /mnt/hgfs/share/hashcat-6.2.6/hashcat-6.2.6'
 
 # Alias
 alias dockerrmc='docker rm (docker ps -a -q) --force'
@@ -353,9 +387,22 @@ zoxide init fish | source
 
 # ~/.config/fish/config.fish
 
+
+
+function x
+  z $argv[1]
+  lsd -A
+end
+
+function xi
+  zi
+  lsd -A
+end
+
+
 # Aliases for zoxide
-alias x='z'
-alias xi='zi'
+#alias x='z && lsd -A'
+#alias xi='zi && lsd -A'
 alias xr='zoxide remove'
 alias xq='zoxide query'
 alias xe='zoxide edit'
@@ -437,17 +484,20 @@ function info
     echo -e "$green [+]$endcolor $blue stop$endcolor Stops yellow watch"
     echo -e "$green [+]$endcolor $blue iface$endcolor Sets interface to show"
 
+
     # Escaneos
-    echo -e "\n$yellow nmap scans:$endcolor"
+    echo -e "\n$yellow scans:$endcolor"
     echo -e "$green [+]$endcolor $blue scan <ip>$endcolor Classic -sS and -sCV nmap scan"
-    echo -e "$green [+]$endcolor $blue netscan <interface>$endcolor ARP and ping interface scan"
+    echo -e "$green [+]$endcolor $blue netscan <interface>$endcolor Ping sweep interface scan"
     echo -e "$green [+]$endcolor $blue multiscan <file>$endcolor Nmap -sS and -sCV a list of IPs"
     echo -e "$green [+]$endcolor $blue ports <file>$endcolor Parse nmap -sS"
     echo -e "$green [+]$endcolor $blue recon <protocol>$endcolor Search nmap scripts"
+    echo -e "$green [+]$endcolor $blue tcpudpScan 192.168.1.0/24$endcolor Ping and fast tdp/udp scan"
+    
 
     # Análisis de SMB
     echo -e "\n$yellow nxc smb analysis:$endcolor"
-    echo -e "$green [+]$endcolor $blue swep <file>$endcolor Parse nxc smb output"
+    echo -e "$green [+]$endcolor $blue swop <file>$endcolor Parse nxc smb output"
     echo -e "$green [+]$endcolor $blue swap <file>$endcolor Parse nxc smb -M spider_plus output"
     echo -e "$green [+]$endcolor $blue crack <file>$endcolor Parse nxc smb output"
 
@@ -463,7 +513,7 @@ function info
     echo -e "$green [+]$endcolor $blue multifast <file>$endcolor Fast scan a list of IPs"
 
     echo -e "\n$yellow utilities:$endcolor"
-    echo -e "$green [+]$endcolor $blue router <target AP>$endcolor Configure router target AP"
+    echo -e "$green [+]$endcolor $blue router <192.168.142.0>$endcolor Configure routing to target AP"
     echo -e "$green [+]$endcolor $blue getips$endcolor Extracts IPv4 from file"
     echo -e "$green [+]$endcolor $blue getips6$endcolor Extracts IPv6 from file"
     echo -e "$green [+]$endcolor $blue extract <file>$endcolor Decompress the file"
@@ -498,6 +548,16 @@ function cracktgt
 
     sudo hashcat -m 18200 $argv[1] /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule --force
 end
+
+function cracknetntlm
+    if test -z $argv[1]
+        echo "Por favor, proporciona el nombre del archivo que contiene los hashes."
+        return 1
+    end
+
+    sudo hashcat -m 5600 $argv[1] /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule --force
+end
+
 
 
 function cracktgs
@@ -558,7 +618,7 @@ end
 
 
 
-function swep
+function swop
     if test (count $argv) -eq 0
         echo "nxc smb 192.168.1.0/24 --log 'sweep.log'"
         echo "Usage: swep sweep.log"
@@ -642,6 +702,17 @@ function scan
 end
 
 
+function trash
+  set -l file $argv[1]
+  for ip in (cat $file)
+    set -l last_octet (echo $ip | awk -F. '{print $4}')
+    if test "$last_octet" -ne 0 -a "$last_octet" -ne 254 -a "$last_octet" -ne 255
+      echo $ip
+    end
+  end
+end
+
+
 function netscan
     if test (count $argv) -eq 0
         echo "Uso: netscan <range>"
@@ -654,6 +725,7 @@ function netscan
     # Realiza el ping sweep con nmap en el segmento de red dado
     echo "Realizando ping sweep en $range con nmap..."
     set output_file "ips.nmap"
+    set results "hosts.nmap"
     nmap -sn $range -oG $output_file >/dev/null 2>&1
 
     # Extrae las IPs de los hosts vivos del archivo de salida de nmap
@@ -665,23 +737,19 @@ function netscan
         return 1
     end
 
-    # Guarda las IPs en el archivo de salida, descartando aquellas que terminan en .0
-    echo "[+] Hosts vivos encontrados en $range"
-    
-    # Ordena las IPs, elimina duplicados, y sobrescribe el archivo
-    sort -u $output_file | sponge $output_file
-    getips $output_file | sponge $output_file
+    getips $output_file | sort -u | uniq | sponge $output_file
 
-    for ip in $nmap_ips
-        set last_octet (echo $ip | awk -F. '{print $4}')
-        if test "$last_octet" != "0"
-            echo $ip >> $output_file
-        end
+    for ip in (cat $output_file)
+      set -l last_octet (echo $ip | awk -F. '{print $4}')
+      if test "$last_octet" -ne 0 -a "$last_octet" -ne 254 -a "$last_octet" -ne 255
+        echo $ip >> $results
+      end
     end
 
+    rm $output_file
     # Muestra las IPs encontradas
-    echo "IPs guardadas en $output_file:"
-    cat $output_file
+    echo "IPs guardadas en $results:"
+    cat $results
 end
 
 
@@ -996,6 +1064,7 @@ function cd
         and ls -A
     end
 end
+
 
 
 
