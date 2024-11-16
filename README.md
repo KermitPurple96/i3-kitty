@@ -7,6 +7,7 @@ and execute all these commands https://github.com/KermitPurple96/i3-kitty/blob/m
 
 ![github](https://github.com/user-attachments/assets/e399d72a-967d-4dbb-9180-6eb772c0ba7e)
 
+![gitprof](https://github.com/user-attachments/assets/28444617-35c7-473c-bd9d-fe878f944107)
 
 
 
