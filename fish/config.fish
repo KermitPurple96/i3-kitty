@@ -534,7 +534,7 @@ end
 
 function crack
     if test -z $argv[1]
-        echo "Por favor, proporciona el nombre del archivo que contiene los hashes."
+        echo "crack without hash type specified"
         return 1
     end
 
@@ -681,11 +681,13 @@ function scan
 
     set ip $argv[1]
     # Formateamos la IP reemplazando los puntos con guiones para usar en el nombre del archivo
-    set formatted_ip (echo $ip | tr '.' '-')
+    #set formatted_ip (echo $ip | tr '.' '-')
+    set formatted_ip (echo $ip | awk -F'.' '{print $4"."$3"."$2"."$1}')
+
 
     # Escaneo SYN en todos los puertos y guarda la salida en formato greppable
     echo "Ejecutando nmap -sS --open -p- en $ip..."
-    nmap -sS --open -p- $ip -n -Pn -oG nmap_$formatted_ip.txt -vvv
+    nmap -sS --open -p- $ip -n -Pn -oG nmap-$formatted_ip.txt -vvv
 
     # Extraemos los puertos abiertos y los formateamos en una lista separada por comas
     set ports (cat nmap_$formatted_ip.txt | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs | tr ' ' ',')
@@ -698,9 +700,9 @@ function scan
 
     # Escaneo detallado en los puertos abiertos
     echo "Ejecutando nmap -sCV en los puertos: $ports..."
-    nmap -sCV -p$ports -n -Pn $ip -vvv -oN scan_$formatted_ip.txt
+    nmap -sCV -p$ports -n -Pn $ip -vvv -oN scan-$formatted_ip.txt
 
-    echo "Escaneo completado. Resultado guardado en scan_$formatted_ip.txt."
+    echo "Escaneo completado. Resultado guardado en scan-$formatted_ip.txt."
 end
 
 
@@ -920,6 +922,9 @@ function ports
           echo -ne "\n\t whatweb http://$ip_address"
           echo -ne "\n\t curl -I http://$ip_address:$port -v"
 
+          echo -ne "\n\t feroxbuster -u http://$ip_address:$port/ -x html,asp,aspx,jsp -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -k -t 100"
+
+          echo -ne "dirsearch -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -t 200 -r -u http://$ip_address:$port -e html,asp,aspx,jsp -f" 
           echo -ne "\n\t nmap --script http-enum -p$port $ip_address"
           echo -ne "\n\t wfuzz -c --hc=404 -t 200 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt http://$ip_address:$port/FUZZ"
           echo -ne "\n\t gobuster dir -u http://$ip_address:$port -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -t 20 -x html,php,txt"
@@ -1037,6 +1042,7 @@ function mk
     cd $workspace/$machine/nmaps
     echo -e "\n\t$blue [+]$endcolor Added $green$workspace/$machine $endcolor to zoxide"
     xa $workspace/
+    rm ./path.txt
     tput cnorm
     echo
 end
