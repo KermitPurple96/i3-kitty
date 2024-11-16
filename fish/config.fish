@@ -234,9 +234,9 @@ end
 # Verifica si la interfaz tun0 está presente
 if ifdata -e tun0
     set -gx miip (/usr/sbin/ifconfig tun0 | grep inet | awk '{print $2}')
-    echo -e (set_color green)"\n\t[+]"(set_color normal)" VPN tun0 interface detected \n"
+    echo -e (set_color green)"\n\n\t[+]"(set_color normal)" VPN tun0 interface detected \n"
 else
-    echo -e (set_color red)"\n\t[-]"(set_color normal)" No VPN tun0 interface detected \n"
+    echo -e (set_color red)"\n\n\t[-]"(set_color normal)" No VPN tun0 interface detected \n"
 end
 
 # Verifica si la interfaz tap0 está presente
@@ -474,6 +474,8 @@ alias mountedinfo='df -hT'
 
 
 function info
+
+    echo -e "\n$red [+]$endcolor$yellow OSCP:$endcolor$blue mk$endcolor ->$blue netscan$endcolor ->$blue tg$endcolor ->$blue ports$endcolor"
     # Configuración
     echo -e "\n$yellow settings:$endcolor"
     echo -e "$green [+]$endcolor $blue iface <interface>$endcolor Define interface to show in i3blocks"
@@ -790,27 +792,22 @@ function multiscan
 
     # Lee cada IP del archivo y realiza el escaneo
     for ip in (cat $ip_file)
-        # Formatea la IP reemplazando puntos por guiones para el nombre del archivo
-        set formatted_ip (echo $ip | tr '.' '-')
+        set formatted_ip (echo $ip | awk -F'.' '{print $4"."$3"."$2"."$1}')
 
-        # Escaneo SYN en todos los puertos y guarda la salida en formato greppable
         echo "Ejecutando nmap -sS --open -p- en $ip..."
-        nmap -sS --open -p- $ip -n -Pn -oG nmap_$formatted_ip.txt -vvv
+        nmap -sS --open -p- $ip -n -Pn -oG nmap-$formatted_ip.txt -vvv
 
-        # Extrae los puertos abiertos y los formatea en una lista separada por comas
-        set ports (grep -oP '\d{1,5}/open' nmap_$formatted_ip.txt | awk '{print $1}' FS='/' | xargs | tr ' ' ',')
+        set ports (grep -oP '\d{1,5}/open' nmap-$formatted_ip.txt | awk '{print $1}' FS='/' | xargs | tr ' ' ',')
 
-        # Si no hay puertos abiertos, muestra un mensaje y continúa con la siguiente IP
         if test -z "$ports"
             echo "No se encontraron puertos abiertos en $ip."
             continue
         end
 
-        # Escaneo detallado en los puertos abiertos
         echo "Ejecutando nmap -sCV en los puertos: $ports..."
-        nmap -sCV -p$ports -n -Pn $ip -v -oN scan_$formatted_ip.txt
+        nmap -sCV -p$ports -n -Pn $ip -v -oN scan-$formatted_ip.txt
 
-        echo "Escaneo completado. Resultado guardado en scan_$formatted_ip.txt."
+        echo "Escaneo completado. Resultado guardado en scan-$formatted_ip.txt."
     end
 end
 
@@ -897,6 +894,7 @@ function ports
 
     echo -ne "\n\t Run$green recon <protocol>$endcolor to get nmap scripts"
 
+
     if echo $ports | grep -q '\b21\b'
         echo -ne "\n\t ftp $ip_address"
     end
@@ -909,6 +907,11 @@ function ports
         echo -ne "\n\t dnsrecon -n $ip_address -d <domain> -t std,axfr,brt"
     end
     if echo $ports | grep -q '\b80\b'
+
+        echo -ne "\n\t ntlm-info http $ip_address"
+        echo -ne "\n\t whatweb http://$ip_address"
+        echo -ne "\n\t curl -I http://$ip_address -v"
+
         echo -ne "\n\t nmap --script http-enum -p80 $ip_address"
         echo -ne "\n\t wfuzz -c --hc=404 -t 200 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt $ip_address/FUZZ"
         echo -ne "\n\t gobuster dir -u $ip_address -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -t 20 -x html,php,txt"
@@ -918,7 +921,19 @@ function ports
     end
     if echo $ports | grep -qE '\b(135|137|139)\b'
         echo -ne "\n\t impacket-rpcdump $ip_address -p <port>"
-        echo -ne "\n\t rpcclient -U "" $ip_address -N"
+        echo -ne "\n\t rpcdump.py $ip_address -p 135 | grep -i uuid"
+        echo -ne "\n\t impacket-rpcmap 'ncacn_ip_tcp:$ip_address' -no-pass"
+        echo -ne "\n\t impacket-rpcmap 'ncacn_ip_tcp:$ip_address' -auth-rpc '<domain>\\guest' -no-pass"
+        echo -ne "\n\t rpcmap.py 'ncacn_ip_tcp:$ip_address'"
+        echo -ne "\n\t rpcmap.py 'ncacn_np:$ip_address" 
+        echo "[\pipe\spoolss]'"
+        echo -ne "rpcmap.py 'ncacn_http:$ip_address"
+        echo "[593]'"
+        echo -ne "rpcmap.py ncacn_http:[6001,RpcProxy=<domain>:443]"
+        echo -ne "rpcmap.py ncacn_http:localhost[3388,RpcProxy=<domain>:443]"
+        echo -ne "\n\t rpcclient -U \"\" $ip_address -N"
+        echo -ne "\n\t rpcclient -U \"guest%\" $ip_address -N"
+        echo -ne "\n\t IOXIDResolver.py -t $ip_address"
     end
     if echo $ports | grep -q '\b161\b'
         echo -ne "\n\t onesixtyone $ip_address -c usr/share/SecLists/Discovery/SNMP/common-snmp-community-strings.txt -i ips"
@@ -931,6 +946,7 @@ function ports
     if echo $ports | grep -q '\b445\b'
         echo -ne "\n\t nbtscan -r $ip_address"
         echo -ne "\n\t nxc smb $ip_address --shares"
+        echo -ne "\n\t ntlm-info smb $ip_address"
         echo -ne "\n\t smbclient -N -L "
         echo "\\\\\\\\$ip_address\\\\"
         echo -ne "\t smbmap -H $ip_address"
@@ -983,21 +999,21 @@ function mk
     set green (set_color green)
     echo -e "\n\t$blue [+]$endcolor Creating workspace...\n"
     mkdir $workspace/$machine
+    mkdir $workspace/$machine/nmaps
     mkdir $workspace/$machine/tools
     mkdir $workspace/$machine/exploits
     mkdir $workspace/$machine/payloads
     mkdir $workspace/$machine/content
     mkdir $workspace/$machine/server
     touch $workspace/$machine/scope
-    touch $workspace/$machine/hash
+    touch $workspace/$machine/hashes
     touch $workspace/$machine/users
     touch $workspace/$machine/notes.txt
     touch $workspace/$machine/pass
     touch $workspace/$machine/creds
-    touch $workspace/$machine/words
+    touch $workspace/$machine/wordlist
     touch $workspace/$machine/index.html
-    chmod o+x $workspace/$machine/index.html
-    cd $workspace/$machine
+    cd $workspace/$machine/nmaps
     echo -e "\n\t$blue [+]$endcolor Added $green$workspace/$machine $endcolor to zoxide"
     xa $workspace/
     tput cnorm
