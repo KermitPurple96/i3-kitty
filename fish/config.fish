@@ -868,8 +868,6 @@ function ports
     echo
     echo -ne "\n\t$green [+]$endcolor IPv6 scan"
     echo
-    echo -ne "\t python3 IOXIDResolver.py -t $ip_address"
-    echo
     echo -ne "\t$red [*]$endcolor nmap -p- -sS --open -vvv -n -Pn -6 <ipv6 >%eth0 -oG ipv6.nmap"
     echo
     echo -ne "\n\t$green [+]$endcolor UDP scans"
@@ -896,30 +894,45 @@ function ports
 
 
     if echo $ports | grep -q '\b21\b'
+
+        echo -ne "\n\n\t$yellow [21]$endcolor$red FTP $endcolor"
         echo -ne "\n\t ftp $ip_address"
     end
     if echo $ports | grep -q '\b43\b'
+
+        echo -ne "\n\n\t$yellow [43]$endcolor$red whois $endcolor"
         echo -ne "\n\t whois $ip_address"
         echo -ne "\n\t whois <domain> -h $ip_address"
     end
     if echo $ports | grep -q '\b53\b'
+
+        echo -ne "\n\n\t$yellow [53]$endcolor$red DNS $endcolor"
         echo -ne "\n\t dnsenum --dnsserver $ip_address --threads 50 -f /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt <domain>"
         echo -ne "\n\t dnsrecon -n $ip_address -d <domain> -t std,axfr,brt"
     end
-    if echo $ports | grep -q '\b80\b'
 
-        echo -ne "\n\t ntlm-info http $ip_address"
-        echo -ne "\n\t whatweb http://$ip_address"
-        echo -ne "\n\t curl -I http://$ip_address -v"
+    set open_ports (echo $ports | grep -oE '\b(80|81|443|8000|8080|8081|47001|80443)\b')
+    if test -n "$open_ports"
+      # Recorrer cada puerto y realizar las acciones
+      for port in $open_ports
+          echo -ne "\n\n\t$yellow [$port]$endcolor$red HTTP $endcolor"
+          echo -ne "\n\t ntlm-info http $ip_address"
+          echo -ne "\n\t whatweb http://$ip_address"
+          echo -ne "\n\t curl -I http://$ip_address:$port -v"
 
-        echo -ne "\n\t nmap --script http-enum -p80 $ip_address"
-        echo -ne "\n\t wfuzz -c --hc=404 -t 200 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt $ip_address/FUZZ"
-        echo -ne "\n\t gobuster dir -u $ip_address -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -t 20 -x html,php,txt"
+          echo -ne "\n\t nmap --script http-enum -p$port $ip_address"
+          echo -ne "\n\t wfuzz -c --hc=404 -t 200 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt http://$ip_address:$port/FUZZ"
+          echo -ne "\n\t gobuster dir -u http://$ip_address:$port -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -t 20 -x html,php,txt"
+      end
     end
+
+
     if echo $ports | grep -q '\b123\b'
         echo -ne "\n\t ntpdate -s $ip_address"
     end
     if echo $ports | grep -qE '\b(135|137|139)\b'
+
+        echo -ne "\n\n\t$yellow [135-139]$endcolor$red RPC $endcolor"
         echo -ne "\n\t impacket-rpcdump $ip_address -p <port>"
         echo -ne "\n\t rpcdump.py $ip_address -p 135 | grep -i uuid"
         echo -ne "\n\t impacket-rpcmap 'ncacn_ip_tcp:$ip_address' -no-pass"
@@ -933,23 +946,31 @@ function ports
         echo -ne "rpcmap.py ncacn_http:localhost[3388,RpcProxy=<domain>:443]"
         echo -ne "\n\t rpcclient -U \"\" $ip_address -N"
         echo -ne "\n\t rpcclient -U \"guest%\" $ip_address -N"
-        echo -ne "\n\t IOXIDResolver.py -t $ip_address"
+        echo -ne "\n\t IOXIDResolver -t $ip_address"
     end
     if echo $ports | grep -q '\b161\b'
+        echo -ne "\n\n\t$yellow [161]$endcolor$red SNMP $endcolor"
         echo -ne "\n\t onesixtyone $ip_address -c usr/share/SecLists/Discovery/SNMP/common-snmp-community-strings.txt -i ips"
         echo -ne "\n\t snmpwalk -v2c -c public $ip_address"
         echo -ne "\n\t snmpbulkwalk -v2c -c public $ip_address"
     end
     if echo $ports | grep -q '\b443\b'
+        echo -ne "\n\n\t$yellow [443]$endcolor$red SSL / TLS $endcolor"
         echo -ne "\n\t openssl s_client -connect $ip_address:443"
     end
     if echo $ports | grep -q '\b445\b'
+        echo -ne "\n\n\t$yellow [445]$endcolor$red SMB $endcolor"
         echo -ne "\n\t nbtscan -r $ip_address"
         echo -ne "\n\t nxc smb $ip_address --shares"
+        echo -ne "\n\t nxc smb $ip_address -u 'guest' -p '' --shares"
         echo -ne "\n\t ntlm-info smb $ip_address"
         echo -ne "\n\t smbclient -N -L "
         echo "\\\\\\\\$ip_address\\\\"
-        echo -ne "\t smbmap -H $ip_address"
+        echo -ne "\n\t smbclient -U 'guest%' -L "
+        echo "\\\\\\\\$ip_address\\\\"
+        echo -ne "\n\t smbclient.py -k @<domain>"
+        echo -ne "\n\t smbclient.py -k -no-pass @<domain>"
+        echo -ne "\n\t smbmap -H $ip_address"
     end
 
 
@@ -1109,4 +1130,5 @@ end
 
 # Created by `pipx` on 2024-07-13 13:34:55
 set PATH $PATH /root/.local/bin
+
 
