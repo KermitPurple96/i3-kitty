@@ -52,7 +52,6 @@ function kroot
 end
 
 
-
 function recon
     locate .nse | grep "$argv" | sed 's|/usr/share/nmap/scripts/||' >>/tmp/nmap.tmp
     set archivo /tmp/nmap.tmp
@@ -475,7 +474,7 @@ alias mountedinfo='df -hT'
 
 function info
 
-    echo -e "\n$red [+]$endcolor$yellow OSCP:$endcolor$blue mk$endcolor ->$blue netscan$endcolor ->$blue tg$endcolor ->$blue ports$endcolor"
+    echo -e "\n$red [+]$endcolor$yellow OSCP:$endcolor$blue mk$endcolor ->$blue netscan$endcolor ->$blue multiscan$endcolor ->$blue tg$endcolor ->$blue ports$endcolor"
     # Configuración
     echo -e "\n$yellow settings:$endcolor"
     echo -e "$green [+]$endcolor $blue iface <interface>$endcolor Define interface to show in i3blocks"
@@ -690,7 +689,7 @@ function scan
     nmap -sS --open -p- $ip -n -Pn -oG nmap-$formatted_ip.txt -vvv
 
     # Extraemos los puertos abiertos y los formateamos en una lista separada por comas
-    set ports (cat nmap_$formatted_ip.txt | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs | tr ' ' ',')
+    set ports (cat nmap-$formatted_ip.txt | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs | tr ' ' ',')
 
     # Si no hay puertos abiertos, mostramos un mensaje y salimos
     if test -z "$ports"
@@ -947,8 +946,8 @@ function ports
         echo "[\pipe\spoolss]'"
         echo -ne "rpcmap.py 'ncacn_http:$ip_address"
         echo "[593]'"
-        echo -ne "rpcmap.py ncacn_http:[6001,RpcProxy=<domain>:443]"
-        echo -ne "rpcmap.py ncacn_http:localhost[3388,RpcProxy=<domain>:443]"
+        echo -ne "\n\trpcmap.py ncacn_http:[6001,RpcProxy=<domain>:443]"
+        echo -ne "\n\trpcmap.py ncacn_http:localhost[3388,RpcProxy=<domain>:443]"
         echo -ne "\n\t rpcclient -U \"\" $ip_address -N"
         echo -ne "\n\t rpcclient -U \"guest%\" $ip_address -N"
         echo -ne "\n\t IOXIDResolver -t $ip_address"
@@ -959,6 +958,12 @@ function ports
         echo -ne "\n\t snmpwalk -v2c -c public $ip_address"
         echo -ne "\n\t snmpbulkwalk -v2c -c public $ip_address"
     end
+
+     if echo $ports | grep -q '\b(389|636)\b'
+        echo -ne "\n\n\t$yellow [389]$endcolor$red LDAP $endcolor"
+        echo -ne "\n\t ldapsearch -H ldap://<domain> -x -s base namingcontexts"
+    end
+
     if echo $ports | grep -q '\b443\b'
         echo -ne "\n\n\t$yellow [443]$endcolor$red SSL / TLS $endcolor"
         echo -ne "\n\t openssl s_client -connect $ip_address:443"
@@ -1013,6 +1018,16 @@ function tg
 end
 
 
+function lab
+  git clone https://github.com/KermitPurple96/OSCP-PythonSupportTools
+  cd OSCP-PythonSupportTools
+  git clone https://github.com/KermitPurple96/Shellpy
+  mv ./Shellpy/* .
+  rm -rf ./Shellpy
+  cd ..
+end
+
+
 
 function mk
     tput civis
@@ -1039,10 +1054,12 @@ function mk
     touch $workspace/$machine/creds
     touch $workspace/$machine/wordlist
     touch $workspace/$machine/index.html
-    cd $workspace/$machine/nmaps
+    rm ./path.txt
+    cd $workspace/$machine
+    lab
+    cd nmaps
     echo -e "\n\t$blue [+]$endcolor Added $green$workspace/$machine $endcolor to zoxide"
     xa $workspace/
-    rm ./path.txt
     tput cnorm
     echo
 end
@@ -1065,6 +1082,10 @@ function bloodusers
     jq -r '.data[].Properties.name' $file | sed 's/@.*//' | tr '[:upper:]' '[:lower:]'
 end
 
+function ldapusers
+    set -l file $argv[1]
+    jq '.[].attributes.sAMAccountName[]' $file | sed 's/"//g'
+end
 
 
 
