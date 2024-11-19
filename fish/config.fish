@@ -522,6 +522,8 @@ function info
     echo -e "$green [+]$endcolor $blue word ./* $endcolor make a wordlist"
     echo -e "$green [+]$endcolor $blue ftext <keyword> $endcolor find txt in current directory"
     echo -e "$green [+]$endcolor $blue bloodusers <file>$endcolor Extract users from bloohound users.json"
+    echo -e "$green [+]$endcolor $blue ldapusers <file>$endcolor Extract users from ldapdomaindump users.json"
+
 
     echo -e "\n$yellow share:$endcolor"
     echo -e "$green [+]$endcolor $blue share <share name>$endcolor share current folder via smb"
@@ -959,9 +961,11 @@ function ports
         echo -ne "\n\t snmpbulkwalk -v2c -c public $ip_address"
     end
 
-     if echo $ports | grep -q '\b(389|636)\b'
-        echo -ne "\n\n\t$yellow [389]$endcolor$red LDAP $endcolor"
-        echo -ne "\n\t ldapsearch -H ldap://<domain> -x -s base namingcontexts"
+    if echo $ports | grep -qE '\b(389|636)\b'
+      echo -ne "\n\n\t$yellow [389]$endcolor$red LDAP $endcolor"
+      echo -ne "\n\t ldapsearch -H ldap://<domain> -x -s base namingcontexts"
+      echo -ne "\n\t ldapsearch -h $ip_address -x -b 'DC=<domain>,DC=<tld>'"
+
     end
 
     if echo $ports | grep -q '\b443\b'
