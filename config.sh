@@ -322,7 +322,7 @@ mkdir /root/.config/fish/functions/
 # remember edit last line of /home/$SUDO_USER/.config/kitty/kitty.conf 
 
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/fish/config.fish -O /home/$SUDO_USER/.config/fish/config.fish
-wget https://github.com/KermitPurple96/i3-kitty/blob/main/fish/functions/fish_prompt.fish -O /home/$SUDO_USER/.config/fish/functions/fish_prompt.fish
+wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/refs/heads/main/fish/functions/fish_prompt.fish -O /home/$SUDO_USER/.config/fish/functions/fish_prompt.fish
 
 chown -R $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.config/fish
 chown $SUDO_USER:$SUDO_USER /etc/hosts
