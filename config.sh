@@ -225,10 +225,16 @@ curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | 
 sudo apt install pipx git
 pipx ensurepath
 pipx install git+https://github.com/Pennyw0rth/NetExec
+
+#poetry netexec
 pipx install poetry
 poetry self add "poetry-dynamic-versioning[plugin]"
 poetry dynamic-versioning enable
 
+git clone https://github.com/Pennyw0rth/NetExec
+cd NetExec
+poetry install
+poetry run NetExec
 
 #impacket pipx
 #python3 -m pip install pipx
