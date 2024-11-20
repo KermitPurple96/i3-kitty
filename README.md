@@ -8,7 +8,8 @@ and execute all these commands https://github.com/KermitPurple96/i3-kitty/blob/m
 ![github](https://github.com/user-attachments/assets/e399d72a-967d-4dbb-9180-6eb772c0ba7e)
 
 
-![lastk](https://github.com/user-attachments/assets/43db8114-dfea-42ce-b2b8-ce62ca0b49cb)
+![image](https://github.com/user-attachments/assets/3fea1f24-0430-4529-974d-83facd796380)
+
 
 
 
