@@ -342,6 +342,21 @@ sudo ln -s -f /home/$SUDO_USER/.config/fish/functions/fish_prompt.fish /root/.co
 
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/ascii -O /home/$SUDO_USER/ascii
 
+touch /home/$SUDO_USER/shodan_key
+touch /home/$SUDO_USER/CVEmap_key
+touch /home/$SUDO_USER/bloodpass
+touch /home/$SUDO_USER/wpscan_key
+
+
+apt install docker.io docker-compose
+mkdir -p /opt/bloodhound
+cd /opt/bloodhound
+curl -L https://ghst.ly/getbhce -o docker-compose.yml
+docker-compose up -d
+docker-compose logs bloodhound | grep 'Password'
+# -> 127.0.0.1:8080/ui/login admin/password
+
+
 updatedb
 
 
