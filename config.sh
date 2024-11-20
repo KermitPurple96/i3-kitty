@@ -200,6 +200,9 @@ wget https://download.sublimetext.com/sublime-text_build-3211_amd64.deb
 dpkg -i sublime-text_build-3211_amd64.deb
 rm sublime-text_build-3211_amd64.deb
 
+wget https://github.com/kovidgoyal/kitty/releases/download/v0.37.0/kitten-linux-amd64 -O /usr/bin/kitty
+chmod +x /usr/bin/kitty
+
 #kitty
 mkdir /home/$SUDO_USER/.config/kitty
 mkdir /root/.config/kitty
@@ -224,11 +227,15 @@ curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | 
 sudo apt install pipx git
 pipx ensurepath
 pipx install git+https://github.com/Pennyw0rth/NetExec
+pipx install poetry
+poetry self add "poetry-dynamic-versioning[plugin]"
+poetry dynamic-versioning enable
+
 
 #impacket pipx
-python3 -m pip install pipx
-python3 -m pip install --user pipx 
-python3 -m pipx ensurepath
+#python3 -m pip install pipx
+#python3 -m pip install --user pipx 
+#python3 -m pipx ensurepath
 python3 -m pipx install impacket
 
 #ftp
@@ -275,7 +282,8 @@ pipx install donpapi
 
 #minikerberos
 git clone https://github.com/skelsec/minikerberos.git
-python3 setup.py ./minikerbero/install
+cd minikerberos
+python3 setup.py install
 
 # fzf
 git clone --depth 1 https://github.com/junegunn/fzf.git /home/$SUDO_USER/.fzf
@@ -284,10 +292,9 @@ sudo mv /home/$SUDO_USER/.fzf/bin/fzf /usr/local/bin
 
 # peco
 wget https://github.com/peco/peco/releases/download/v0.5.11/peco_linux_amd64.tar.gz
-cd v0.5.11
 gunzip peco_linux_amd64.tar.gz
-tar -xfv peco_linux_amd64.tar
-chmod +x peco
+tar xfv peco_linux_amd64.tar
+chmod +x peco_linux_amd64/peco
 cp peco /bin/peco
 
 #powershell
@@ -309,13 +316,12 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 cargo install ntlm-info
 
-# poetry
-pip install poetry
-poetry init
-poetry install
-
 # Fish shell
+apt install fish
 chsh -s /usr/bin/fish
+mkdir /home/$SUDO_USER/.config/fish/
+mkdir /home/$SUDO_USER/.config/fish/functions
+mkdir /root/.config/fish/functions/
 # remember edit last line of /home/$SUDO_USER/.config/kitty/kitty.conf 
 
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/fish/config.fish -O /home/$SUDO_USER/.config/fish/config.fish
