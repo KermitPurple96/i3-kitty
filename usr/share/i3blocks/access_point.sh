@@ -1,10 +1,10 @@
 #!/bin/bash
 
 INTERFACE=$(cat /usr/share/i3blocks/iface)
-IP=$(/usr/sbin/ifconfig | grep "$INTERFACE" -A1 | grep inet | awk '{print $2}')
+GATEWAY=$(ip route show dev "$INTERFACE" | grep default | awk '{print $3}')
 
-if [[ "$IP" =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
-  echo "$IP"
+if [[ -n "$GATEWAY" ]]; then
+  echo "Gateway: $GATEWAY"
 else
-  echo "Disconnected"
+  echo "No gateway found or disconnected."
 fi
