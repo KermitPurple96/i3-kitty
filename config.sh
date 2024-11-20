@@ -26,6 +26,7 @@ python3 -m pip install --user pwntools
 git clone https://github.com/wirzka/incursore.git
 sudo ln -s $(pwd)/incursore/incursore.sh /usr/local/bin/
 
+# run as user and root
 #zsh
 # bash <(curl https://raw.githubusercontent.com/atuinsh/atuin/main/install.sh)
 # fish
