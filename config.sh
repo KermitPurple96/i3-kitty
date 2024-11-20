@@ -3,14 +3,22 @@ sudo apt-get upgrade
 
 # INSTALL XCT ENVIRONMENT
 # https://github.com/xct/kali-clean
+sudo apt install libstartup-notification0-dev libxcb-xkb-dev libxcb-xinerama0-dev libxcb-randr0-dev libxcb-cursor-dev libxcb-keysyms1-dev libxcb-icccm4-dev libxkbcommon-dev libxkbcommon-x11-dev libyajl-dev libpcre2-dev libcairo2-dev libpango1.0-dev libev-dev
+
 git clone https://github.com/xct/kali-clean
 cd kali-clean
 ./install.sh
 
+cd ..
+rm -rf kali-clean
+
 #packages
-sudo apt install libsasl2-dev python-dev-is-python3 libldap2-dev libssl-dev snmp-mibs-downloader proxychains dnsmasq ripgrep smtp-user-enum dnscat2 curl ncat dnsrecon enum4linux feroxbuster impacket-scripts nbtscan nmap onesixtyone oscanner redis-tools smbclient smbmap snmp sslscan sipvicious tnscmd10g whatweb wkhtmltopdf autorecon
+sudo apt install libsasl2-dev python-dev-is-python3 libldap2-dev libssl-dev snmp-mibs-downloader meson proxychains dnsmasq ripgrep smtp-user-enum dnscat2 curl ncat dnsrecon enum4linux feroxbuster impacket-scripts nbtscan nmap onesixtyone oscanner redis-tools smbclient smbmap snmp sslscan sipvicious tnscmd10g whatweb wkhtmltopdf autorecon
 sudo apt-get -y install seclists putty-tools powercat lolcat neofetch build-essential gcc feroxbuster hping3 pipx zsh keepass2 moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp enum4linux dirsearch docker-compose docker.io scrub jq apache2 ncat ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit
 sudo apt-get update && sudo apt-get -y install golang-go 
+
+apt update
+apt upgrade
 python3 -m pip install --user pwntools
 
 git clone https://github.com/wirzka/incursore.git
