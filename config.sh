@@ -8,6 +8,8 @@ sudo apt install libstartup-notification0-dev libxcb-xkb-dev libxcb-xinerama0-de
 git clone https://github.com/xct/kali-clean
 cd kali-clean
 ./install.sh
+apt update
+apt upgrade
 
 cd ..
 rm -rf kali-clean
@@ -47,7 +49,7 @@ chmod -R +x /home/$SUDO_USER/dev/python/*
 mkdir /home/$SUDO_USER/dev/go
 wget https://raw.githubusercontent.com/KermitPurple96/fastTCPscan/main/fastTCPscan.go -O /home/$SUDO_USER/dev/go/fastTCPScan.go 
 go build -ldflags "-s -w" /home/$SUDO_USER/dev/go/fastTCPScan.go
-upx brute /home/$SUDO_USER/dev/go/fastTCPScan
+upx brute /home/$SUDO_USER/dev/go/fastTCPScan.go
 chmod +x /home/$SUDO_USER/dev/go/fastTCPScan
 
 mkdir /home/$SUDO_USER/Descargas/firefox
@@ -118,6 +120,7 @@ wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/rofi/config.
 #sudo usermod --shell /usr/bin/zsh root
 
 # fonts
+mkdir /home/$SUDO_USER/.local/share/fonts/
 wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/Hack.zip -O /usr/local/share/fonts/Hack.zip
 wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/Hack.zip -O /home/$SUDO_USER/.local/share/fonts/Hack.zip
 
