@@ -45,6 +45,8 @@ git clone https://github.com/KermitPurple96/OSCP-PythonSupportTools /home/$SUDO_
 wget https://raw.githubusercontent.com/KermitPurple96/scripts/main/Python/md4.py -O /home/$SUDO_USER/dev/python/md4
 wget https://raw.githubusercontent.com/mubix/IOXIDResolver/main/IOXIDResolver.py -O /home/$SUDO_USER/dev/python/IOXIDResolver
 wget https://raw.githubusercontent.com/KermitPurple96/scripts/refs/heads/main/Python/look.py -O /home/$SUDO_USER/dev/python/lookpy
+wget https://raw.githubusercontent.com/KermitPurple96/scripts/refs/heads/main/Python/ridbrute -O /home/$SUDO_USER/dev/python/ridbrute
+wget https://raw.githubusercontent.com/KermitPurple96/scripts/refs/heads/main/Python/hex2sid -O /home/$SUDO_USER/dev/python/hex2sid
 chmod -R +x /home/$SUDO_USER/dev/python/*
 
 mkdir /home/$SUDO_USER/dev/go
