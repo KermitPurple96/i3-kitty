@@ -498,7 +498,7 @@ function info
 
     # Análisis de SMB
     echo -e "\n$yellow nxc smb analysis:$endcolor"
-    echo -e "$green [+]$endcolor $blue swop <file>$endcolor Parse nxc smb output"
+    echo -e "$green [+]$endcolor $blue swop <file>$endcolor Parse nxc smb output for /etc/hosts"
     echo -e "$green [+]$endcolor $blue swap <file>$endcolor Parse nxc smb -M spider_plus output"
     echo -e "$green [+]$endcolor $blue crack <file>$endcolor Parse nxc smb output"
 
@@ -506,7 +506,8 @@ function info
     echo -e "\n$yellow cracking:$endcolor"
     echo -e "$green [+]$endcolor $blue crack <file>$endcolor crack without -m format specified"
     echo -e "$green [+]$endcolor $blue cracktgt <file>$endcolor crack tgt"
-    echo -e "$green [+]$endcolor $blue cracktgs <file>$endcolor crack tgs" 
+    echo -e "$green [+]$endcolor $blue cracktgs <file>$endcolor crack tgs"
+    echo -e "$green [+]$endcolor $blue cracknetntlm <file>$endcolor crack tgs" 
 
     # Escaneos rápidos
     echo -e "\n$yellow fast golang TCP scan:$endcolor"
@@ -622,54 +623,39 @@ end
 
 
 function swop
+    # Verificar si se pasó un archivo como argumento
     if test (count $argv) -eq 0
-        echo "nxc smb 192.168.1.0/24 --log 'sweep.log'"
-        echo "Usage: swep sweep.log"
+        echo "Usage: swop <file>"
         return 1
     end
 
-    set file $argv[1]
+    # Leer el archivo línea por línea y procesar su contenido
+    cat $argv[1] | while read -l line
+        # Procesar solo líneas con contenido relevante
+        if string match -qr "SMB" $line
+            # Extraer la IP
+            set ip (echo $line | awk '{for (i=1; i<=NF; i++) if ($i ~ /^192\./) print $i}')
+            # Extraer el nombre de host
+            set name (echo $line | sed -n 's/.*(name:\([^)]*\)).*/\1/p')
+            # Extraer el dominio
+            set domain (echo $line | sed -n 's/.*(domain:\([^)]*\)).*/\1/p')
 
-    awk -F' ' '
-    BEGIN {
-        ip_color="\033[34m";
-        text_color="\033[32m";
-        highlight_red="\033[31m";
-        reset_color="\033[0m";
-    }
-    {
-        for (i=1; i<=NF; i++) {
-            if ($i ~ /[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/) {
-                ip=$i;
-                sub(ip, ip_color ip reset_color, $0);
-                rest=substr($0, index($0, ip) + length(ip));
-                split(rest, parts, " ");
-                for (j=1; j<=length(parts); j++) {
-                    if (parts[j] ~ /name:/) {
-                        name_value = substr(parts[j], index(parts[j], ":") + 1);
-                        if (name_value ~ /dc/i) {
-                            parts[j] = highlight_red parts[j] reset_color;
-                        } else {
-                            parts[j] = text_color parts[j] reset_color;
-                        }
-                    } else if (parts[j] ~ /signing:/ && substr(parts[j], index(parts[j], ":") + 1) ~ /False/) {
-                        parts[j] = highlight_red parts[j] reset_color;
-                    } else if (parts[j] ~ /:/) {
-                        parts[j] = text_color parts[j] reset_color;
-                    }
-                }
-                print ip_color ip reset_color, join(parts, " ");
-            }
-        }
-    }
-    function join(arr, sep,    str, i) {
-        str = arr[1];
-        for (i=2; i in arr; i++) {
-            str = str sep arr[i];
-        }
-        return str;
-    }' $file
+            # Combinar nombre y dominio, y mostrar el resultado
+            if test -n "$ip" -a -n "$name" -a -n "$domain"
+                echo "$ip $name.$domain"
+            end
+        end
+    end
 end
+
+
+
+
+
+
+
+
+
 
 
 
