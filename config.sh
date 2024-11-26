@@ -358,6 +358,7 @@ docker-compose up -d
 docker-compose logs bloodhound | grep 'Password'
 # -> 127.0.0.1:8080/ui/login admin/password
 
+pip install uploadserver --break-system-packages
 
 updatedb
 
