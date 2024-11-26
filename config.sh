@@ -237,6 +237,8 @@ git clone https://github.com/Pennyw0rth/NetExec
 cd NetExec
 poetry install
 poetry run NetExec
+poetry update impacket
+
 
 #impacket pipx
 #python3 -m pip install pipx
