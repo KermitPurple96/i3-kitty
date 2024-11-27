@@ -180,6 +180,10 @@ cd /usr/bin/arsenal
 python3 -m venv ars
 pip install -r requirements.txt
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/arsenal/mycheats.md -O /usr/bin/arsenal/my_cheats/my_cheats.md
+rm /usr/bin/arsenal/ars/bin/activate.fish
+wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/refs/heads/main/arsenal/activate.fish -O /usr/bin/arsenal/ars/bin/activate.fish
+cd /home/$SUDO_USER
+
 
 #neovim
 wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -O /usr/bin/nvim
