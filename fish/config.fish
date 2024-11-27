@@ -932,7 +932,7 @@ function ports
         echo -ne "\n\t rpcmap.py 'ncacn_ip_tcp:$ip_address'"
         echo -ne "\n\t rpcmap.py 'ncacn_np:$ip_address" 
         echo "[\pipe\spoolss]'"
-        echo -ne "rpcmap.py 'ncacn_http:$ip_address"
+        echo -ne "\n\t rpcmap.py 'ncacn_http:$ip_address"
         echo "[593]'"
         echo -ne "\n\trpcmap.py ncacn_http:[6001,RpcProxy=<domain>:443]"
         echo -ne "\n\trpcmap.py ncacn_http:localhost[3388,RpcProxy=<domain>:443]"
