@@ -176,7 +176,9 @@ sudo rm /usr/bin/red-tldr_0.4.3_linux_amd64.tar.gz
 
 # Arsenal
 git clone https://github.com/Orange-Cyberdefense/arsenal.git /usr/bin/arsenal
-python3 -m pip install -r /usr/bin/arsenal/requirements.txt
+cd /usr/bin/arsenal
+python3 -m venv ars
+pip install -r requirements.txt
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/arsenal/mycheats.md -O /usr/bin/arsenal/my_cheats/my_cheats.md
 
 #neovim
@@ -361,6 +363,7 @@ docker-compose logs bloodhound | grep 'Password'
 # -> 127.0.0.1:8080/ui/login admin/password
 
 pip install uploadserver --break-system-packages
+
 
 updatedb
 
