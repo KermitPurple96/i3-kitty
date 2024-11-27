@@ -67,7 +67,7 @@ sudo dpkg -i lsd-musl_0.23.1_amd64.deb
 
 #bat
 wget https://github.com/sharkdp/bat/releases/download/v0.24.0/bat_0.24.0_amd64.deb
-sudo dpkg -i bat_*
+apt install ./bat_*
 
 # wallpaper
 rm /home/$SUDO_USER/.fehbg
