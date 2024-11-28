@@ -47,6 +47,7 @@ wget https://raw.githubusercontent.com/mubix/IOXIDResolver/main/IOXIDResolver.py
 wget https://raw.githubusercontent.com/KermitPurple96/scripts/refs/heads/main/Python/look.py -O /home/$SUDO_USER/dev/python/lookpy
 wget https://raw.githubusercontent.com/KermitPurple96/scripts/refs/heads/main/Python/ridbrute -O /home/$SUDO_USER/dev/python/ridbrute
 wget https://raw.githubusercontent.com/KermitPurple96/scripts/refs/heads/main/Python/hex2sid -O /home/$SUDO_USER/dev/python/hex2sid
+wget https://raw.githubusercontent.com/sse-secure-systems/Active-Directory-Spotlights/refs/heads/master/AD-Trusts/krbTicketView.py -O /home/$SUDO_USER/dev/python/TicketView
 chmod -R +x /home/$SUDO_USER/dev/python/*
 
 mkdir /home/$SUDO_USER/dev/go
