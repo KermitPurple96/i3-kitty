@@ -27,12 +27,8 @@ set -g fondogris "\e[0;47m\033[1m"
 #echo
 
 
-
-
-
-
 # Export PATH
-set -g PATH $PATH $HOME/.local/bin /usr/bin /usr/share/responder /usr/share/ghidra /usr/share/hydra /usr/share/libreoffice /snap/bin /usr/sandbox /usr/local/bin /usr/local/go/bin /bin /usr/local/games /usr/games /usr/share/games /usr/local/sbin /usr/sbin /sbin /usr/local/bin /bin /usr/local/games /usr/games $HOME/.fzf/bin /opt/exploitdb $HOME/.local/bin /usr/share/metasploit-framework/tools/exploit /usr/bin/arsenal /usr/bin/gtfo $HOME/.fzf/bin /usr/share/Wordpresscan $HOME/.local/pipx/shared/bin $HOME/go/bin /usr/bin/pwsh $HOME/kitty.app/bin /home/kermit/dev/python /home/kermit/dev/bash $HOME/.cargo/bin
+set -g PATH $PATH $HOME/.local/bin /usr/bin /usr/share/responder /usr/share/ghidra /usr/share/hydra /usr/share/libreoffice /snap/bin /usr/sandbox /usr/local/bin /usr/local/go/bin /bin /usr/local/games /usr/games /usr/share/games /usr/local/sbin /usr/sbin /sbin /usr/local/bin /bin /usr/local/games /usr/games $HOME/.fzf/bin /opt/exploitdb $HOME/.local/bin /usr/share/metasploit-framework/tools/exploit /usr/bin/arsenal /usr/bin/gtfo $HOME/.fzf/bin /usr/share/Wordpresscan $HOME/.local/pipx/shared/bin $HOME/go/bin /usr/bin/pwsh $HOME/kitty.app/bin /home/kermit/dev/python /home/kermit/dev/bash /home/kermit/OSCP-PythonSupportTools $HOME/.cargo/bin
 
 set _OLD_VIRTUAL_PATH "$PATH"
 
@@ -44,302 +40,8 @@ set -gx wpscan (cat /home/kermit/wpscan_key)
 set -gx wpscan (cat /home/kermit/shodan_key)
 set -gx PDCP_API_KEY (cat /home/kermit/CVEmap_key)
 
-#source /home/kermit/dev/bash/bashsimplecurses/simple_curses.sh
 
-function kroot
-    /home/kermit/kitty.app/bin/kitty -e fish &>/dev/null &
-    disown
-end
-
-
-function recon
-    locate .nse | grep "$argv" | sed 's|/usr/share/nmap/scripts/||' >>/tmp/nmap.tmp
-    set archivo /tmp/nmap.tmp
-    set lineas (wc -l < $archivo)
-    echo -e (set_color blue)"\n\t[+] "(set_color normal)"$lineas scripts found\n"
-    for linea in (cat $archivo)
-        echo -e (set_color green)"\t[+] "(set_color normal)"$linea \n"
-    end
-    set scripts (locate .nse | grep "$argv" | sed 's|/usr/share/nmap/scripts/||' | tr '\n' ',' | xargs)
-    set scripts2 (string trim -c ',' $scripts)
-    echo "$scripts2" | xp >/dev/null 2>&1
-    rm $archivo
-end
-
-
-
-function word
-    if test -z $argv[1]
-        echo "Por favor, proporciona la ruta del directorio o archivo."
-        return 1
-    end
-
-    # Encuentra solo archivos en el directorio dado y sus subdirectorios, excluyendo directorios
-    find $argv[1] -type f -exec cat {} + | grep -oE '\w+' | tr '[:upper:]' '[:lower:]' | sort | uniq > wordlist.txt
-
-    echo "Wordlist creada como 'wordlist.txt'"
-end
-
-function swep
-    if test -z "$argv[1]"
-        echo "Uso: ping_sweep <base de IP>"
-        echo "Ejemplo: ping_sweep 10.10.123"
-        return 1
-    end
-
-    set -l ip_base $argv[1]
-
-    for i in (seq 1 255)
-        sleep 1
-        ping -c 1 "$ip_base.$i" &>/dev/null; and echo "Host $ip_base.$i active" &
-    end
-    wait
-end
-
-
-
-# Agrega esta función a tu .config.fish
-
-function getips
-    # Verifica si se proporcionó un archivo como argumento
-    if test (count $argv) -eq 0
-        echo "Uso: getips <archivo>"
-        return 1
-    end
-
-    # Guarda el archivo proporcionado en una variable
-    set archivo $argv[1]
-
-    # Verifica si el archivo existe
-    if not test -f $archivo
-        echo "El archivo '$archivo' no existe."
-        return 1
-    end
-
-    # Extrae las direcciones IP usando grep con una expresión regular
-    grep -oE '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' $archivo | sort -u | uniq
-end
-
-
-
-function getips6
-    # Verifica si se proporcionó un archivo como argumento
-    if test (count $argv) -eq 0
-        echo "Uso: getips6 <archivo>"
-        return 1
-    end
-
-    # Guarda el archivo proporcionado en una variable
-    set archivo $argv[1]
-
-    # Verifica si el archivo existe
-    if not test -f $archivo
-        echo "El archivo '$archivo' no existe."
-        return 1
-    end
-
-    # Extrae las direcciones IPv6 usando grep con una expresión regular
-    grep -oE '(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))' $archivo | sort -u | uniq
-end
-
-function rmk
-    scrub -p dod $argv[1]
-    shred -zun 10 -v $argv[1]
-end
-
-
-
-function extract
-    for archive in $argv
-        if test -f $archive
-            switch $archive
-                case "*.tar.bz2"
-                    tar xvjf $archive
-                case "*.tar.gz"
-                    tar xvzf $archive
-                case "*.bz2"
-                    bunzip2 $archive
-                case "*.rar"
-                    rar x $archive
-                case "*.gz"
-                    gunzip $archive
-                case "*.tar"
-                    tar xvf $archive
-                case "*.tbz2"
-                    tar xvjf $archive
-                case "*.tgz"
-                    tar xvzf $archive
-                case "*.zip"
-                    unzip $archive
-                case "*.Z"
-                    uncompress $archive
-                case "*.7z"
-                    7z x $archive
-                case "*"
-                    echo "don't know how to extract '$archive'..."
-            end
-        else
-            echo "'$archive' is not a valid file!"
-        end
-    end
-end
-
-
-
-function get
-    # Verifica si se proporcionaron los argumentos necesarios
-    if test (count $argv) -lt 2
-        echo "Uso: get <n campo> <archivo> [FS]"
-        return 1
-    end
-
-    # Guarda los argumentos en variables
-    set campo $argv[1]
-    set FS $argv[2]
-    set archivo $argv[3]
-
-    # Verifica si el archivo existe
-    if not test -f $archivo
-        echo "El archivo '$archivo' no existe."
-        return 1
-    end
-
-    # Usa awk para imprimir el campo especificado con el delimitador especificado
-    awk -v campo=$campo -v FS="$FS" '{print $campo}' $archivo
-end
-
-
-
-#set -gx IFACE (/usr/sbin/ifconfig | grep tun0 | awk '{print $1}' | tr -d ':')
-#set -gx IFACE2 (/usr/sbin/ifconfig | grep tap0 | awk '{print $1}' | tr -d ':')
-
-
-
-
-#if test "$IFACE" = tun0
-#    set -gx miip (/usr/sbin/ifconfig | grep tun0 -A1 | grep inet | awk '{print $2}')
-#    echo -e (set_color green)"\n\t[+]"(set_color normal)" VPN tun0 interface detected \n"
-#else
-#    echo -e (set_color red)"\n\t[-]"(set_color normal)" No VPN tun0 interface detected \n"
-#end
-
-#if test "$IFACE2" = tap0
-#    set -gx miip (/usr/sbin/ifconfig | grep tap0 -A1 | grep inet | awk '{print $2}')
-#    echo -e (set_color green)"\t[+]"(set_color normal)" VPN tap0 interface detected \n"
-#else
-#    echo -e (set_color red)"\t[-]"(set_color normal)" No VPN tap0 interface detected \n"
-#end
-
-# Verifica si la interfaz tun0 está presente
-if ifdata -e tun0
-    set -gx miip (/usr/sbin/ifconfig tun0 | grep inet | awk '{print $2}')
-    echo -e (set_color green)"\n\n\t[+]"(set_color normal)" VPN tun0 interface detected \n"
-else
-    echo -e (set_color red)"\n\n\t[-]"(set_color normal)" No VPN tun0 interface detected \n"
-end
-
-# Verifica si la interfaz tap0 está presente
-if ifdata -e tap0
-    set -gx miip (/usr/sbin/ifconfig tap0 | grep inet | awk '{print $2}')
-    echo -e (set_color green)"\t[+]"(set_color normal)" VPN tap0 interface detected \n"
-else
-    echo -e (set_color red)"\t[-]"(set_color normal)" No VPN tap0 interface detected \n"
-end
-
-
-#set -gx miipk (/usr/sbin/ifconfig | grep eth0 -A1 | grep inet | awk '{print $2}')
-
-function update_ip
-  set interface (cat /usr/share/i3blocks/iface)
-  if ifdata -e $interface
-    set -gx miipk (/usr/sbin/ifconfig $interface | grep inet | awk '{print $2}' | head -n 1)
-    #else 
-    #echo -e (set_color red)"\n\t[-] Error"(set_color normal)" check /usr/share/i3blocks/iface"
-  end
-end
-
-update_ip
-
-function mipk
-    echo $miipk
-end
-
-function mip
-    echo $miip
-end
-
-function ipt
-    echo $ip
-end
-
-function ipn
-    echo $name
-end
-
-function xp
-    xclip -sel clip
-end
-
-function hexen
-    echo "$argv" | xxd -p
-end
-
-function hexde
-    echo "$argv" | xxd -p -r
-end
-
-function rot13
-    echo "$argv" | tr A-Za-z N-ZA-Mn-za-m
-end
-
-function pin
-    jump pin $argv[1]
-end
-
-function unpin
-    jump unpin $argv[1]
-end
-
-
-function fibtrie
-    cat $argv[1] | grep LOCAL -B 1 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u
-end
-
-
-
-
-function share
-    echo -ne "\n\t[+] Sharing at:"
-    echo -ne "\n\n"
-
-    # Lista de interfaces a verificar
-    set interfaces eth0 eth1 tun0 tap0
-
-    # Recorre cada interfaz y verifica si existe y tiene IP
-    for iface in $interfaces
-        if ifdata -e $iface
-            # Obtiene la IP de la interfaz y almacena en variable mip
-            set mip (ifdata -p $iface | awk '{print $1}')
-            
-            # Verifica si mip no está vacía y muestra el share
-            if test -n "$mip"
-                echo "\\\\$mip\\$argv[1]"
-            end
-        end
-    end
-
-    echo -ne "\n"
-    # Inicia el servidor SMB
-    impacket-smbserver $argv[1] (pwd) -smb2support
-end
-
-
-
-function serve
-    python3 -m uploadserver $argv[1]
-end
-
-
+alias ars='source /usr/bin/arsenal/ars/bin/activate.fish' 
 
 # ~/.config/fish/config.fish
 alias montar='sudo vmhgfs-fuse .host:/D /mnt/hgfs/ -o allow_other -o uid=1000'
@@ -357,25 +59,6 @@ alias fz='nvim (fzf --preview="cat {}")'
 #alias serve='python3 -m http.server $argv[1]'
 alias clean='sed -e "s/\x1b\[[0-9;]*m//g"'
 
-function neofetch
-    command neofetch --source /home/kermit/ascii | lolcat
-end
-
-function urlencode
-    python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.argv[1]))' $argv
-end
-
-function urldecode
-    python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.argv[1]))' $argv
-end
-
-function burpro
-    java --illegal-access=permit -Dfile.encoding=utf-8 -javaagent:/home/kermit/Desktop/Burp-Suite/loader.jar -noverify -jar /home/kermit/Desktop/Burp-Suite/Burp_Suite_Pro.jar &
-end
-
-
-
-
 alias kitten="kitty +kitten icat"
 alias pins='jump pins'
 alias js='js-beautify'
@@ -383,21 +66,7 @@ alias hi='hash-identifier'
 
 zoxide init fish | source
 
-
 # ~/.config/fish/config.fish
-
-
-
-function x
-  z $argv[1]
-  lsd -A
-end
-
-function xi
-  zi
-  lsd -A
-end
-
 
 # Aliases for zoxide
 #alias x='z && lsd -A'
@@ -471,7 +140,6 @@ alias mountedinfo='df -hT'
 #alias logs='sudo find /var/log -type f -exec file {} + | grep "text" | cut -d" " -f1 | sed -e "s/:$//" | grep -v "[0-9]$" | xargs tail -f'
 
 
-
 function info
 
     echo -e "\n$red [+]$endcolor$yellow OSCP:$endcolor$blue mk$endcolor ->$blue netscan$endcolor ->$blue multiscan$endcolor ->$blue tg$endcolor ->$blue ports$endcolor"
@@ -530,7 +198,298 @@ function info
     echo -e "$green [+]$endcolor $blue share <share name>$endcolor share current folder via smb"
     echo -e "$green [+]$endcolor $blue serve <port>$endcolor share current folder via http"
 
+end
 
+
+function x
+  z $argv[1]
+  lsd -A
+end
+
+function xi
+  zi
+  lsd -A
+end
+
+function kroot
+    /home/kermit/kitty.app/bin/kitty -e fish &>/dev/null &
+    disown
+end
+
+function mipk
+    echo $miipk
+end
+
+function mip
+    echo $miip
+end
+
+function ipt
+    echo $ip
+end
+
+function ipn
+    echo $name
+end
+
+function xp
+    xclip -sel clip
+end
+
+function hexen
+    echo "$argv" | xxd -p
+end
+
+function hexde
+    echo "$argv" | xxd -p -r
+end
+
+function rot13
+    echo "$argv" | tr A-Za-z N-ZA-Mn-za-m
+end
+
+function pin
+    jump pin $argv[1]
+end
+
+function unpin
+    jump unpin $argv[1]
+end
+
+
+function fibtrie
+    cat $argv[1] | grep LOCAL -B 1 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u
+end
+
+
+function neofetch
+    command neofetch --source /home/kermit/ascii | lolcat
+end
+
+function urlencode
+    python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.argv[1]))' $argv
+end
+
+function urldecode
+    python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.argv[1]))' $argv
+end
+
+function burpro
+    java --illegal-access=permit -Dfile.encoding=utf-8 -javaagent:/home/kermit/Desktop/Burp-Suite/loader.jar -noverify -jar /home/kermit/Desktop/Burp-Suite/Burp_Suite_Pro.jar &
+end
+
+
+if ifdata -e tun0
+    set -gx miip (/usr/sbin/ifconfig tun0 | grep inet | awk '{print $2}')
+    echo -e (set_color green)"\n\n\t[+]"(set_color normal)" VPN tun0 interface detected \n"
+else
+    echo -e (set_color red)"\n\n\t[-]"(set_color normal)" No VPN tun0 interface detected \n"
+end
+
+# Verifica si la interfaz tap0 está presente
+if ifdata -e tap0
+    set -gx miip (/usr/sbin/ifconfig tap0 | grep inet | awk '{print $2}')
+    echo -e (set_color green)"\t[+]"(set_color normal)" VPN tap0 interface detected \n"
+else
+    echo -e (set_color red)"\t[-]"(set_color normal)" No VPN tap0 interface detected \n"
+end
+
+
+
+#set -gx miipk (/usr/sbin/ifconfig | grep eth0 -A1 | grep inet | awk '{print $2}')
+
+function update_ip
+  set interface (cat /usr/share/i3blocks/iface)
+  if ifdata -e $interface
+    set -gx miipk (/usr/sbin/ifconfig $interface | grep inet | awk '{print $2}' | head -n 1)
+    #else 
+    #echo -e (set_color red)"\n\t[-] Error"(set_color normal)" check /usr/share/i3blocks/iface"
+  end
+end
+
+update_ip
+
+
+function share
+    echo -ne "\n\t[+] Sharing at:"
+    echo -ne "\n\n"
+
+    # Lista de interfaces a verificar
+    set interfaces eth0 eth1 tun0 tap0
+
+    # Recorre cada interfaz y verifica si existe y tiene IP
+    for iface in $interfaces
+        if ifdata -e $iface
+            # Obtiene la IP de la interfaz y almacena en variable mip
+            set mip (ifdata -p $iface | awk '{print $1}')
+            
+            # Verifica si mip no está vacía y muestra el share
+            if test -n "$mip"
+                echo "\\\\$mip\\$argv[1]"
+            end
+        end
+    end
+
+    echo -ne "\n"
+    # Inicia el servidor SMB
+    impacket-smbserver $argv[1] (pwd) -smb2support
+end
+
+
+function serve
+    python3 -m uploadserver $argv[1]
+end
+
+
+function recon
+    locate .nse | grep "$argv" | sed 's|/usr/share/nmap/scripts/||' >>/tmp/nmap.tmp
+    set archivo /tmp/nmap.tmp
+    set lineas (wc -l < $archivo)
+    echo -e (set_color blue)"\n\t[+] "(set_color normal)"$lineas scripts found\n"
+    for linea in (cat $archivo)
+        echo -e (set_color green)"\t[+] "(set_color normal)"$linea \n"
+    end
+    set scripts (locate .nse | grep "$argv" | sed 's|/usr/share/nmap/scripts/||' | tr '\n' ',' | xargs)
+    set scripts2 (string trim -c ',' $scripts)
+    echo "$scripts2" | xp >/dev/null 2>&1
+    rm $archivo
+end
+
+
+function word
+    if test -z $argv[1]
+        echo "Por favor, proporciona la ruta del directorio o archivo."
+        return 1
+    end
+
+    # Encuentra solo archivos en el directorio dado y sus subdirectorios, excluyendo directorios
+    find $argv[1] -type f -exec cat {} + | grep -oE '\w+' | tr '[:upper:]' '[:lower:]' | sort | uniq > wordlist.txt
+
+    echo "Wordlist creada como 'wordlist.txt'"
+end
+
+function swep
+    if test -z "$argv[1]"
+        echo "Uso: ping_sweep <base de IP>"
+        echo "Ejemplo: ping_sweep 10.10.123"
+        return 1
+    end
+
+    set -l ip_base $argv[1]
+
+    for i in (seq 1 255)
+        sleep 1
+        ping -c 1 "$ip_base.$i" &>/dev/null; and echo "Host $ip_base.$i active" &
+    end
+    wait
+end
+
+
+# Agrega esta función a tu .config.fish
+
+function getips
+    # Verifica si se proporcionó un archivo como argumento
+    if test (count $argv) -eq 0
+        echo "Uso: getips <archivo>"
+        return 1
+    end
+
+    # Guarda el archivo proporcionado en una variable
+    set archivo $argv[1]
+
+    # Verifica si el archivo existe
+    if not test -f $archivo
+        echo "El archivo '$archivo' no existe."
+        return 1
+    end
+
+    # Extrae las direcciones IP usando grep con una expresión regular
+    grep -oE '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' $archivo | sort -u | uniq
+end
+
+
+function getips6
+    # Verifica si se proporcionó un archivo como argumento
+    if test (count $argv) -eq 0
+        echo "Uso: getips6 <archivo>"
+        return 1
+    end
+
+    # Guarda el archivo proporcionado en una variable
+    set archivo $argv[1]
+
+    # Verifica si el archivo existe
+    if not test -f $archivo
+        echo "El archivo '$archivo' no existe."
+        return 1
+    end
+
+    # Extrae las direcciones IPv6 usando grep con una expresión regular
+    grep -oE '(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))' $archivo | sort -u | uniq
+end
+
+function rmk
+    scrub -p dod $argv[1]
+    shred -zun 10 -v $argv[1]
+end
+
+
+function extract
+    for archive in $argv
+        if test -f $archive
+            switch $archive
+                case "*.tar.bz2"
+                    tar xvjf $archive
+                case "*.tar.gz"
+                    tar xvzf $archive
+                case "*.bz2"
+                    bunzip2 $archive
+                case "*.rar"
+                    rar x $archive
+                case "*.gz"
+                    gunzip $archive
+                case "*.tar"
+                    tar xvf $archive
+                case "*.tbz2"
+                    tar xvjf $archive
+                case "*.tgz"
+                    tar xvzf $archive
+                case "*.zip"
+                    unzip $archive
+                case "*.Z"
+                    uncompress $archive
+                case "*.7z"
+                    7z x $archive
+                case "*"
+                    echo "don't know how to extract '$archive'..."
+            end
+        else
+            echo "'$archive' is not a valid file!"
+        end
+    end
+end
+
+
+function get
+    # Verifica si se proporcionaron los argumentos necesarios
+    if test (count $argv) -lt 2
+        echo "Uso: get <n campo> [FS] <archivo>"
+        return 1
+    end
+
+    # Guarda los argumentos en variables
+    set campo $argv[1]
+    set FS $argv[2]
+    set archivo $argv[3]
+
+    # Verifica si el archivo existe
+    if not test -f $archivo
+        echo "El archivo '$archivo' no existe."
+        return 1
+    end
+
+    # Usa awk para imprimir el campo especificado con el delimitador especificado
+    awk -v campo=$campo -v FS="$FS" '{print $campo}' $archivo
 end
 
 
@@ -561,7 +520,6 @@ function cracknetntlm
 
     sudo hashcat -m 5600 $argv[1] /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule --force
 end
-
 
 
 function cracktgs
@@ -614,12 +572,7 @@ function swap
       end
   end
 
-
-
 end
-
-
-
 
 
 function swop
@@ -647,17 +600,6 @@ function swop
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 function scan
@@ -744,24 +686,44 @@ function netscan
 end
 
 
+#iface
+#
 
-function iface
-    if test (count $argv) -eq 0
-        echo "Uso: iface <interfaz>"
-        echo "Ejemplo: iface tun0"
-        return 1
-    end
+#function iface
+#    if test (count $argv) -eq 0
+#        echo "Uso: iface <interfaz>"
+#        echo "Ejemplo: iface tun0"
+#        return 1
+#    end
 
     # Guarda el primer argumento en una variable
-    set interface $argv[1]
+#    set interface $argv[1]
 
     # Escribe la interfaz en el archivo
-    echo $interface > /usr/share/i3blocks/iface
-    echo "Interfaz $interface establecida en /usr/share/i3blocks/iface"
+#    echo $interface > /usr/share/i3blocks/iface
+#    echo "Interfaz $interface establecida en /usr/share/i3blocks/iface"
+#    update_ip
+#end
+
+
+#iface gum
+
+function iface
+    # Obtener las interfaces
+    set interfaces (ip -o link show | awk -F': ' '{print $2}')
+    
+    # Pasar cada interfaz como opción separada a gum choose
+    set interface (printf "%s\n" $interfaces | gum choose)
+    
+    # Guardar la interfaz seleccionada
+    if test -n "$interface"
+        echo $interface > /usr/share/i3blocks/iface
+        echo "Interfaz $interface establecida en /usr/share/i3blocks/iface"
+    else
+        echo "No se seleccionó ninguna interfaz."
+    end
     update_ip
 end
-
-
 
 
 
@@ -799,8 +761,6 @@ function multiscan
         echo "Escaneo completado. Resultado guardado en scan-$formatted_ip.txt."
     end
 end
-
-
 
 
 
@@ -908,6 +868,7 @@ function ports
           echo -ne "\n\t ntlm-info http $ip_address"
           echo -ne "\n\t whatweb http://$ip_address"
           echo -ne "\n\t curl -I http://$ip_address:$port -v"
+          echo -ne "\n\t curl -I http://$ip_address:$port/certenroll"
 
           echo -ne "\n\t feroxbuster -u http://$ip_address:$port/ -x html,asp,aspx,jsp -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -k -t 100"
 
@@ -939,6 +900,7 @@ function ports
         echo -ne "\n\t rpcclient -U \"\" $ip_address -N"
         echo -ne "\n\t rpcclient -U \"guest%\" $ip_address -N"
         echo -ne "\n\t IOXIDResolver -t $ip_address"
+        echo -ne "\n\t rpcenum.sh -e All -i $ip_address"
     end
     if echo $ports | grep -q '\b161\b'
         echo -ne "\n\n\t$yellow [161]$endcolor$red SNMP $endcolor"
@@ -951,6 +913,8 @@ function ports
       echo -ne "\n\n\t$yellow [389]$endcolor$red LDAP $endcolor"
       echo -ne "\n\t ldapsearch -H ldap://<domain> -x -s base namingcontexts"
       echo -ne "\n\t ldapsearch -h $ip_address -x -b 'DC=<domain>,DC=<tld>'"
+      echo -ne "\n\t nxc ldap $ip_address -u 'guest' -p '' --password-not-required"
+      echo -ne "\n\t openssl s_client -connect <DC>:636 -showcerts -debug"
 
     end
 
@@ -977,7 +941,6 @@ function ports
     echo -ne "\n"
     echo
 end
-
 
 
 function tg
@@ -1018,7 +981,6 @@ function lab
 end
 
 
-
 function mk
     tput civis
     gum input --prompt="> " --placeholder "workspace name" >machine.txt
@@ -1055,14 +1017,12 @@ function mk
 end
 
 
-
 function stop
     # Limpiar el prompt y desactivar el contador de tiempo
     set -e session_start_time
     rm /home/kermit/.config/bin/session.txt
     echo "Session stopped. Time counter deactivated."
 end
-
 
 
 #BLOODHOUND
@@ -1076,7 +1036,6 @@ function ldapusers
     set -l file $argv[1]
     jq '.[].attributes.sAMAccountName[]' $file | sed 's/"//g'
 end
-
 
 
 function ftext
@@ -1120,8 +1079,6 @@ function cd
 end
 
 
-
-
 # Save type history for completion and easier life
 set -U fish_history_file ~/.local/share/fish/fish_history
 set -U fish_history_max_count 10000
@@ -1147,5 +1104,4 @@ end
 
 # Created by `pipx` on 2024-07-13 13:34:55
 set PATH $PATH /root/.local/bin
-
 
