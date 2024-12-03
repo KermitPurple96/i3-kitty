@@ -3,7 +3,7 @@ function fish_prompt
     if test (whoami) = root
         set_color red
     else
-        set_color yellow
+        set_color cyan
     end
     echo -ne '\n '(whoami)
 
@@ -18,7 +18,7 @@ function fish_prompt
     # Set color for the current working directory to purple
     set_color magenta
     echo -n (prompt_pwd)
-    set_color white
+    set_color yellow
     echo -n ' > '
 
     #if test (whoami) = root
