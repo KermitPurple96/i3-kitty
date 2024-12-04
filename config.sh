@@ -367,8 +367,15 @@ docker-compose up -d
 docker-compose logs bloodhound | grep 'Password'
 # -> 127.0.0.1:8080/ui/login admin/password
 
+git clone https://github.com/jimeh/tmux-themepack.git /home/$SUDO_USER/.tmux-themepack
+cp -R .tmux-themepack/ /root/
+sudo ln -s -f /home/$SUDO_USER/.tmux-themepack /root/.tmux-themepack
+
 pip install uploadserver --break-system-packages
 gunzip /usr/share/wordlists/rockyou.txt.gz
+
+apt update
+apt upgrade
 
 updatedb
 
