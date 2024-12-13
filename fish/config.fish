@@ -41,6 +41,10 @@ set -gx wpscan (cat /home/kermit/shodan_key)
 set -gx PDCP_API_KEY (cat /home/kermit/CVEmap_key)
 
 
+
+
+
+
 alias ars='source /usr/bin/arsenal/ars/bin/activate.fish' 
 
 # ~/.config/fish/config.fish
@@ -59,12 +63,14 @@ alias fz='nvim (fzf --preview="cat {}")'
 #alias serve='python3 -m http.server $argv[1]'
 alias clean='sed -e "s/\x1b\[[0-9;]*m//g"'
 
+
 alias kitten="kitty +kitten icat"
 alias pins='jump pins'
 alias js='js-beautify'
 alias hi='hash-identifier'
 
 zoxide init fish | source
+
 
 # ~/.config/fish/config.fish
 
@@ -198,7 +204,9 @@ function info
     echo -e "$green [+]$endcolor $blue share <share name>$endcolor share current folder via smb"
     echo -e "$green [+]$endcolor $blue serve <port>$endcolor share current folder via http"
 
+
 end
+
 
 
 function x
@@ -215,6 +223,8 @@ function kroot
     /home/kermit/kitty.app/bin/kitty -e fish &>/dev/null &
     disown
 end
+
+
 
 function mipk
     echo $miipk
@@ -368,6 +378,25 @@ function word
     echo "Wordlist creada como 'wordlist.txt'"
 end
 
+
+function creds
+    if test (count $argv) -eq 0
+        echo "Uso: pass <archivo>"
+        return 1
+    end
+
+    set archivo $argv[1]
+
+    if test -e $archivo
+        grep -rinE '(password|username|user|pass|key|token|secret|admin|administrator|cred|login|credentials)' $archivo
+    else
+        echo "Error: El archivo '$archivo' no existe."
+        return 1
+    end
+end
+
+
+
 function swep
     if test -z "$argv[1]"
         echo "Uso: ping_sweep <base de IP>"
@@ -408,6 +437,7 @@ function getips
 end
 
 
+
 function getips6
     # Verifica si se proporcionó un archivo como argumento
     if test (count $argv) -eq 0
@@ -432,6 +462,7 @@ function rmk
     scrub -p dod $argv[1]
     shred -zun 10 -v $argv[1]
 end
+
 
 
 function extract
@@ -575,6 +606,7 @@ function swap
 end
 
 
+
 function swop
     # Verificar si se pasó un archivo como argumento
     if test (count $argv) -eq 0
@@ -600,6 +632,7 @@ function swop
         end
     end
 end
+
 
 
 function scan
@@ -887,6 +920,7 @@ function ports
 
         echo -ne "\n\n\t$yellow [135-139]$endcolor$red RPC $endcolor"
         echo -ne "\n\t impacket-rpcdump $ip_address -p <port>"
+        echo -ne "\n\t rpcinfo $ip_address"
         echo -ne "\n\t rpcdump.py $ip_address -p 135 | grep -i uuid"
         echo -ne "\n\t impacket-rpcmap 'ncacn_ip_tcp:$ip_address' -no-pass"
         echo -ne "\n\t impacket-rpcmap 'ncacn_ip_tcp:$ip_address' -auth-rpc '<domain>\\guest' -no-pass"
@@ -905,8 +939,13 @@ function ports
     if echo $ports | grep -q '\b161\b'
         echo -ne "\n\n\t$yellow [161]$endcolor$red SNMP $endcolor"
         echo -ne "\n\t onesixtyone $ip_address -c usr/share/SecLists/Discovery/SNMP/common-snmp-community-strings.txt -i ips"
+        echo -ne "\n\t snmpwalk -v1 -c public $ip_address"
+        echo -ne "\n\t snmpwalk -v2 -c public $ip_address"
         echo -ne "\n\t snmpwalk -v2c -c public $ip_address"
+        echo -ne "\n\t snmpwalk -v3 -c public $ip_address"
         echo -ne "\n\t snmpbulkwalk -v2c -c public $ip_address"
+        echo -ne "\n\t snmpwalk -v2c -c public $ip_address NET-SNMP-EXTEND-MIB::nsExtendObjects"
+        echo -ne "\n\t snmpwalk -v2c -c public $ip_address ipAddressType"
     end
 
     if echo $ports | grep -qE '\b(389|636)\b'
@@ -941,6 +980,7 @@ function ports
     echo -ne "\n"
     echo
 end
+
 
 
 function tg
@@ -981,6 +1021,7 @@ function lab
 end
 
 
+
 function mk
     tput civis
     gum input --prompt="> " --placeholder "workspace name" >machine.txt
@@ -1017,12 +1058,14 @@ function mk
 end
 
 
+
 function stop
     # Limpiar el prompt y desactivar el contador de tiempo
     set -e session_start_time
     rm /home/kermit/.config/bin/session.txt
     echo "Session stopped. Time counter deactivated."
 end
+
 
 
 #BLOODHOUND
@@ -1036,6 +1079,7 @@ function ldapusers
     set -l file $argv[1]
     jq '.[].attributes.sAMAccountName[]' $file | sed 's/"//g'
 end
+
 
 
 function ftext
@@ -1079,6 +1123,8 @@ function cd
 end
 
 
+
+
 # Save type history for completion and easier life
 set -U fish_history_file ~/.local/share/fish/fish_history
 set -U fish_history_max_count 10000
@@ -1104,4 +1150,5 @@ end
 
 # Created by `pipx` on 2024-07-13 13:34:55
 set PATH $PATH /root/.local/bin
+
 
