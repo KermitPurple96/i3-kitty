@@ -194,6 +194,7 @@ function info
     echo -e "$green [+]$endcolor $blue getips6$endcolor Extracts IPv6 from file"
     echo -e "$green [+]$endcolor $blue extract <file>$endcolor Decompress the file"
     echo -e "$green [+]$endcolor $blue get <n field> <archivo> [FS]$endcolor AWK filter"
+    echo -e "$green [+]$endcolor $blue creds <archivo> $endcolor It searchs for credentials in the file or path specified"
     echo -e "$green [+]$endcolor $blue word ./* $endcolor make a wordlist"
     echo -e "$green [+]$endcolor $blue ftext <keyword> $endcolor find txt in current directory"
     echo -e "$green [+]$endcolor $blue bloodusers <file>$endcolor Extract users from bloohound users.json"
@@ -381,7 +382,7 @@ end
 
 function creds
     if test (count $argv) -eq 0
-        echo "Uso: pass <archivo>"
+        echo "Uso: creds <archivo o ruta>"
         return 1
     end
 
@@ -1150,5 +1151,4 @@ end
 
 # Created by `pipx` on 2024-07-13 13:34:55
 set PATH $PATH /root/.local/bin
-
 
