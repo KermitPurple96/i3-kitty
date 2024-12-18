@@ -19,12 +19,12 @@ IFACE2=$(/usr/sbin/ifconfig | grep tap0 | awk '{print $1}' | tr -d ':')
 
  
 if [ "$IFACE" = "tun0" ]; then
-  echo "$(/usr/sbin/ifconfig | grep tun0 -A1 | grep inet | awk '{print $2}')"
+  echo "VPN: $(/usr/sbin/ifconfig | grep tun0 -A1 | grep inet | awk '{print $2}')"
 else
   echo "Disconnected"
 fi
 if [ "$IFACE2" = "tap0" ]; then
-  echo "$(/usr/sbin/ifconfig | grep tap0 -A1 | grep inet | awk '{print $2}')"
+  echo "VPN: $(/usr/sbin/ifconfig | grep tap0 -A1 | grep inet | awk '{print $2}')"
 else
   echo "Disconnected"
 fi
