@@ -44,6 +44,8 @@ set -gx PDCP_API_KEY (cat /home/kermit/CVEmap_key)
 
 
 
+alias venv='python3 -m venv .venv'
+alias vens='source .venv/bin/activate.fish'
 
 alias ars='source /usr/bin/arsenal/ars/bin/activate.fish' 
 
@@ -650,7 +652,7 @@ function scan
 
     # Escaneo SYN en todos los puertos y guarda la salida en formato greppable
     echo "Ejecutando nmap -sS --open -p- en $ip..."
-    nmap -sS --open -p- $ip -n -Pn -oG nmap-$formatted_ip.txt -vvv
+    grc nmap -sS --open -p- $ip -n -Pn -oG nmap-$formatted_ip.txt -vvv
 
     # Extraemos los puertos abiertos y los formateamos en una lista separada por comas
     set ports (cat nmap-$formatted_ip.txt | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs | tr ' ' ',')
@@ -663,7 +665,7 @@ function scan
 
     # Escaneo detallado en los puertos abiertos
     echo "Ejecutando nmap -sCV en los puertos: $ports..."
-    nmap -sCV -p$ports -n -Pn $ip -vvv -oN scan-$formatted_ip.txt
+    grc nmap -sCV -p$ports -n -Pn $ip -vvv -oN scan-$formatted_ip.txt
 
     echo "Escaneo completado. Resultado guardado en scan-$formatted_ip.txt."
 end
@@ -780,7 +782,7 @@ function multiscan
         set formatted_ip (echo $ip | awk -F'.' '{print $4"."$3"."$2"."$1}')
 
         echo "Ejecutando nmap -sS --open -p- en $ip..."
-        nmap -sS --open -p- $ip -n -Pn -oG nmap-$formatted_ip.txt -vvv
+        grc nmap -sS --open -p- $ip -n -Pn -oG nmap-$formatted_ip.txt -vvv
 
         set ports (grep -oP '\d{1,5}/open' nmap-$formatted_ip.txt | awk '{print $1}' FS='/' | xargs | tr ' ' ',')
 
@@ -790,7 +792,7 @@ function multiscan
         end
 
         echo "Ejecutando nmap -sCV en los puertos: $ports..."
-        nmap -sCV -p$ports -n -Pn $ip -v -oN scan-$formatted_ip.txt
+        grc nmap -sCV -p$ports -n -Pn $ip -v -oN scan-$formatted_ip.txt
 
         echo "Escaneo completado. Resultado guardado en scan-$formatted_ip.txt."
     end
