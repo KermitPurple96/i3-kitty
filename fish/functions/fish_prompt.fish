@@ -16,9 +16,9 @@ function fish_prompt
     echo -n 'kali '
 
     # Set color for the current working directory to purple
-    set_color magenta
-    echo -n (prompt_pwd)
     set_color yellow
+    echo -n (prompt_pwd)
+    set_color magenta
     echo -n ' > '
 
     #if test (whoami) = root
