@@ -375,6 +375,11 @@ sudo ln -s -f /home/$SUDO_USER/.tmux-themepack /root/.tmux-themepack
 pip install uploadserver --break-system-packages
 gunzip /usr/share/wordlists/rockyou.txt.gz
 
+# https://www.postman.com/downloads/
+tar -xzf postman-linux-x64.tar.gz -C /opt
+ln -s /opt/Postman/app/postman /usr/bin/postman
+
+
 apt update
 apt upgrade
 
