@@ -28,7 +28,7 @@ set -g fondogris "\e[0;47m\033[1m"
 
 
 # Export PATH
-set -g PATH $PATH $HOME/.local/bin /usr/bin /usr/share/responder /usr/share/ghidra /usr/share/hydra /usr/share/libreoffice /snap/bin /usr/sandbox /usr/local/bin /usr/local/go/bin /bin /usr/local/games /usr/games /usr/share/games /usr/local/sbin /usr/sbin /sbin /usr/local/bin /bin /usr/local/games /usr/games $HOME/.fzf/bin /opt/exploitdb $HOME/.local/bin /usr/share/metasploit-framework/tools/exploit /usr/bin/arsenal /usr/bin/gtfo $HOME/.fzf/bin /usr/share/Wordpresscan $HOME/.local/pipx/shared/bin $HOME/go/bin /usr/bin/pwsh $HOME/kitty.app/bin /home/kermit/dev/python /home/kermit/dev/bash /home/kermit/OSCP-PythonSupportTools $HOME/.cargo/bin
+set -g PATH $PATH $HOME/.local/bin /usr/bin /usr/share/responder /usr/share/ghidra /usr/share/hydra /usr/share/libreoffice /snap/bin /usr/sandbox /usr/local/bin /usr/local/go/bin /bin /usr/local/games /usr/games /usr/share/games /usr/local/sbin /usr/sbin /sbin /usr/local/bin /bin /usr/local/games /usr/games $HOME/.fzf/bin /opt/exploitdb $HOME/.local/bin /usr/share/metasploit-framework/tools/exploit /usr/bin/arsenal /usr/bin/gtfo $HOME/.fzf/bin /usr/share/Wordpresscan $HOME/.local/pipx/shared/bin $HOME/go/bin /usr/bin/pwsh $HOME/kitty.app/bin /home/kermit/dev/python /home/kermit/dev/bash /home/kermit/OSCP-PythonSupportTools $HOME/.cargo/bin /usr/local/bin/lua-language-server/bin
 
 set _OLD_VIRTUAL_PATH "$PATH"
 
@@ -50,7 +50,8 @@ alias vens='source .venv/bin/activate.fish'
 alias ars='source /usr/bin/arsenal/ars/bin/activate.fish' 
 
 # ~/.config/fish/config.fish
-alias montar='sudo vmhgfs-fuse .host:/D /mnt/hgfs/ -o allow_other -o uid=1000'
+#alias montar='sudo vmhgfs-fuse .host:/D /mnt/hgfs/ -o allow_other -o uid=1000'
+alias montar='sudo vmhgfs-fuse .host:/ /mnt/hgfs/ -o allow_other -o uid=1000'
 alias hash='cd /mnt/hgfs/share/hashcat-6.2.6/hashcat-6.2.6'
 
 # Alias
@@ -651,7 +652,7 @@ function scan
 
 
     # Escaneo SYN en todos los puertos y guarda la salida en formato greppable
-    echo "Ejecutando nmap -sS --open -p- en $ip..."
+    echo "[*] Running: grc nmap -sS --open -p- $ip -n -Pn -oG nmap-$formatted_ip.txt -vvv"
     grc nmap -sS --open -p- $ip -n -Pn -oG nmap-$formatted_ip.txt -vvv
 
     # Extraemos los puertos abiertos y los formateamos en una lista separada por comas
@@ -664,7 +665,7 @@ function scan
     end
 
     # Escaneo detallado en los puertos abiertos
-    echo "Ejecutando nmap -sCV en los puertos: $ports..."
+    echo "[*] Running: grc nmap -sCV -p$ports -n -Pn $ip -vvv -oN scan-$formatted_ip.txt"
     grc nmap -sCV -p$ports -n -Pn $ip -vvv -oN scan-$formatted_ip.txt
 
     echo "Escaneo completado. Resultado guardado en scan-$formatted_ip.txt."
@@ -696,6 +697,8 @@ function netscan
     set output_file "ips.nmap"
     set results "hosts.nmap"
     nmap -sn $range -oG $output_file >/dev/null 2>&1
+    echo "[*] Running: nmap -sn $range -oG $output_file >/dev/null 2>&1"
+
 
     # Extrae las IPs de los hosts vivos del archivo de salida de nmap
     set nmap_ips (grep 'Up' $output_file | awk '{print $2}')
@@ -781,7 +784,7 @@ function multiscan
     for ip in (cat $ip_file)
         set formatted_ip (echo $ip | awk -F'.' '{print $4"."$3"."$2"."$1}')
 
-        echo "Ejecutando nmap -sS --open -p- en $ip..."
+        echo "[*] Running: grc nmap -sS --open -p- $ip -n -Pn -oG nmap-$formatted_ip.txt -vvv"
         grc nmap -sS --open -p- $ip -n -Pn -oG nmap-$formatted_ip.txt -vvv
 
         set ports (grep -oP '\d{1,5}/open' nmap-$formatted_ip.txt | awk '{print $1}' FS='/' | xargs | tr ' ' ',')
@@ -791,7 +794,7 @@ function multiscan
             continue
         end
 
-        echo "Ejecutando nmap -sCV en los puertos: $ports..."
+        echo "[*] Running: grc nmap -sCV -p$ports -n -Pn $ip -v -oN scan-$formatted_ip.txt"
         grc nmap -sCV -p$ports -n -Pn $ip -v -oN scan-$formatted_ip.txt
 
         echo "Escaneo completado. Resultado guardado en scan-$formatted_ip.txt."
@@ -941,14 +944,23 @@ function ports
     end
     if echo $ports | grep -q '\b161\b'
         echo -ne "\n\n\t$yellow [161]$endcolor$red SNMP $endcolor"
+
+        echo -ne "\n\n\t nmap --script snmp-interfaces -p161 -sU $ip_address"
         echo -ne "\n\t onesixtyone $ip_address -c usr/share/SecLists/Discovery/SNMP/common-snmp-community-strings.txt -i ips"
         echo -ne "\n\t snmpwalk -v1 -c public $ip_address"
         echo -ne "\n\t snmpwalk -v2 -c public $ip_address"
         echo -ne "\n\t snmpwalk -v2c -c public $ip_address"
+        echo -ne "\n\t snmpwalk -v2c -c public $ip_address 1"
         echo -ne "\n\t snmpwalk -v3 -c public $ip_address"
         echo -ne "\n\t snmpbulkwalk -v2c -c public $ip_address"
         echo -ne "\n\t snmpwalk -v2c -c public $ip_address NET-SNMP-EXTEND-MIB::nsExtendObjects"
         echo -ne "\n\t snmpwalk -v2c -c public $ip_address ipAddressType"
+        echo -ne "\n\t snmpwalk -v2c -c public $ip_address 1.3.6.1.4.1.77.1.2.25"
+        echo -ne "\n\t snmpwalk -v2c -c public $ip_address 1.3.6.1.2.1.25.6.3.1.2"
+        echo -ne "\n\t snmpwalk -v2c -c public $ip_address 1.3.6.1.2.1.6.13.1.3"
+        echo -ne "\n\t snmpwalk -v2c -c public $ip_address hrSWRunName"
+        echo -ne "\n\t snmpwalk -v2c -c public $ip_address hrSWRunTable"
+
     end
 
     if echo $ports | grep -qE '\b(389|636)\b'
