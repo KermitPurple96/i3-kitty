@@ -379,6 +379,11 @@ gunzip /usr/share/wordlists/rockyou.txt.gz
 tar -xzf postman-linux-x64.tar.gz -C /opt
 ln -s /opt/Postman/app/postman /usr/bin/postman
 
+mkdir /usr/local/bin/lua-language-server
+cd /usr/local/bin/lua-language-server
+wget https://github.com/LuaLS/lua-language-server/releases/download/3.13.5/lua-language-server-3.13.5-linux-x64.tar.gz
+tar -xvzf lua-language-server-3.13.5-linux-x64.tar.gz 
+rm lua-language-server-3.13.5-linux-x64.tar.gz 
 
 apt update
 apt upgrade
