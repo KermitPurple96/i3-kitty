@@ -1,10 +1,9 @@
--- Verifica que Packer esté instalado
 local ensure_packer = function()
     local fn = vim.fn
     local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
     if fn.empty(fn.glob(install_path)) > 0 then
         fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-        vim.cmd('packadd packer.nvim')
+        vim.cmd [[packadd packer.nvim]]
         return true
     end
     return false
@@ -12,67 +11,110 @@ end
 
 local packer_bootstrap = ensure_packer()
 
--- Cargar Packer
-vim.cmd('packadd packer.nvim')
-
 require('packer').startup(function(use)
-    use 'wbthomason/packer.nvim' -- Packer puede administrarse a sí mismo
-    use 'Mofiqul/dracula.nvim'   -- Tema Dracula
+    use 'wbthomason/packer.nvim'
+    use 'Mofiqul/dracula.nvim'
+    use 'nvim-tree/nvim-tree.lua'
     use {
         'nvim-telescope/telescope.nvim',
         tag = '0.1.2',
-        requires = { {'nvim-lua/plenary.nvim'} } -- Dependencia necesaria
+        requires = { {'nvim-lua/plenary.nvim'} }
     }
+    use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
+    use 'neovim/nvim-lspconfig'
+    use 'hrsh7th/nvim-cmp'
+    use 'hrsh7th/cmp-nvim-lsp'
+    use 'hrsh7th/cmp-path'
+    use 'hrsh7th/cmp-buffer'
+    use 'L3MON4D3/LuaSnip'
+    use 'saadparwaiz1/cmp_luasnip'
+    use 'onsails/lspkind.nvim'
+    use 'nvim-neotest/nvim-nio'
+    use 'mfussenegger/nvim-dap'
+    use 'rcarriga/nvim-dap-ui'
+    use 'jayp0521/mason-nvim-dap.nvim'
+    use 'numToStr/Comment.nvim'
+    use 'windwp/nvim-autopairs'
+    use 'nvim-lualine/lualine.nvim'
+    use 'norcalli/nvim-colorizer.lua'
+    use 'tpope/vim-fugitive'
+    use 'lewis6991/gitsigns.nvim'
+    use 'Vimjas/vim-python-pep8-indent'
+    use 'simrat39/rust-tools.nvim'
+    use 'mattn/emmet-vim'
+    use 'windwp/nvim-ts-autotag'
+    use 'kovetskiy/sxhkd-vim'
 
     if packer_bootstrap then
         require('packer').sync()
     end
 end)
 
+vim.o.termguicolors = true
+vim.o.syntax = "on"
+vim.o.background = "dark"
+vim.cmd [[colorscheme dracula]]
 
+require('nvim-tree').setup()
 
--- Configuración básica de Neovim con Dracula y columna relativa
-vim.o.termguicolors = true  -- Habilita colores en la terminal
-vim.o.syntax = "on"         -- Activa resaltado de sintaxis
-vim.o.background = "dark"   -- Configura fondo oscuro
-vim.o.number = true         -- Muestra número de líneas
-vim.o.relativenumber = true -- Activa columna relativa
-
--- Configuración del tema Dracula
-local dracula_status, dracula = pcall(require, "dracula")
-if dracula_status then
-    dracula.setup({
-        colors = {
-            bg = "#282a36", -- Fondo oscuro
-            fg = "#f8f8f2", -- Texto claro
-            selection = "#44475a",
-            comment = "#6272a4",
-            red = "#ff5555",
-            orange = "#ffb86c",
-            yellow = "#f1fa8c",
-            green = "#50fa7b",
-            purple = "#bd93f9",
-            cyan = "#8be9fd",
-            pink = "#ff79c6",
+require('telescope').setup({
+    defaults = {
+        file_ignore_patterns = {"node_modules", ".git/"},
+        layout_config = {
+            horizontal = {prompt_position = "top", results_width = 0.6},
         },
-        italic_comment = true, -- Comentarios en itálica
-        transparent_bg = false -- No hacer el fondo transparente
-    })
-    vim.cmd("colorscheme dracula")
-else
-    print("Error: Dracula no se pudo cargar.")
-end
-
--- Alternar entre números relativos y absolutos dinámicamente
-vim.api.nvim_create_autocmd({"InsertEnter"}, {
-    pattern = "*",
-    command = "set norelativenumber"
+        sorting_strategy = "ascending",
+        prompt_prefix = "🔍 ",
+    }
 })
 
-vim.api.nvim_create_autocmd({"InsertLeave"}, {
-    pattern = "*",
-    command = "set relativenumber"
+require('nvim-treesitter.configs').setup({
+    ensure_installed = "all",
+    highlight = {enable = true},
+    autotag = {enable = true},
 })
 
--- Si usas un archivo de plugins separado, coméntalo o ajústalo
--- require('plugins')
+local lspconfig = require('lspconfig')
+local cmp = require('cmp')
+local luasnip = require('luasnip')
+
+cmp.setup({
+    snippet = {
+        expand = function(args)
+            require('luasnip').lsp_expand(args.body)
+        end,
+    },
+    mapping = {
+        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<CR>'] = cmp.mapping.confirm({select = true}),
+    },
+    sources = cmp.config.sources({
+        {name = 'nvim_lsp'},
+        {name = 'luasnip'},
+    }, {
+        {name = 'buffer'},
+    }),
+})
+
+lspconfig.pyright.setup{}
+lspconfig.rust_analyzer.setup{}
+lspconfig.tsserver.setup{}
+
+require('Comment').setup()
+require('nvim-autopairs').setup()
+
+require('lualine').setup({
+    options = {
+        theme = 'dracula',
+    },
+})
+
+require('colorizer').setup()
+
+-- Indicadores Git (gitsigns.nvim)
+require('gitsigns').setup()
+
+-- Opcional: Configuración de debugging (nvim-dap)
+require('dapui').setup()
