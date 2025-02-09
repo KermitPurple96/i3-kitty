@@ -18,11 +18,18 @@ vim.cmd('packadd packer.nvim')
 require('packer').startup(function(use)
     use 'wbthomason/packer.nvim' -- Packer puede administrarse a sí mismo
     use 'Mofiqul/dracula.nvim'   -- Tema Dracula
+    use {
+        'nvim-telescope/telescope.nvim',
+        tag = '0.1.2',
+        requires = { {'nvim-lua/plenary.nvim'} } -- Dependencia necesaria
+    }
 
     if packer_bootstrap then
         require('packer').sync()
     end
 end)
+
+
 
 -- Configuración básica de Neovim con Dracula y columna relativa
 vim.o.termguicolors = true  -- Habilita colores en la terminal
