@@ -201,10 +201,17 @@ chmod +x /usr/bin/nvim
 #nvim
 
 #nvchad
-git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
-sudo chown $SUDO_USER:$SUDO_USER -R /home/$SUDO_USER/.config/
-sudo cp -r /home/$SUDO_USER/.config/nvim /root/.config/nvim
-nvim
+#git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
+#sudo chown $SUDO_USER:$SUDO_USER -R /home/$SUDO_USER/.config/
+#sudo cp -r /home/$SUDO_USER/.config/nvim /root/.config/nvim
+#nvim
+
+mkdir -p ~/.config/nvim/lua
+wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/refs/heads/main/nvim/init.lua -O ~/.config/nvim/init.lua
+wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/refs/heads/main/nvim/lua/plugins.lua -O ~/.config/nvim/lua/plugins.lua
+git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+:PackerSync
+
 
 #subl
 wget https://download.sublimetext.com/sublime-text_build-3211_amd64.deb
