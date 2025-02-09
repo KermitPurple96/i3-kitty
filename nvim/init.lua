@@ -1,3 +1,4 @@
+-- Verifica que packer.nvim esté instalado
 local ensure_packer = function()
     local fn = vim.fn
     local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
@@ -11,52 +12,34 @@ end
 
 local packer_bootstrap = ensure_packer()
 
-require('packer').startup(function(use)
-    use 'wbthomason/packer.nvim'
-    use 'Mofiqul/dracula.nvim'
-    use 'nvim-tree/nvim-tree.lua'
-    use {
-        'nvim-telescope/telescope.nvim',
-        tag = '0.1.2',
-        requires = { {'nvim-lua/plenary.nvim'} }
-    }
-    use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
-    use 'neovim/nvim-lspconfig'
-    use 'hrsh7th/nvim-cmp'
-    use 'hrsh7th/cmp-nvim-lsp'
-    use 'hrsh7th/cmp-path'
-    use 'hrsh7th/cmp-buffer'
-    use 'L3MON4D3/LuaSnip'
-    use 'saadparwaiz1/cmp_luasnip'
-    use 'onsails/lspkind.nvim'
-    use 'nvim-neotest/nvim-nio'
-    use 'mfussenegger/nvim-dap'
-    use 'rcarriga/nvim-dap-ui'
-    use 'jayp0521/mason-nvim-dap.nvim'
-    use 'numToStr/Comment.nvim'
-    use 'windwp/nvim-autopairs'
-    use 'nvim-lualine/lualine.nvim'
-    use 'norcalli/nvim-colorizer.lua'
-    use 'tpope/vim-fugitive'
-    use 'lewis6991/gitsigns.nvim'
-    use 'Vimjas/vim-python-pep8-indent'
-    use 'simrat39/rust-tools.nvim'
-    use 'mattn/emmet-vim'
-    use 'windwp/nvim-ts-autotag'
-    use 'kovetskiy/sxhkd-vim'
+-- Cargar el archivo de configuración de plugins
+require('plugins')
 
-    if packer_bootstrap then
-        require('packer').sync()
-    end
-end)
+-- Opcional: sincronizar automáticamente si packer se instaló por primera vez
+if packer_bootstrap then
+    require('packer').sync()
+end
 
+
+-- Configuración de plugins y funcionalidades básicas
+-- Tema Dracula
 vim.o.termguicolors = true
 vim.o.syntax = "on"
 vim.o.background = "dark"
 vim.cmd [[colorscheme dracula]]
+vim.o.tabstop = 4        -- Número de espacios que representa un tab
+vim.o.shiftwidth = 4     -- Número de espacios para autoindentación
+vim.o.softtabstop = 4    -- Número de espacios para un tab en modo insert
+vim.o.expandtab = true   -- Convierte tabs en espacios
+vim.o.smarttab = true    -- Usa tabstop y shiftwidth para <Tab> y <Backspace>
+vim.o.autoindent = true  -- Habilita autoindentación
+vim.o.smartindent = true -- Habilita indentación inteligente
 
+
+-- Explorador de archivos (nvim-tree)
 require('nvim-tree').setup()
 
+-- Búsqueda avanzada (Telescope)
 require('telescope').setup({
     defaults = {
         file_ignore_patterns = {"node_modules", ".git/"},
@@ -68,12 +51,14 @@ require('telescope').setup({
     }
 })
 
+-- Resaltado avanzado de sintaxis (nvim-treesitter)
 require('nvim-treesitter.configs').setup({
     ensure_installed = "all",
     highlight = {enable = true},
-    autotag = {enable = true},
+    autotag = {enable = true}, -- Cierre automático de etiquetas
 })
 
+-- LSP y autocompletado
 local lspconfig = require('lspconfig')
 local cmp = require('cmp')
 local luasnip = require('luasnip')
@@ -98,19 +83,25 @@ cmp.setup({
     }),
 })
 
-lspconfig.pyright.setup{}
-lspconfig.rust_analyzer.setup{}
-lspconfig.tsserver.setup{}
+-- Configura servidores LSP básicos
+lspconfig.pyright.setup{} -- Python
+lspconfig.rust_analyzer.setup{} -- Rust
+lspconfig.tsserver.setup{} -- JavaScript/TypeScript
 
+-- Comentarios (Comment.nvim)
 require('Comment').setup()
+
+-- Emparejamiento automático (autopairs)
 require('nvim-autopairs').setup()
 
+-- Barra inferior (lualine)
 require('lualine').setup({
     options = {
         theme = 'dracula',
     },
 })
 
+-- Colores hexadecimales (colorizer)
 require('colorizer').setup()
 
 -- Indicadores Git (gitsigns.nvim)
