@@ -34,7 +34,8 @@ vim.o.expandtab = true   -- Convierte tabs en espacios
 vim.o.smarttab = true    -- Usa tabstop y shiftwidth para <Tab> y <Backspace>
 vim.o.autoindent = true  -- Habilita autoindentación
 vim.o.smartindent = true -- Habilita indentación inteligente
-
+vim.o.number = true         -- Muestra número de líneas
+vim.o.relativenumber = true -- Activa columna relativa
 
 -- Explorador de archivos (nvim-tree)
 require('nvim-tree').setup()
