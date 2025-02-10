@@ -87,7 +87,7 @@ cmp.setup({
 -- Configura servidores LSP básicos
 lspconfig.pyright.setup{} -- Python
 lspconfig.rust_analyzer.setup{} -- Rust
-lspconfig.tsserver.setup{} -- JavaScript/TypeScript
+lspconfig.ts_ls.setup{} -- JavaScript/TypeScript
 
 -- Comentarios (Comment.nvim)
 require('Comment').setup()
