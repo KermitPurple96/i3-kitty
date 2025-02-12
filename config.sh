@@ -20,6 +20,7 @@ sudo apt-get -y install kitty zaproxy seclists putty-tools powercat lolcat neofe
 sudo apt-get update && sudo apt-get -y install golang-go 
 sudo apt install libcriterion-dev clang npm
 npm -g install js-beautify
+npm install -g pyright
 
 apt update
 apt upgrade
