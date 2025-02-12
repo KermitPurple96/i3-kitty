@@ -395,6 +395,13 @@ tar -xvzf lua-language-server-3.13.5-linux-x64.tar.gz
 rm lua-language-server-3.13.5-linux-x64.tar.gz 
 
 apt update
+apt install snapd
+systemctl enable snapd.service
+systemctl start snapd.service
+snap install snapd
+snap install glade
+
+apt update
 apt upgrade
 
 updatedb
