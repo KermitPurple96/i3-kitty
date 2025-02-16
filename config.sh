@@ -18,7 +18,7 @@ rm -rf kali-clean
 sudo apt install libsasl2-dev python-dev-is-python3 libldap2-dev libssl-dev snmp-mibs-downloader meson proxychains dnsmasq ripgrep smtp-user-enum dnscat2 curl ncat dnsrecon enum4linux feroxbuster impacket-scripts nbtscan nmap onesixtyone oscanner redis-tools smbclient smbmap snmp sslscan sipvicious tnscmd10g whatweb wkhtmltopdf autorecon
 sudo apt-get -y install kitty zaproxy seclists putty-tools powercat lolcat neofetch build-essential grc gcc cryptsetup steghide feroxbuster hping3 pipx zsh remmina keepass2 moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp dirsearch docker-compose docker.io scrub jq apache2 ncat ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit
 sudo apt-get update && sudo apt-get -y install golang-go 
-sudo apt install libcriterion-dev clang npm
+sudo apt install libcriterion-dev clang npm cmake
 npm -g install js-beautify
 npm install -g pyright
 
