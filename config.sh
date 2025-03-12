@@ -21,7 +21,7 @@ sudo apt-get update && sudo apt-get -y install golang-go
 sudo apt install libcriterion-dev clang npm cmake
 npm -g install js-beautify
 npm install -g pyright
-
+go install github.com/jesseduffield/lazygit@latest
 apt update
 apt upgrade
 python3 -m pip install --user pwntools
