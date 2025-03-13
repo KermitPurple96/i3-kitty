@@ -43,7 +43,6 @@ set -gx PDCP_API_KEY (cat /home/kermit/CVEmap_key)
 
 
 
-
 alias venv='python3 -m venv .venv'
 alias vens='source .venv/bin/activate.fish'
 
@@ -147,6 +146,20 @@ alias mountedinfo='df -hT'
 
 # Logs
 #alias logs='sudo find /var/log -type f -exec file {} + | grep "text" | cut -d" " -f1 | sed -e "s/:$//" | grep -v "[0-9]$" | xargs tail -f'
+
+
+
+function ww
+    if test (count $argv) -lt 1
+        echo "Uso: ww <url>"
+        return 1
+    end
+    set url $argv[1]
+    echo "Ejecutando curl con verbose..."
+    curl -o /dev/null -v $url
+    echo -ne "\n\nEjecutando whatweb..."
+    whatweb $url
+end
 
 
 function info
@@ -1165,4 +1178,3 @@ end
 
 # Created by `pipx` on 2024-07-13 13:34:55
 set PATH $PATH /root/.local/bin
-
