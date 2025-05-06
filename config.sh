@@ -20,6 +20,8 @@ sudo apt-get -y install gh kitty zaproxy seclists putty-tools powercat lolcat ht
 sudo apt-get update && sudo apt-get -y install golang-go 
 sudo apt install libcriterion-dev clang npm nodejs cmake
 
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
 npm -g install js-beautify
 npm install -g pyright
 npm install -g vscode-langservers-extracted
