@@ -255,8 +255,8 @@ uv tool install git+https://github.com/Pennyw0rth/NetExec
 uv tool upgrade --all
 
 #nxc
-#sudo apt install pipx git
-#pipx ensurepath
+sudo apt install pipx git
+pipx ensurepath
 #pipx install git+https://github.com/Pennyw0rth/NetExec
 
 #poetry netexec
