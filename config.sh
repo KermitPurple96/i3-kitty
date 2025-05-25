@@ -16,7 +16,7 @@ rm -rf kali-clean
 
 #packages
 sudo apt install libsasl2-dev python-dev-is-python3 libldap2-dev libssl-dev snmp-mibs-downloader meson proxychains dnsmasq ripgrep smtp-user-enum dnscat2 curl ncat dnsrecon enum4linux feroxbuster impacket-scripts nbtscan nmap onesixtyone oscanner redis-tools smbclient smbmap snmp sslscan sipvicious tnscmd10g whatweb wkhtmltopdf autorecon
-sudo apt-get -y install gh kitty zaproxy seclists putty-tools powercat lolcat httptunnel neofetch build-essential grc gcc cryptsetup steghide traceroute feroxbuster hping3 pipx zsh remmina keepass2 coreutils moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp dirsearch docker-compose docker.io scrub jq apache2 ncat ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit
+sudo apt-get -y install gh kitty zaproxy seclists putty-tools powercat lolcat httptunnel neofetch build-essential grc gcc cryptsetup steghide traceroute feroxbuster hping3 zsh remmina keepass2 coreutils moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp dirsearch docker-compose docker.io scrub jq apache2 ncat ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit
 sudo apt-get update && sudo apt-get -y install golang-go 
 sudo apt install libcriterion-dev clang npm nodejs cmake
 
@@ -247,10 +247,17 @@ cp /home/$SUDO_USER/.config/kitty/* /root/.config/kitty/
 # zoxide
 curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
 
+# uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+uv self update
+uv tool install impacket
+uv tool install git+https://github.com/Pennyw0rth/NetExec
+uv tool upgrade --all
+
 #nxc
-sudo apt install pipx git
-pipx ensurepath
-pipx install git+https://github.com/Pennyw0rth/NetExec
+#sudo apt install pipx git
+#pipx ensurepath
+#pipx install git+https://github.com/Pennyw0rth/NetExec
 
 #poetry netexec
 pipx install poetry
@@ -268,7 +275,7 @@ poetry update impacket
 #python3 -m pip install pipx
 #python3 -m pip install --user pipx 
 #python3 -m pipx ensurepath
-python3 -m pipx install impacket
+#python3 -m pipx install impacket
 
 #ftp
 pip install pyftpdlib
