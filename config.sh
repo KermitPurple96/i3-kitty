@@ -411,6 +411,10 @@ snap install glade
 apt update
 apt upgrade
 
+sudo apt install openssh-server
+sudo systemctl start ssh
+sudo systemctl enable ssh
+
 updatedb
 
 
