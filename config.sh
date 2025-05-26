@@ -199,7 +199,9 @@ cd /home/$SUDO_USER
 #neovim
 wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -O /usr/bin/nvim
 chmod +x /usr/bin/nvim
-# https://neovide.dev/configuration.html
+
+# neovide
+# https://neovide.dev/installation.html#linux-source
 
 #lazy vim as ROOT and $SUDO_USER
 #mv ~/.config/nvim{,.bak}
