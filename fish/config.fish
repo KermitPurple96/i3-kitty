@@ -87,7 +87,15 @@ alias xa='zoxide add'
 # Aliases for common commands
 alias a='run'
 #alias v='nvim'
-alias v="command /root/.cargo/bin/neovide > /dev/null 2>&1 &"
+
+function v
+  if test (count $argv) -eq 0
+    /root/.cargo/bin/neovide > /dev/null 2>&1 &
+  else
+    /root/.cargo/bin/neovide $argv > /dev/null 2>&1 &
+  end
+end
+
 
 # Multiple directory listing commands
 alias la='lsd -Aalh' # show hidden files
