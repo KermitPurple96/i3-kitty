@@ -86,7 +86,8 @@ alias xa='zoxide add'
 
 # Aliases for common commands
 alias a='run'
-alias v='nvim'
+#alias v='nvim'
+alias v="command /root/.cargo/bin/neovide > /dev/null 2>&1 &"
 
 # Multiple directory listing commands
 alias la='lsd -Aalh' # show hidden files
@@ -155,10 +156,7 @@ function ww
         return 1
     end
     set url $argv[1]
-    echo "Ejecutando curl con verbose..."
-    curl -o /dev/null -v $url
-    echo -ne "\n\nEjecutando whatweb..."
-    whatweb $url
+    whatweb $url -v
 end
 
 
@@ -1178,3 +1176,4 @@ end
 
 # Created by `pipx` on 2024-07-13 13:34:55
 set PATH $PATH /root/.local/bin
+
