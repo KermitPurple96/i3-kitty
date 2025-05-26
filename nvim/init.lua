@@ -5,6 +5,13 @@ vim.g.neovide_opacity= 0.9
 
 vim.g.neovide_scale_factor = 0.7
 
+vim.g.neovide_cursor_vfx_mode = "railgun"  -- opciones: "torpedo", "railgun", "pixiedust", "sonicboom", "ripple", "wireframe", "torpedo"
+vim.opt.clipboard = "unnamedplus"
+
+vim.opt.number = true           -- Número absoluto de línea
+vim.opt.relativenumber = true   -- Números relativos (líneas relativas al cursor)
+
+
 -- bootstrap lazy and all plugins
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 
