@@ -32,8 +32,6 @@ npm install -g vscode-langservers-extracted
 
 go install github.com/jesseduffield/lazygit@latest
 
-python3 -m pip install --user pwntools
-
 git clone https://github.com/wirzka/incursore.git
 sudo ln -s $(pwd)/incursore/incursore.sh /usr/local/bin/
 
@@ -41,7 +39,7 @@ sudo ln -s $(pwd)/incursore/incursore.sh /usr/local/bin/
 #zsh
 # bash <(curl https://raw.githubusercontent.com/atuinsh/atuin/main/install.sh)
 # fish
-bash (curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh | psub)
+curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
 
 go install github.com/ffuf/ffuf/v2@latest
 go install github.com/OJ/gobuster/v3@latest
@@ -65,8 +63,9 @@ chmod -R +x /home/$SUDO_USER/dev/python/*
 mkdir /home/$SUDO_USER/dev/go
 wget https://raw.githubusercontent.com/KermitPurple96/fastTCPscan/main/fastTCPscan.go -O /home/$SUDO_USER/dev/go/fastTCPScan.go 
 go build -ldflags "-s -w" /home/$SUDO_USER/dev/go/fastTCPScan.go
-upx brute /home/$SUDO_USER/dev/go/fastTCPScan.go
-chmod +x /home/$SUDO_USER/dev/go/fastTCPScan
+upx brute /home/$SUDO_USER/fastTCPScan
+chmod +x /home/$SUDO_USER/fastTCPScan
+mv fastTCPScan /usr/bin/
 
 mkdir /home/$SUDO_USER/Descargas/firefox
 mkdir /home/$SUDO_USER/maquinas
@@ -75,15 +74,15 @@ touch /home/$SUDO_USER/.config/bin/{name.txt,target.txt,ttl.txt,target_sys.txt}
 sudo chown kermit:kermit -R /home/$SUDO_USER/.config/bin
 
 #lsd
-wget https://github.com/lsd-rs/lsd/releases/download/0.23.1/lsd-musl_0.23.1_amd64.deb
-sudo dpkg -i lsd-musl_0.23.1_amd64.deb
+wget lsd-musl_1.1.5_amd64.deb
+sudo dpkg -i lsd*
 
 #bat
 wget https://github.com/sharkdp/bat/releases/download/v0.24.0/bat_0.24.0_amd64.deb
-apt install ./bat_*
+sudo dpkg -i ./bat_*
 
 # wallpaper
-rm /home/$SUDO_USER/.fehbg
+rm -rf /home/$SUDO_USER/.fehbg
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/.fehbg -O /home/$SUDO_USER/.fehbg
 mkdir /home/$SUDO_USER/.wallpaper
 wget https://github.com/KermitPurple96/i3-kitty/blob/main/fondo.jpg\?raw=true -O /home/$SUDO_USER/.wallpaper/fondo.jpg
