@@ -435,7 +435,7 @@ sudo systemctl start ssh
 sudo systemctl enable ssh
 
 updatedb
-
+/root/.local/bin/neowofetch
 
 
 
