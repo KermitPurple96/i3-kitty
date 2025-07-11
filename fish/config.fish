@@ -72,7 +72,7 @@ alias js='js-beautify'
 alias hi='hash-identifier'
 
 zoxide init fish | source
-
+alias wfuzz='docker run -v $(pwd)/wordlist:/wordlist/ -it ghcr.io/xmendez/wfuzz wfuzz'
 
 # ~/.config/fish/config.fish
 
