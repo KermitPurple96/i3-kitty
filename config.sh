@@ -32,8 +32,6 @@ npm install -g vscode-langservers-extracted
 
 go install github.com/jesseduffield/lazygit@latest
 
-apt update
-apt upgrade
 python3 -m pip install --user pwntools
 
 git clone https://github.com/wirzka/incursore.git
