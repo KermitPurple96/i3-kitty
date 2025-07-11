@@ -40,6 +40,8 @@ sudo ln -s $(pwd)/incursore/incursore.sh /usr/local/bin/
 # bash <(curl https://raw.githubusercontent.com/atuinsh/atuin/main/install.sh)
 # fish
 curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+cp /root/.atuin/bin/atuin /usr/bin/atuin
+chown kermit:kermit /usr/bin/atuin
 
 go install github.com/ffuf/ffuf/v2@latest
 go install github.com/OJ/gobuster/v3@latest
@@ -253,6 +255,9 @@ cp /home/$SUDO_USER/.config/kitty/* /root/.config/kitty/
 
 # zoxide
 curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
+cp /root/.local/bin/zoxide /usr/bin/zoxide
+chown kermit:kermit /usr/bin/zoxid
+
 
 # uv
 curl -LsSf https://astral.sh/uv/install.sh | sh
