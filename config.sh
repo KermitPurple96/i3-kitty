@@ -318,9 +318,7 @@ sudo git clone https://github.com/mzfr/gtfo /usr/bin/gtfo
 chmod +x /usr/bin/gtfo
 
 # donpapi
-sudo apt update
-sudo apt install -y libxml2-dev libxslt1-dev python3-dev build-essential
-pipx install donpapi
+pipx install git+https://github.com/login-securite/DonPAPI.git
 
 #minikerberos
 git clone https://github.com/skelsec/minikerberos.git
@@ -337,7 +335,7 @@ wget https://github.com/peco/peco/releases/download/v0.5.11/peco_linux_amd64.tar
 gunzip peco_linux_amd64.tar.gz
 tar xfv peco_linux_amd64.tar
 chmod +x peco_linux_amd64/peco
-cp peco /bin/peco
+cp peco_linux_amd64/peco /bin/peco
 
 #powershell
 wget https://github.com/PowerShell/PowerShell/releases/download/v7.4.3/powershell-lts_7.4.3-1.deb_amd64.deb
