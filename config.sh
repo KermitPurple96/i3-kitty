@@ -90,7 +90,7 @@ wget https://github.com/KermitPurple96/i3-kitty/blob/main/fondo.jpg\?raw=true -O
 # i3
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/usr/share/i3blocks/target_sys.sh -O /usr/share/i3blocks/target_sys.sh
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/usr/share/i3blocks/target.sh -O /usr/share/i3blocks/target.sh
-wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/usr/share/i3blocks/hackthebox_status.sh -O /usr/share/i3blocks/hackthebox_status.sh
+wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/refs/heads/main/usr/share/i3blocks/vpn_status.sh -O /usr/share/i3blocks/vpn_status.sh
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/usr/share/i3blocks/ethernet_status.sh -O /usr/share/i3blocks/ethernet_status.sh
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/usr/share/i3blocks/access_point.sh -O /usr/share/i3blocks/access_point.sh
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/usr/share/i3blocks/session.sh -O /usr/share/i3blocks/session.sh
@@ -198,7 +198,9 @@ cd /home/$SUDO_USER
 
 
 #neovim
-wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -O /usr/bin/nvim
+wget https://github.com/neovim/neovim/releases/download/v0.11.2/nvim-linux-x86_64.appimage
+chmod u+x nvim-linux-x86_64.appimage && ./nvim-linux-x86_64.appimage
+mv ./nvim-linux-x86_64.appimage /usr/bin/nvim
 chmod +x /usr/bin/nvim
 
 # neovide
@@ -216,6 +218,7 @@ chmod +x /usr/bin/nvim
 #nvchad
 git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
 sudo chown $SUDO_USER:$SUDO_USER -R /home/$SUDO_USER/.config/
+mkdir /home/$SUDO_USER/.config/nvim
 sudo cp -r /home/$SUDO_USER/.config/nvim /root/.config/nvim
 nvim #<leader>th -> gatekeeper
 
