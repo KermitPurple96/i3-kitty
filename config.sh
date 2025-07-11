@@ -269,6 +269,7 @@ uv tool upgrade --all
 #nxc
 sudo apt install pipx git
 pipx ensurepath
+pipx install lsassy
 #pipx install git+https://github.com/Pennyw0rth/NetExec
 
 #poetry netexec
