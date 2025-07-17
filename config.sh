@@ -270,6 +270,7 @@ uv tool upgrade --all
 sudo apt install pipx git
 pipx ensurepath
 pipx install lsassy
+pipx install wappalyzer
 #pipx install git+https://github.com/Pennyw0rth/NetExec
 
 #poetry netexec
