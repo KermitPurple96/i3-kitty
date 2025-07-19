@@ -432,7 +432,7 @@ snap install glade
 
 
 apt-get update
-sudo apt install thc-ipv6
+sudo apt install thc-ipv6 ipv6toolkit
 git clone https://github.com/vanhauser-thc/thc-ipv6.git
 cd thc-ipv6
 reboot
