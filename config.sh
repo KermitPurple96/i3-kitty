@@ -236,6 +236,10 @@ wget https://download.sublimetext.com/sublime-text_build-3211_amd64.deb
 dpkg -i sublime-text_build-3211_amd64.deb
 rm sublime-text_build-3211_amd64.deb
 
+wget https://github.com/dracula/sublime/archive/master.zip -O /root/.config/sublime-text-3/Packages/master.zip
+unzip /root/.config/sublime-text-3/Packages/master.zip
+# subl -> Preferences -> Browse Packages
+
 #kitty
 mkdir /home/$SUDO_USER/.config/kitty
 mkdir /root/.config/kitty
