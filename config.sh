@@ -430,6 +430,14 @@ systemctl start snapd.service
 snap install snapd
 snap install glade
 
+
+apt-get update
+sudo apt install thc-ipv6
+git clone https://github.com/vanhauser-thc/thc-ipv6.git
+cd thc-ipv6
+reboot
+make
+
 apt update
 apt upgrade
 
