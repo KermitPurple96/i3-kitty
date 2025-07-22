@@ -16,10 +16,12 @@ rm -rf kali-clean
 
 #packages
 sudo apt install libsasl2-dev python-dev-is-python3 libldap2-dev libssl-dev snmp-mibs-downloader meson proxychains dnsmasq ripgrep smtp-user-enum dnscat2 curl ncat dnsrecon enum4linux feroxbuster impacket-scripts nbtscan nmap onesixtyone oscanner redis-tools smbclient smbmap snmp sslscan sipvicious tnscmd10g whatweb autorecon
-sudo apt-get -y install wfuzz gh kitty villain zaproxy seclists putty-tools powercat lolcat httptunnel build-essential grc gcc cryptsetup steghide traceroute feroxbuster hping3 zsh remmina keepass2 coreutils moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp dirsearch docker-compose docker.io scrub jq apache2 ncat ntpsec-ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit
+sudo apt-get -y install wfuzz gh kitty villain zaproxy seclists putty-tools powercat certipy-ad clipmenu coreutils lolcat httptunnel build-essential grc gcc cryptsetup steghide traceroute feroxbuster hping3 zsh remmina keepass2 coreutils moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp dirsearch docker-compose docker.io scrub jq apache2 ncat ntpsec-ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit
 
 pipx install hyfetch
 pipx ensurepath
+
+
 
 sudo apt-get update && sudo apt-get -y install golang-go 
 sudo apt install libcriterion-dev clang npm nodejs cmake lldb
@@ -301,6 +303,13 @@ git clone https://github.com/attackdebris/kerberos_enum_userlists /usr/share/ker
 rm /usr/local/bin/kerbrute
 wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_linux_amd64 -O /usr/local/bin/kerbrute
 chmod +x /usr/local/bin/kerbrute
+
+git clone https://github.com/Hackndo/pyGPOAbuse.git
+cd pyGPOAbuse
+venv
+vens
+pip install -r requirements.txt
+exit
 
 #gum
 sudo mkdir -p /etc/apt/keyrings
