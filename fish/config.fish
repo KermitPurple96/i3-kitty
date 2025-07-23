@@ -28,7 +28,7 @@ set -g fondogris "\e[0;47m\033[1m"
 
 
 # Export PATH
-set -g PATH $PATH $HOME/.local/bin /usr/bin /usr/share/responder /usr/share/ghidra /usr/share/hydra /usr/share/libreoffice /snap/bin /usr/sandbox /usr/local/bin /usr/local/go/bin /bin /usr/local/games /usr/games /usr/share/games /usr/local/sbin /usr/sbin /sbin /usr/local/bin /bin /usr/local/games /usr/games $HOME/.fzf/bin /opt/exploitdb $HOME/.local/bin /usr/share/metasploit-framework/tools/exploit /usr/bin/arsenal /usr/bin/gtfo $HOME/.fzf/bin /usr/share/Wordpresscan $HOME/.local/pipx/shared/bin $HOME/go/bin /usr/bin/pwsh $HOME/kitty.app/bin /home/kermit/dev/python /home/kermit/dev/bash /home/kermit/OSCP-PythonSupportTools $HOME/.cargo/bin /usr/local/bin/lua-language-server/bin /home/kermit/thc-ipv6
+set -g PATH $PATH $HOME/.local/bin /usr/bin/ /usr/share/responder /usr/share/ghidra /usr/share/hydra /usr/share/libreoffice /snap/bin /usr/sandbox /usr/local/bin /usr/local/go/bin /bin /usr/local/games /usr/games /usr/share/games /usr/local/sbin /usr/sbin /sbin /usr/local/bin /bin /usr/local/games /usr/games $HOME/.fzf/bin /opt/exploitdb $HOME/.local/bin /usr/share/metasploit-framework/tools/exploit /usr/bin/arsenal /usr/bin/gtfo $HOME/.fzf/bin /usr/share/Wordpresscan $HOME/.local/pipx/shared/bin $HOME/go/bin /usr/bin/pwsh $HOME/kitty.app/bin /home/kermit/dev/python /home/kermit/dev/bash /home/kermit/OSCP-PythonSupportTools $HOME/.cargo/bin /usr/local/bin/lua-language-server/bin /home/kermit/thc-ipv6
 
 set _OLD_VIRTUAL_PATH "$PATH"
 
@@ -193,6 +193,7 @@ function info
 
     # Análisis de SMB
     echo -e "\n$yellow nxc smb analysis:$endcolor"
+    echo -e "$green [+]$endcolor $blue relay <ips file> <output files>$endcolor Converts --gen-relay-list from nxc to targets file for ntlmrelay"
     echo -e "$green [+]$endcolor $blue swop <file>$endcolor Parse nxc smb output for /etc/hosts"
     echo -e "$green [+]$endcolor $blue swap <file>$endcolor Parse nxc smb -M spider_plus output"
     echo -e "$green [+]$endcolor $blue crack <file>$endcolor Parse nxc smb output"
@@ -520,6 +521,18 @@ function extract
             echo "'$archive' is not a valid file!"
         end
     end
+end
+
+function relays
+    if test (count $argv) -ne 2
+        echo "Uso: relays <ips> <output file>"
+        return 1
+    end
+
+    set entrada $argv[1]
+    set salida $argv[2]
+
+    grep -Eo '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' $entrada | sort -u | sed 's|^|smb://|' > $salida
 end
 
 
@@ -1183,4 +1196,3 @@ end
 
 # Created by `pipx` on 2024-07-13 13:34:55
 set PATH $PATH /root/.local/bin
-
