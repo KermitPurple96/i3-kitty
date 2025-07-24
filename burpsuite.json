@@ -1,5 +1,8 @@
 {
     "user_options":{
+        "ai":{
+            "enabled":true
+        },
         "bchecks":{
             "imported_scripts":[]
         },
@@ -47,114 +50,59 @@
         "extender":{
             "extensions":[
                 {
-                    "bapp_serial_version":34,
-                    "bapp_uuid":"17d2949a985c4b7ca092728dba871943",
+                    "bapp_serial_version":20,
+                    "bapp_uuid":"26aaa5ded2f74beea19e2ed8345a93dd",
                     "errors":"ui",
-                    "extension_file":"bapps/17d2949a985c4b7ca092728dba871943/build/libs/param-miner-all.jar",
+                    "extension_file":"bapps/26aaa5ded2f74beea19e2ed8345a93dd/build/libs/jwt-editor-2.6.jar",
                     "extension_type":"java",
                     "loaded":true,
-                    "name":"Param Miner",
-                    "output":"ui"
-                },
-                {
-                    "bapp_serial_version":60,
-                    "bapp_uuid":"9abaa233088242e8be252cd4ff534988",
-                    "errors":"ui",
-                    "extension_file":"bapps/9abaa233088242e8be252cd4ff534988/build/libs/turbo-intruder.jar",
-                    "extension_type":"java",
-                    "loaded":true,
-                    "name":"Turbo Intruder",
-                    "output":"ui"
-                },
-                {
-                    "bapp_serial_version":10,
-                    "bapp_uuid":"b324647b6efa4b6a8f346389730df160",
-                    "errors":"ui",
-                    "extension_file":"bapps/b324647b6efa4b6a8f346389730df160/build/libs/copy-as-python-requests.jar",
-                    "extension_type":"java",
-                    "loaded":true,
-                    "name":"Copy As Python-Requests",
-                    "output":"ui"
-                },
-                {
-                    "bapp_serial_version":27,
-                    "bapp_uuid":"f9bbac8c4acf4aefa4d7dc92a991af2f",
-                    "errors":"ui",
-                    "extension_file":"bapps/f9bbac8c4acf4aefa4d7dc92a991af2f/Autorize.py",
-                    "extension_type":"python",
-                    "loaded":true,
-                    "name":"Autorize",
-                    "output":"ui"
+                    "name":"JWT Editor",
+                    "output":"ui",
+                    "use_ai":false
                 },
                 {
                     "bapp_serial_version":5,
-                    "bapp_uuid":"ae2611da3bbc4687953a1f4ba6a4e04c",
+                    "bapp_uuid":"444407b96d9c4de0adb7aed89e826122",
                     "errors":"ui",
-                    "extension_file":"bapps/ae2611da3bbc4687953a1f4ba6a4e04c/build/libs/bypass-waf-all.jar",
+                    "extension_file":"bapps/444407b96d9c4de0adb7aed89e826122/403Bypasser.py",
+                    "extension_type":"python",
+                    "loaded":true,
+                    "name":"403 Bypasser",
+                    "output":"ui",
+                    "use_ai":false
+                },
+                {
+                    "bapp_serial_version":22,
+                    "bapp_uuid":"296e9a0730384be4b2fffef7b4e19b1f",
+                    "errors":"ui",
+                    "extension_file":"bapps/296e9a0730384be4b2fffef7b4e19b1f/InQL.jar",
                     "extension_type":"java",
                     "loaded":true,
-                    "name":"Bypass WAF",
-                    "output":"ui"
+                    "name":"InQL - GraphQL Scanner",
+                    "output":"ui",
+                    "use_ai":false
                 },
                 {
-                    "bapp_serial_version":2,
-                    "bapp_uuid":"14c6fc737ce4468b807b80023d9740a8",
+                    "bapp_serial_version":8,
+                    "bapp_uuid":"ef6d970f0d11452ea024691dffb4b39c",
                     "errors":"ui",
-                    "extension_file":"bapps/14c6fc737ce4468b807b80023d9740a8/waf_bypadd.py",
-                    "extension_type":"python",
-                    "loaded":true,
-                    "name":"WAF Bypadd",
-                    "output":"ui"
-                },
-                {
-                    "bapp_serial_version":24,
-                    "bapp_uuid":"f154175126a04bfe8edc6056f340f52e",
-                    "errors":"ui",
-                    "extension_file":"bapps/f154175126a04bfe8edc6056f340f52e/SQLiPy.py",
-                    "extension_type":"python",
-                    "loaded":true,
-                    "name":"SQLiPy Sqlmap Integration",
-                    "output":"ui"
-                },
-                {
-                    "bapp_serial_version":2,
-                    "bapp_uuid":"c1c32424fb8a4843a5404aa5ed5d711a",
-                    "errors":"ui",
-                    "extension_file":"bapps/c1c32424fb8a4843a5404aa5ed5d711a/build/libs/HackBar-2.0.jar",
+                    "extension_file":"bapps/ef6d970f0d11452ea024691dffb4b39c/build/libs/bookmarks.jar",
                     "extension_type":"java",
                     "loaded":true,
-                    "name":"HackBar, Payload Bucket",
-                    "output":"ui"
+                    "name":"Bookmarks",
+                    "output":"ui",
+                    "use_ai":false
                 },
                 {
-                    "bapp_serial_version":52,
-                    "bapp_uuid":"65033cbd2c344fbabe57ac060b5dd100",
+                    "bapp_serial_version":10,
+                    "bapp_uuid":"81e073a640964b2ea3af0da93d048dbd",
                     "errors":"ui",
-                    "extension_file":"bapps/65033cbd2c344fbabe57ac060b5dd100/releases/hackvertor-all.jar",
+                    "extension_file":"bapps/81e073a640964b2ea3af0da93d048dbd/target/SensitiveDiscoverer-4.2.0-jar-with-dependencies.jar",
                     "extension_type":"java",
                     "loaded":true,
-                    "name":"Hackvertor",
-                    "output":"ui"
-                },
-                {
-                    "bapp_serial_version":9,
-                    "bapp_uuid":"cc16f37549ff416b990d4312490f5fd1",
-                    "errors":"ui",
-                    "extension_file":"bapps/cc16f37549ff416b990d4312490f5fd1/minimizer.py",
-                    "extension_type":"python",
-                    "loaded":true,
-                    "name":"Request Minimizer",
-                    "output":"ui"
-                },
-                {
-                    "bapp_serial_version":9,
-                    "bapp_uuid":"815bb4ab64e240618dc673d65016e919",
-                    "errors":"ui",
-                    "extension_file":"bapps/815bb4ab64e240618dc673d65016e919/GAP.py",
-                    "extension_type":"python",
-                    "loaded":true,
-                    "name":"GAP (Get All Parameters, Links, and Words)",
-                    "output":"ui"
+                    "name":"Sensitive Discoverer",
+                    "output":"ui",
+                    "use_ai":false
                 },
                 {
                     "bapp_serial_version":2,
@@ -164,7 +112,8 @@
                     "extension_type":"python",
                     "loaded":true,
                     "name":"Magic Byte Selector",
-                    "output":"ui"
+                    "output":"ui",
+                    "use_ai":false
                 },
                 {
                     "bapp_serial_version":2,
@@ -174,7 +123,217 @@
                     "extension_type":"python",
                     "loaded":true,
                     "name":"Bad Character Wordlist Generator",
-                    "output":"ui"
+                    "output":"ui",
+                    "use_ai":false
+                },
+                {
+                    "bapp_serial_version":10,
+                    "bapp_uuid":"b324647b6efa4b6a8f346389730df160",
+                    "errors":"ui",
+                    "extension_file":"bapps/b324647b6efa4b6a8f346389730df160/build/libs/copy-as-python-requests.jar",
+                    "extension_type":"java",
+                    "loaded":true,
+                    "name":"Copy As Python-Requests",
+                    "output":"ui",
+                    "use_ai":false
+                },
+                {
+                    "bapp_serial_version":9,
+                    "bapp_uuid":"815bb4ab64e240618dc673d65016e919",
+                    "errors":"ui",
+                    "extension_file":"bapps/815bb4ab64e240618dc673d65016e919/GAP.py",
+                    "extension_type":"python",
+                    "loaded":true,
+                    "name":"GAP (Get All Parameters, Links, and Words)",
+                    "output":"ui",
+                    "use_ai":false
+                },
+                {
+                    "bapp_serial_version":22,
+                    "bapp_uuid":"470b7057b86f41c396a97903377f3d81",
+                    "errors":"ui",
+                    "extension_file":"bapps/470b7057b86f41c396a97903377f3d81/releases/LoggerPlusPlus.jar",
+                    "extension_type":"java",
+                    "loaded":true,
+                    "name":"Logger++",
+                    "output":"ui",
+                    "use_ai":false
+                },
+                {
+                    "bapp_serial_version":52,
+                    "bapp_uuid":"65033cbd2c344fbabe57ac060b5dd100",
+                    "errors":"ui",
+                    "extension_file":"bapps/65033cbd2c344fbabe57ac060b5dd100/releases/hackvertor-all.jar",
+                    "extension_type":"java",
+                    "loaded":true,
+                    "name":"Hackvertor",
+                    "output":"ui",
+                    "use_ai":false
+                },
+                {
+                    "bapp_serial_version":29,
+                    "bapp_uuid":"9cff8c55432a45808432e26dbb2b41d8",
+                    "errors":"ui",
+                    "extension_file":"bapps/9cff8c55432a45808432e26dbb2b41d8/build/libs/backslash-powered-scanner.jar",
+                    "extension_type":"java",
+                    "loaded":true,
+                    "name":"Backslash Powered Scanner",
+                    "output":"ui",
+                    "use_ai":false
+                },
+                {
+                    "bapp_serial_version":2,
+                    "bapp_uuid":"c1c32424fb8a4843a5404aa5ed5d711a",
+                    "errors":"ui",
+                    "extension_file":"bapps/c1c32424fb8a4843a5404aa5ed5d711a/build/libs/HackBar-2.0.jar",
+                    "extension_type":"java",
+                    "loaded":true,
+                    "name":"HackBar, Payload Bucket",
+                    "output":"ui",
+                    "use_ai":false
+                },
+                {
+                    "bapp_serial_version":43,
+                    "bapp_uuid":"3123d5b5f25c4128894d97ea1acc4976",
+                    "errors":"ui",
+                    "extension_file":"bapps/3123d5b5f25c4128894d97ea1acc4976/build/libs/active-scan-plus-plus-all.jar",
+                    "extension_type":"java",
+                    "loaded":true,
+                    "name":"Active Scan++",
+                    "output":"ui",
+                    "use_ai":false
+                },
+                {
+                    "bapp_serial_version":13,
+                    "bapp_uuid":"36238b534a78494db9bf2d03f112265c",
+                    "errors":"ui",
+                    "extension_file":"bapps/36238b534a78494db9bf2d03f112265c/retirejs-burp-plugin/target/burp-retire-js-3.jar",
+                    "extension_type":"java",
+                    "loaded":true,
+                    "name":"Retire.js",
+                    "output":"ui",
+                    "use_ai":false
+                },
+                {
+                    "bapp_serial_version":60,
+                    "bapp_uuid":"9abaa233088242e8be252cd4ff534988",
+                    "errors":"ui",
+                    "extension_file":"bapps/9abaa233088242e8be252cd4ff534988/build/libs/turbo-intruder.jar",
+                    "extension_type":"java",
+                    "loaded":true,
+                    "name":"Turbo Intruder",
+                    "output":"ui",
+                    "use_ai":false
+                },
+                {
+                    "bapp_serial_version":45,
+                    "bapp_uuid":"aaaa60ef945341e8a450217a54a11646",
+                    "errors":"ui",
+                    "extension_file":"bapps/aaaa60ef945341e8a450217a54a11646/build/libs/desynchronize-all.jar",
+                    "extension_type":"java",
+                    "loaded":true,
+                    "name":"HTTP Request Smuggler",
+                    "output":"ui",
+                    "use_ai":false
+                },
+                {
+                    "bapp_serial_version":34,
+                    "bapp_uuid":"17d2949a985c4b7ca092728dba871943",
+                    "errors":"ui",
+                    "extension_file":"bapps/17d2949a985c4b7ca092728dba871943/build/libs/param-miner-all.jar",
+                    "extension_type":"java",
+                    "loaded":true,
+                    "name":"Param Miner",
+                    "output":"ui",
+                    "use_ai":false
+                },
+                {
+                    "bapp_serial_version":1,
+                    "bapp_uuid":"8e8f6bb313db46ba9e0a7539d3726651",
+                    "errors":"ui",
+                    "extension_file":"bapps/8e8f6bb313db46ba9e0a7539d3726651/reflected_parameters_monitor.jar",
+                    "extension_type":"java",
+                    "loaded":true,
+                    "name":"Reflected Parameters",
+                    "output":"ui",
+                    "use_ai":false
+                },
+                {
+                    "bapp_serial_version":27,
+                    "bapp_uuid":"f9bbac8c4acf4aefa4d7dc92a991af2f",
+                    "errors":"ui",
+                    "extension_file":"bapps/f9bbac8c4acf4aefa4d7dc92a991af2f/Autorize.py",
+                    "extension_type":"python",
+                    "loaded":true,
+                    "name":"Autorize",
+                    "output":"ui",
+                    "use_ai":false
+                },
+                {
+                    "bapp_serial_version":4,
+                    "bapp_uuid":"db57ecbe2cb7446292a94aa6181c9278",
+                    "errors":"ui",
+                    "extension_file":"bapps/db57ecbe2cb7446292a94aa6181c9278/build/libs/content-type-converter-all.jar",
+                    "extension_type":"java",
+                    "loaded":true,
+                    "name":"Content Type Converter",
+                    "output":"ui",
+                    "use_ai":false
+                },
+                {
+                    "bapp_serial_version":5,
+                    "bapp_uuid":"ae2611da3bbc4687953a1f4ba6a4e04c",
+                    "errors":"ui",
+                    "extension_file":"bapps/ae2611da3bbc4687953a1f4ba6a4e04c/build/libs/bypass-waf-all.jar",
+                    "extension_type":"java",
+                    "loaded":true,
+                    "name":"Bypass WAF",
+                    "output":"ui",
+                    "use_ai":false
+                },
+                {
+                    "bapp_serial_version":24,
+                    "bapp_uuid":"f154175126a04bfe8edc6056f340f52e",
+                    "errors":"ui",
+                    "extension_file":"bapps/f154175126a04bfe8edc6056f340f52e/SQLiPy.py",
+                    "extension_type":"python",
+                    "loaded":true,
+                    "name":"SQLiPy Sqlmap Integration",
+                    "output":"ui",
+                    "use_ai":false
+                },
+                {
+                    "bapp_serial_version":2,
+                    "bapp_uuid":"14c6fc737ce4468b807b80023d9740a8",
+                    "errors":"ui",
+                    "extension_file":"bapps/14c6fc737ce4468b807b80023d9740a8/waf_bypadd.py",
+                    "extension_type":"python",
+                    "loaded":true,
+                    "name":"WAF Bypadd",
+                    "output":"ui",
+                    "use_ai":false
+                },
+                {
+                    "bapp_serial_version":9,
+                    "bapp_uuid":"cc16f37549ff416b990d4312490f5fd1",
+                    "errors":"ui",
+                    "extension_file":"bapps/cc16f37549ff416b990d4312490f5fd1/minimizer.py",
+                    "extension_type":"python",
+                    "loaded":true,
+                    "name":"Request Minimizer",
+                    "output":"ui",
+                    "use_ai":false
+                },
+                {
+                    "bapp_serial_version":8,
+                    "bapp_uuid":"0ab7a94d8e11449daaf0fb387431225b",
+                    "errors":"ui",
+                    "extension_file":"bapps/0ab7a94d8e11449daaf0fb387431225b/build/libs/burp-JS-Miner-all.jar",
+                    "extension_type":"java",
+                    "loaded":true,
+                    "name":"JS Miner",
+                    "output":"ui",
+                    "use_ai":false
                 }
             ],
             "java":{
@@ -182,7 +341,7 @@
             },
             "python":{
                 "folder_for_loading_modules":"",
-                "location_of_jython_standalone_jar_file":"/home/kermit/Descargas/jython-standalone-2.7.4.jar"
+                "location_of_jython_standalone_jar_file":"/home/kermit/Descargas/jython-standalone-2.7.2.jar"
             },
             "ruby":{
                 "location_of_jruby_jar_file":""
@@ -238,6 +397,10 @@
                 {
                     "action":"send_to_organizer",
                     "hotkey":"Ctrl+O"
+                },
+                {
+                    "action":"explain_this",
+                    "hotkey":"Ctrl+E"
                 },
                 {
                     "action":"forward_intercepted_proxy_message",
@@ -567,6 +730,9 @@
                 "disable_sni_extension":false,
                 "enable_blocked_algorithms":true
             }
+        },
+        "target":{
+            "view":"left_right_split"
         }
     }
-}
+}  
