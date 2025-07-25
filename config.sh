@@ -16,10 +16,9 @@ rm -rf kali-clean
 
 #packages
 sudo apt install libsasl2-dev python-dev-is-python3 libldap2-dev libssl-dev snmp-mibs-downloader meson proxychains dnsmasq ripgrep smtp-user-enum dnscat2 curl ncat dnsrecon enum4linux feroxbuster impacket-scripts nbtscan nmap onesixtyone oscanner redis-tools smbclient smbmap snmp sslscan sipvicious tnscmd10g whatweb autorecon
-sudo apt-get -y install wfuzz gh kitty villain zaproxy seclists putty-tools powercat certipy-ad bloodyad coreutils lolcat httptunnel build-essential grc gcc cryptsetup steghide traceroute feroxbuster hping3 zsh remmina keepass2 coreutils moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp dirsearch docker-compose docker.io scrub jq apache2 ncat ntpsec-ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit
+sudo apt-get -y install pipx wfuzz gh kitty villain zaproxy seclists putty-tools powercat certipy-ad bloodyad coreutils lolcat httptunnel build-essential grc gcc cryptsetup steghide traceroute feroxbuster hping3 zsh remmina keepass2 coreutils moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp dirsearch docker-compose docker.io scrub jq apache2 ncat ntpsec-ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit
 
-pipx install hyfetch
-pipx ensurepath
+
 
 
 
@@ -273,14 +272,12 @@ uv tool install git+https://github.com/Pennyw0rth/NetExec
 uv tool upgrade --all
 
 #nxc
-sudo apt install pipx git
+pipx install hyfetch lsassy wappalyzer poetry ntlmrecon
 pipx ensurepath
-pipx install lsassy
-pipx install wappalyzer
+
 #pipx install git+https://github.com/Pennyw0rth/NetExec
 
 #poetry netexec
-pipx install poetry
 poetry self add "poetry-dynamic-versioning[plugin]"
 poetry init
 poetry dynamic-versioning enable
