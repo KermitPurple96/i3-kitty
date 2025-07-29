@@ -15,12 +15,22 @@ cd ..
 rm -rf kali-clean
 
 #packages
-sudo apt install libsasl2-dev python-dev-is-python3 libldap2-dev libssl-dev snmp-mibs-downloader meson proxychains dnsmasq ripgrep smtp-user-enum dnscat2 curl ncat dnsrecon enum4linux feroxbuster impacket-scripts nbtscan nmap onesixtyone oscanner redis-tools smbclient smbmap snmp sslscan sipvicious tnscmd10g whatweb autorecon
-sudo apt-get -y install pipx wfuzz gh kitty villain zaproxy seclists putty-tools powercat certipy-ad bloodyad coreutils lolcat httptunnel build-essential grc gcc cryptsetup steghide traceroute feroxbuster hping3 zsh remmina keepass2 coreutils moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp dirsearch docker-compose docker.io scrub jq apache2 ncat ntpsec-ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit
+sudo apt install libsasl2-dev python-dev-is-python3 libldap2-dev libssl-dev snmp-mibs-downloader meson proxychains dnsmasq ripgrep smtp-user-enum dnscat2 curl ncat dnsrecon enum4linux feroxbuster impacket-scripts nbtscan nmap onesixtyone oscanner redis-tools smbclient smbmap snmp sslscan sipvicious tnscmd10g whatweb autorecon -y
+sudo apt-get -y install pipx wfuzz gh kitty villain zaproxy seclists putty-tools powercat certipy-ad bloodyad coreutils lolcat httptunnel build-essential grc gcc cryptsetup steghide traceroute feroxbuster hping3 zsh remmina keepass2 coreutils moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp dirsearch docker-compose docker.io scrub jq apache2 ncat ntpsec-ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit -y
 
 
+apt install dmenu xsel xdotool libxfixes-dev krb5-user -y
 
+git clone https://github.com/cdown/clipmenu.git
+cd clipmenu
+make clean
+make
+make install
+sudo make install
 
+systemctl --user daemon-reexec
+systemctl --user daemon-reload
+systemctl --user enable --now clipmenud.service
 
 sudo apt-get update && sudo apt-get -y install golang-go 
 sudo apt install libcriterion-dev clang npm nodejs cmake lldb
