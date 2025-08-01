@@ -329,6 +329,7 @@ mkdir -p /home/$SUDO_USER/dev/bash/
 git clone https://github.com/metal3d/bashsimplecurses /home/$SUDO_USER/dev/bash/bashsimplecurses
 wget https://raw.githubusercontent.com/KermitPurple96/rpcenum/master/rpcenum.sh -O /home/$SUDO_USER/dev/bash/rpcenum
 wget https://raw.githubusercontent.com/KermitPurple96/scripts/main/Bash/router -O /home/$SUDO_USER/dev/bash/router
+wget https://raw.githubusercontent.com/KermitPurple96/scripts/main/Bash/ww -O /home/$SUDO_USER/dev/bash/ww
 wget https://raw.githubusercontent.com/KermitPurple96/scripts/refs/heads/main/Bash/tcpudpScan.sh -O /home/$SUDO_USER/dev/bash/tcpudpscan
 chmod +x /home/$SUDO_USER/dev/bash/*
 
@@ -467,6 +468,7 @@ sudo systemctl enable ssh
 
 updatedb
 /root/.local/bin/neowofetch
+
 
 
 
