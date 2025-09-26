@@ -161,6 +161,9 @@ client.unfocused #333333 #333333 #888888
 client.urgent #900000 #900000 #ffffff
 default_border normal
 
+
+bindsym $mod+c exec --no-startup-id clipmenu
+
 # feh - Wallpaper Setter
 exec_always --no-startup-id sh ~/.fehbg
 
@@ -174,6 +177,9 @@ exec_always --no-startup-id ~/.config/i3/clipboard_fix.sh
 
 # VM ware tools
 exec --no-startup-id vmware-user-suid-wrapper
+
+# clipmenud - clipboard manager daemon
+exec --no-startup-id clipmenud
 
 # Resize Bindings
 bindsym $mod+Ctrl+Shift+j resize shrink width 10 px or 10 ppt
@@ -189,3 +195,4 @@ bindsym $mod+Ctrl+Shift+Right resize grow width 10 px or 10 ppt
 # screenshot
 bindsym $mod+P exec flameshot gui
 #bindsym $mod+Shift+L exec ars
+
