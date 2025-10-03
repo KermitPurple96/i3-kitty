@@ -297,6 +297,7 @@ poetry install
 poetry run NetExec
 poetry update impacket
 
+pip install eml-parser
 
 #impacket pipx
 #python3 -m pip install pipx
@@ -468,6 +469,7 @@ sudo systemctl enable ssh
 
 updatedb
 /root/.local/bin/neowofetch
+
 
 
 
