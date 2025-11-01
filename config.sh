@@ -432,6 +432,8 @@ armory install all
 git clone https://github.com/jimeh/tmux-themepack.git /home/$SUDO_USER/.tmux-themepack
 cp -R .tmux-themepack/ /root/
 sudo ln -s -f /home/$SUDO_USER/.tmux-themepack /root/.tmux-themepack
+wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/refs/heads/main/tmux.conf -O /home/$SUDO_USER/.tmux.conf
+sudo ln -s -f /home/$SUDO_USER/.tmux.conf /root/.tmux.conf
 
 pip install uploadserver --break-system-packages
 gunzip /usr/share/wordlists/rockyou.txt.gz
@@ -470,6 +472,7 @@ sudo systemctl enable ssh
 
 updatedb
 /root/.local/bin/neowofetch
+
 
 
 
