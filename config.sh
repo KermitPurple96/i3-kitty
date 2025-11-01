@@ -256,6 +256,7 @@ mkdir /home/$SUDO_USER/.config/kitty
 mkdir /root/.config/kitty
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/kitty/color.ini -O /home/$SUDO_USER/.config/kitty/color.ini
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/kitty/kitty.conf -O /home/$SUDO_USER/.config/kitty/kitty.conf
+wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/kitty/diff.conf -O /home/$SUDO_USER/.config/kitty/diff.conf
 
 curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin \
     dest=/home/$SUDO_USER
@@ -469,6 +470,7 @@ sudo systemctl enable ssh
 
 updatedb
 /root/.local/bin/neowofetch
+
 
 
 
