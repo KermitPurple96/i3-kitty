@@ -172,6 +172,7 @@ function info
     echo -e "\n$red [+]$endcolor$yellow OSCP:$endcolor$blue mk$endcolor ->$blue netscan$endcolor ->$blue multiscan$endcolor ->$blue tg$endcolor ->$blue ports$endcolor"
     # Configuración
     echo -e "\n$yellow settings:$endcolor"
+    echo -e "$green [+]$endcolor $blue tx $endcolor tmux shortcuts"
     echo -e "$green [+]$endcolor $blue iface <interface>$endcolor Define interface to show in i3blocks"
     echo -e "$green [+]$endcolor $blue mipk$endcolor Print current iface ip"
     echo -e "$green [+]$endcolor $blue mip$endcolor Print VPN tun0 ip"
