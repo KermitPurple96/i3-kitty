@@ -40,7 +40,7 @@ and execute all these commands https://github.com/KermitPurple96/i3-kitty/blob/m
 
 ## Tools
 - compton rofi kitty i3 & hack nerd fonts
-- fish ZSH zoxide fzf gum peco lsd bat pwsh & neovim
+- fish/ZSH zoxide fzf gum peco lsd bat atuin clipmenu & neovim
 - gobuster ffuf dirsearch 
 - evil-winrm neo4j bloodhound empire nxc impacket kerbrute wpscan
 - red-tldr arsenal
