@@ -115,6 +115,7 @@ rm -rf /home/$SUDO_USER/.config/i3/*
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/i3/i3blocks.conf -O /home/$SUDO_USER/.config/i3/i3blocks.conf
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/i3/config -O /home/$SUDO_USER/.config/i3/config
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/i3/clipboard_fix.sh -O /home/$SUDO_USER/.config/i3/clipboard_fix.sh
+wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/refs/heads/main/i3/app-icons.json -O /home/$SUDO_USER/.config/i3/app-icons.json
 
 #compton
 mkdir /home/$SUDO_USER/.config/compton
@@ -472,6 +473,7 @@ python3 -m json.tool /home/$SUDO_USER/.config/i3/app-icons.json
 
 updatedb
 /root/.local/bin/neowofetch
+
 
 
 
