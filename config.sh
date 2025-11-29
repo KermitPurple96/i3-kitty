@@ -469,10 +469,11 @@ apt upgrade
 
 sudo pip3 install i3-workspace-names-daemon --break-system-packages
 sudo apt install fonts-font-awesome
-python3 -m json.tool /home/$SUDO_USER/.config/i3/app-icons.json
+reboot
 
 updatedb
 /root/.local/bin/neowofetch
+
 
 
 
