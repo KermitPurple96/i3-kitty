@@ -466,12 +466,13 @@ make
 apt update
 apt upgrade
 
-sudo apt install openssh-server
-sudo systemctl start ssh
-sudo systemctl enable ssh
+sudo pip3 install i3-workspace-names-daemon --break-system-packages
+sudo apt install fonts-font-awesome
+python3 -m json.tool /home/$SUDO_USER/.config/i3/app-icons.json
 
 updatedb
 /root/.local/bin/neowofetch
+
 
 
 
