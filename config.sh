@@ -236,8 +236,8 @@ mkdir /home/$SUDO_USER/.config/nvim
 sudo cp -r /home/$SUDO_USER/.config/nvim /root/.config/nvim
 nvim #<leader>th -> gatekeeper
 
-#mkdir -p ~/.config/nvim/lua
-#wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/refs/heads/main/nvim/init.lua -O ~/.config/nvim/init.lua
+mkdir -p /root/.config/nvim/lua
+wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/refs/heads/main/nvim/init.lua -O /root/.config/nvim/lua/init.lua
 #wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/refs/heads/main/nvim/lua/plugins.lua -O ~/.config/nvim/lua/plugins.lua
 #git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 #:PackerSync
@@ -473,6 +473,7 @@ reboot
 
 updatedb
 /root/.local/bin/neowofetch
+
 
 
 
