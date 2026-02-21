@@ -74,7 +74,6 @@ mkdir -p "$USER_HOME/.config/i3" "$USER_HOME/.config/compton" "$USER_HOME/.confi
 cp /tmp/kali-clean/.config/i3/config "$USER_HOME/.config/i3/config" 2>/dev/null || true
 cp /tmp/kali-clean/.config/i3/i3blocks.conf "$USER_HOME/.config/i3/i3blocks.conf" 2>/dev/null || true
 cp /tmp/kali-clean/.config/i3/clipboard_fix.sh "$USER_HOME/.config/i3/clipboard_fix.sh" 2>/dev/null || true
-cp /tmp/kali-clean/.config/compton/compton.conf "$USER_HOME/.config/compton/compton.conf" 2>/dev/null || true
 cp /tmp/kali-clean/.config/rofi/config "$USER_HOME/.config/rofi/config" 2>/dev/null || true
 cp /tmp/kali-clean/.fehbg "$USER_HOME/.fehbg" 2>/dev/null || true
 cp -r /tmp/kali-clean/.wallpaper "$USER_HOME/.wallpaper" 2>/dev/null || true
@@ -91,6 +90,7 @@ dnf install -y \
     putty ruby-devel rubygems dmenu xsel xdotool \
     krb5-workstation krb5-devel grc scrub whois tmux fish \
     docker docker-compose fontawesome-fonts httpd lolcat \
+    open-vm-tools open-vm-tools-desktop xorg-x11-drv-vmware \
     --skip-unavailable || true
 
 # ── CLIPMENU ─────────────────────────────────────────────────────────────────
@@ -169,9 +169,14 @@ dnf install -y bat 2>/dev/null || {
 
 # ── WALLPAPER (KermitPurple96's, overwrite kali-clean) ───────────────────────
 rm -f "$USER_HOME/.fehbg"
-wget -q https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/.fehbg -O "$USER_HOME/.fehbg"
 mkdir -p "$USER_HOME/.wallpaper"
 wget -q "https://github.com/KermitPurple96/i3-kitty/blob/main/fondo.jpg?raw=true" -O "$USER_HOME/.wallpaper/fondo.jpg"
+wget -q "https://github.com/KermitPurple96/i3-kitty/blob/main/forest.jpg?raw=true" -O "$USER_HOME/.wallpaper/forest.jpg"
+
+# Set forest as default wallpaper (creates .fehbg)
+feh --bg-scale "$USER_HOME/.wallpaper/forest.jpg" 2>/dev/null || \
+    echo "#!/bin/sh\nfeh --bg-scale '$USER_HOME/.wallpaper/forest.jpg'" > "$USER_HOME/.fehbg"
+chmod +x "$USER_HOME/.fehbg"
 
 # ── I3 CONFIG & I3BLOCKS (KermitPurple96's, overwrite kali-clean) ────────────
 mkdir -p /usr/share/i3blocks
@@ -189,9 +194,70 @@ wget -q https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/i3/config
 wget -q https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/i3/clipboard_fix.sh -O "$USER_HOME/.config/i3/clipboard_fix.sh"
 wget -q https://raw.githubusercontent.com/KermitPurple96/i3-kitty/refs/heads/main/i3/app-icons.json -O "$USER_HOME/.config/i3/app-icons.json"
 
-# ── COMPTON/PICOM CONFIG ────────────────────────────────────────────────────
+# Fix compton -> picom in i3 config (compton binary doesn't exist on Fedora)
+sed -i 's|compton -b|picom -b|g' "$USER_HOME/.config/i3/config"
+
+# Remove old entries to avoid duplicates
+sed -i '/picom -b --config/d' "$USER_HOME/.config/i3/config"
+sed -i '/vmware-user-suid-wrapper/d' "$USER_HOME/.config/i3/config"
+sed -i '/\.fehbg/d' "$USER_HOME/.config/i3/config"
+sed -i '/startup\.sh/d' "$USER_HOME/.config/i3/config"
+
+# Create startup script with absolute paths (more reliable than individual exec lines)
+cat > "$USER_HOME/.config/i3/startup.sh" << STARTEOF
+#!/bin/bash
+sleep 3
+picom -b --config $USER_HOME/.config/compton/compton.conf
+vmware-user-suid-wrapper &
+feh --bg-scale $USER_HOME/.wallpaper/forest.jpg
+STARTEOF
+chmod +x "$USER_HOME/.config/i3/startup.sh"
+
+echo "exec_always --no-startup-id $USER_HOME/.config/i3/startup.sh" >> "$USER_HOME/.config/i3/config"
+
+# ── PICOM CONFIG (replaces old compton syntax with picom-compatible) ─────────
 mkdir -p "$USER_HOME/.config/compton"
-wget -q https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/compton/compton.conf -O "$USER_HOME/.config/compton/compton.conf"
+cat > "$USER_HOME/.config/compton/compton.conf" << 'PICOMEOF'
+# Shadow
+shadow = true;
+shadow-radius = 12;
+shadow-offset-x = -12;
+shadow-offset-y = -12;
+shadow-opacity = 0.7;
+shadow-exclude = [
+    "name = 'Notification'",
+    "class_g = 'Cairo-clock'"
+];
+
+# Fading
+fading = true;
+fade-in-step = 0.03;
+fade-out-step = 0.04;
+
+# Opacity
+detect-client-opacity = true;
+opacity-rule = [
+    "85:class_g = 'Alacritty'",
+    "85:class_g = 'kitty'",
+    "90:class_g = 'Code'",
+    "90:class_g = 'Sublime_text'"
+];
+
+# Backend
+backend = "xrender";
+vsync = false;
+mark-wmwin-focused = true;
+mark-ovredir-focused = true;
+detect-rounded-corners = true;
+detect-transient = true;
+detect-client-leader = false;
+
+# Window type settings
+wintypes:
+{
+    tooltip = { fade = true; shadow = true; opacity = 0.75; focus = true; };
+};
+PICOMEOF
 
 # ── ROFI CONFIG ──────────────────────────────────────────────────────────────
 mkdir -p "$USER_HOME/.config/rofi"
@@ -217,6 +283,7 @@ gem install evil-winrm
 
 # ── BLOODHOUND CE (Docker) ──────────────────────────────────────────────────
 systemctl enable --now docker 2>/dev/null || true
+systemctl enable --now vmtoolsd.service 2>/dev/null || true
 mkdir -p /opt/bloodhound && cd /opt/bloodhound
 curl -L https://ghst.ly/getbhce -o docker-compose.yml
 docker-compose up -d 2>/dev/null || true
@@ -266,6 +333,7 @@ dnf install -y sublime-text 2>/dev/null || echo "WARN: Sublime Text install fail
 mkdir -p "$USER_HOME/.config/kitty" /root/.config/kitty
 wget -q https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/kitty/color.ini -O "$USER_HOME/.config/kitty/color.ini"
 wget -q https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/kitty/kitty.conf -O "$USER_HOME/.config/kitty/kitty.conf"
+sed -i 's/background_opacity.*/background_opacity 0.6/' "$USER_HOME/.config/kitty/kitty.conf"
 wget -q https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/kitty/diff.conf -O "$USER_HOME/.config/kitty/diff.conf"
 curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin dest="$USER_HOME"
 git clone https://github.com/mikesmithgh/kitty-scrollback.nvim "$USER_HOME/kitty.app/kitty-scrollback.nvim" 2>/dev/null || true
@@ -426,5 +494,5 @@ echo "============================================="
 echo " After reboot:"
 echo "   - Select i3 at login screen"
 echo "   - Run lxappearance -> select arc-dark"
-echo "   - Run: pywal -i ~/.wallpaper/fondo.jpg"
+echo "   - Run: pywal -i ~/.wallpaper/forest.jpg"
 echo "============================================="
