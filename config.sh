@@ -5,11 +5,69 @@ sudo apt-get upgrade
 # https://github.com/xct/kali-clean
 sudo apt install libstartup-notification0-dev libxcb-xkb-dev libxcb-xinerama0-dev libxcb-randr0-dev libxcb-cursor-dev libxcb-keysyms1-dev libxcb-icccm4-dev libxkbcommon-dev libxkbcommon-x11-dev libyajl-dev libpcre2-dev libcairo2-dev libpango1.0-dev libev-dev
 
-git clone https://github.com/xct/kali-clean
-cd kali-clean
-./install.sh
-sudo apt update
-sudo apt upgrade
+
+#!/bin/bash
+set -e
+
+
+sudo apt update && sudo apt upgrade -y
+
+sudo apt-get install -y \
+    wget curl git thunar arandr flameshot arc-theme feh \
+    i3blocks i3status i3 i3-wm lxappearance python3-pip \
+    rofi unclutter cargo compton papirus-icon-theme imagemagick \
+    libxcb-shape0-dev libxcb-keysyms1-dev libpango1.0-dev \
+    libxcb-util0-dev libxcb1-dev libxcb-icccm4-dev libyajl-dev \
+    libev-dev libxcb-xkb-dev libxcb-cursor-dev libxkbcommon-dev \
+    libxcb-xinerama0-dev libxkbcommon-x11-dev libstartup-notification0-dev \
+    libxcb-randr0-dev libxcb-xrm0 libxcb-xrm-dev autoconf meson \
+    libxcb-render-util0-dev libxcb-xfixes0-dev unzip ninja-build \
+    python3-venv python3-pipx
+
+
+mkdir -p ~/.local/share/fonts/
+wget -q https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Iosevka.zip
+wget -q https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/RobotoMono.zip
+unzip -o Iosevka.zip -d ~/.local/share/fonts/
+unzip -o RobotoMono.zip -d ~/.local/share/fonts/
+fc-cache -fv
+
+
+wget -q https://github.com/barnumbirr/alacritty-debian/releases/download/v0.10.0-rc4-1/alacritty_0.10.0-rc4-1_amd64_bullseye.deb
+sudo dpkg -i alacritty_0.10.0-rc4-1_amd64_bullseye.deb || sudo apt install -f -y
+
+git clone https://github.com/Airblader/i3 i3-gaps
+cd i3-gaps
+mkdir -p build && cd build
+meson ..
+ninja
+sudo ninja install
+cd ../..
+
+
+python3 -m pipx ensurepath
+pipx install pywal
+
+mkdir -p ~/.config/i3 ~/.config/compton ~/.config/rofi ~/.config/alacritty
+
+
+[ -f .config/i3/config ] && cp .config/i3/config ~/.config/i3/config
+[ -f .config/alacritty/alacritty.yml ] && cp .config/alacritty/alacritty.yml ~/.config/alacritty/alacritty.yml
+[ -f .config/i3/i3blocks.conf ] && cp .config/i3/i3blocks.conf ~/.config/i3/i3blocks.conf
+[ -f .config/compton/compton.conf ] && cp .config/compton/compton.conf ~/.config/compton/compton.conf
+[ -f .config/rofi/config ] && cp .config/rofi/config ~/.config/rofi/config
+[ -f .config/i3/clipboard_fix.sh ] && cp .config/i3/clipboard_fix.sh ~/.config/i3/clipboard_fix.sh
+[ -d .wallpaper ] && cp -r .wallpaper ~/.wallpaper
+
+
+[ -f .fehbg ] && cp .fehbg ~/.fehbg && chown $USER:$USER ~/.fehbg
+
+
+echo "Done! Grab some wallpaper and run 'wal -i filename' to set your color scheme."
+echo "To have the wallpaper set on every boot, edit ~/.fehbg."
+echo "After reboot: Select i3 on login, run lxappearance and select arc-dark."
+
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 cd ..
 rm -rf kali-clean
@@ -87,7 +145,7 @@ touch /home/$SUDO_USER/.config/bin/{name.txt,target.txt,ttl.txt,target_sys.txt}
 sudo chown kermit:kermit -R /home/$SUDO_USER/.config/bin
 
 #lsd
-wget lsd-musl_1.1.5_amd64.deb
+wget https://github.com/lsd-rs/lsd/releases/download/v1.2.0/lsd-musl_1.2.0_amd64.deb
 sudo dpkg -i lsd*
 
 #bat
@@ -97,7 +155,6 @@ sudo dpkg -i ./bat_*
 # wallpaper
 rm -rf /home/$SUDO_USER/.fehbg
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/.fehbg -O /home/$SUDO_USER/.fehbg
-mkdir /home/$SUDO_USER/.wallpaper
 wget https://github.com/KermitPurple96/i3-kitty/blob/main/fondo.jpg\?raw=true -O /home/$SUDO_USER/.wallpaper/fondo.jpg
 
 # i3
