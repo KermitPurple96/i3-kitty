@@ -158,6 +158,7 @@ wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/.fehbg -O /h
 wget https://github.com/KermitPurple96/i3-kitty/blob/main/fondo.jpg\?raw=true -O /home/$SUDO_USER/.wallpaper/fondo.jpg
 
 # i3
+mkdir /usr/share/i3blocks/
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/usr/share/i3blocks/target_sys.sh -O /usr/share/i3blocks/target_sys.sh
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/main/usr/share/i3blocks/target.sh -O /usr/share/i3blocks/target.sh
 wget https://raw.githubusercontent.com/KermitPurple96/i3-kitty/refs/heads/main/usr/share/i3blocks/vpn_status.sh -O /usr/share/i3blocks/vpn_status.sh
@@ -269,7 +270,7 @@ cd /home/$SUDO_USER
 
 
 #neovim
-wget https://github.com/neovim/neovim/releases/download/v0.11.2/nvim-linux-x86_64.appimage
+wget https://github.com/neovim/neovim/releases/download/v0.11.6/nvim-linux-x86_64.appimage
 chmod u+x nvim-linux-x86_64.appimage && ./nvim-linux-x86_64.appimage
 mv ./nvim-linux-x86_64.appimage /usr/bin/nvim
 chmod +x /usr/bin/nvim
@@ -527,6 +528,7 @@ apt upgrade
 
 sudo pip3 install i3-workspace-names-daemon --break-system-packages
 sudo apt install fonts-font-awesome
+#https://github.com/xiv3r/Burpsuite-Professional
 reboot
 
 updatedb
