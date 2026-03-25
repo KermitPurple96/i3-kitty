@@ -33,7 +33,7 @@ systemctl --user daemon-reload
 systemctl --user enable --now clipmenud.service
 
 sudo apt-get update && sudo apt-get -y install golang-go 
-sudo apt install libcriterion-dev clang npm nodejs cmake lldb
+sudo apt install clang npm nodejs cmake lldb
 
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
