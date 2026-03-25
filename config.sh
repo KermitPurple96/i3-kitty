@@ -8,8 +8,8 @@ sudo apt install libstartup-notification0-dev libxcb-xkb-dev libxcb-xinerama0-de
 git clone https://github.com/xct/kali-clean
 cd kali-clean
 ./install.sh
-apt update
-apt upgrade
+sudo apt update
+sudo apt upgrade
 
 cd ..
 rm -rf kali-clean
@@ -19,14 +19,14 @@ sudo apt install libsasl2-dev python-dev-is-python3 libldap2-dev libssl-dev snmp
 sudo apt-get -y install pipx wfuzz kitty villain seclists putty-tools powercat certipy-ad bloodyad coreutils lolcat httptunnel build-essential grc gcc cryptsetup steghide traceroute feroxbuster hping3 zsh remmina keepass2 coreutils moreutils xclip ftp exploitdb locate netdiscover feh rdesktop snmp dirsearch docker-compose docker.io scrub jq apache2 ncat ntpsec-ntpdate rlwrap metasploit-framework ipcalc xsltproc swaks flameshot ghex hexedit -y
 
 
-apt install dmenu xsel xdotool libxfixes-dev krb5-user -y
+sudo apt install dmenu xsel xdotool libxfixes-dev krb5-user -y
 
 git clone https://github.com/cdown/clipmenu.git
 cd clipmenu
 make clean
 make
-make install
 sudo make install
+
 
 systemctl --user daemon-reexec
 systemctl --user daemon-reload
