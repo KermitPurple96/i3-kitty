@@ -1,5 +1,7 @@
 # ~/.config/fish/config.fish
 
+set -g fish_term_features 1
+
 # Colors
 set -g endcolor "\033[0m\e[0m"
 set -g green "\e[0;32m\033[1m"
@@ -1191,7 +1193,7 @@ set -U fish_greeting (set_color blue) "       glu glu 🐟"(set_color normal)
 
 
 if status is-interactive
-    atuin init fish | source
+    # atuin init fish | source
     # Commands to run in interactive sessions can go here
 end
 
